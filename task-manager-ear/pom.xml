@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>task-manager-ear</artifactId>
+	<packaging>ear</packaging>
+
+	<parent>
+		<groupId>cz.czechGeeks.taskManager</groupId>
+		<artifactId>task-manager-parent-pom</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>cz.czechGeeks.taskManager</groupId>
+			<artifactId>task-manager-ejb</artifactId>
+			<type>ejb</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>cz.czechGeeks.taskManager</groupId>
+			<artifactId>task-manager-war</artifactId>
+			<type>war</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${compileSource}</source>
+					<target>${compileSource}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<version>1.3</version>
+					<modules>
+						<ejbModule>
+							<groupId>cz.czechGeeks.taskManager</groupId>
+							<artifactId>task-manager-ejb</artifactId>
+							<bundleFileName>task-manager-ejb.jar</bundleFileName>
+						</ejbModule>
+
+						<webModule>
+							<groupId>cz.czechGeeks.taskManager</groupId>
+							<artifactId>task-manager-war</artifactId>
+							<bundleFileName>task-manager-war.war</bundleFileName>
+						</webModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
