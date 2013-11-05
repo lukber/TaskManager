@@ -10,7 +10,7 @@ import cz.czechGeeks.taskManager.server.model.TaskManagerEntity;
 
 @Local
 public interface TaskManagerDao {
-	
+
 	public static final String JNDI = "java:app/task-manager-ejb/TaskManagerDaoBean";
 
 	public EntityManager getEntityManager();
@@ -55,5 +55,12 @@ public interface TaskManagerDao {
 	 * @param entity
 	 */
 	public void merge(TaskManagerEntity entity);
+
+	/**
+	 * Znovunacteni hodnot entity
+	 * 
+	 * @param entity
+	 */
+	public void refresh(TaskManagerEntity entity);
 
 }

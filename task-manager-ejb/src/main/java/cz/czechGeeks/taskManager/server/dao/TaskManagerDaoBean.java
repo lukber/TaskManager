@@ -18,10 +18,12 @@ public class TaskManagerDaoBean implements TaskManagerDao {
 	@PersistenceContext(unitName = "TaskManager")
 	private EntityManager em;
 
+	@Override
 	public EntityManager getEntityManager() {
 		return em;
 	}
 
+	@Override
 	public <T extends TaskManagerEntity> T find(Class<T> entityType, Object primaryKey) {
 		if (primaryKey == null) {
 			throw new IllegalArgumentException("Primarni klic entity je povinny parametr");
@@ -30,6 +32,7 @@ public class TaskManagerDaoBean implements TaskManagerDao {
 		return em.find(entityType, primaryKey);
 	}
 
+	@Override
 	public <T extends TaskManagerEntity> T findNonNull(Class<T> entityType, Object primaryKey) {
 		T entity = find(entityType, primaryKey);
 		if (entity == null) {
@@ -38,6 +41,7 @@ public class TaskManagerDaoBean implements TaskManagerDao {
 		return entity;
 	}
 
+	@Override
 	public <T extends TaskManagerEntity> List<T> getAll(Class<T> entityType) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<T> query = builder.createQuery(entityType);
@@ -49,14 +53,21 @@ public class TaskManagerDaoBean implements TaskManagerDao {
 		return em.createQuery(query).getResultList();
 	}
 
+	@Override
 	public void persist(TaskManagerEntity entity) {
 		em.persist(entity);
 		em.flush();
 	}
 
+	@Override
 	public void merge(TaskManagerEntity entity) {
 		em.merge(entity);
 		em.flush();
+	}
+
+	@Override
+	public void refresh(TaskManagerEntity entity) {
+		em.refresh(entity);
 	}
 
 }
