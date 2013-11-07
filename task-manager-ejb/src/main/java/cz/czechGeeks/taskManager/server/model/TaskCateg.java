@@ -19,7 +19,7 @@ public class TaskCateg implements TaskManagerEntity {
 
 	@Column(name = "TSK_CATEG_NAME")
 	private String name;
-
+	
 	public Long getId() {
 		return id;
 	}

@@ -28,6 +28,13 @@
 		</plugins>
 	</build>
 
+	<repositories>
+		<repository>
+			<id>JBoss repository</id>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+		</repository>
+	</repositories>
+
 	<dependencyManagement>
 		<dependencies>
 
@@ -135,6 +142,21 @@
 				<scope>provided</scope>
 			</dependency>
 			<!-- web services in jboss as 7.1.1.Final - end -->
+
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>3.0.5.Final</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-hibernatevalidator-provider</artifactId>
+				<version>3.0.5.Final</version>
+				<scope>provided</scope>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

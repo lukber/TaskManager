@@ -31,8 +31,9 @@ public interface TaskManagerDao {
 	 * @param entityType
 	 * @param primaryKey
 	 * @return
+	 * @throws EntityNotFoundException 
 	 */
-	public <T extends TaskManagerEntity> T findNonNull(Class<T> entityType, Object primaryKey);
+	public <T extends TaskManagerEntity> T findNonNull(Class<T> entityType, Object primaryKey) throws EntityNotFoundException;
 
 	/**
 	 * Vrati vsechny entity
@@ -55,6 +56,13 @@ public interface TaskManagerDao {
 	 * @param entity
 	 */
 	public void merge(TaskManagerEntity entity);
+
+	/**
+	 * Odstraneni entity
+	 * 
+	 * @param entity
+	 */
+	public void remove(TaskManagerEntity entity);
 
 	/**
 	 * Znovunacteni hodnot entity

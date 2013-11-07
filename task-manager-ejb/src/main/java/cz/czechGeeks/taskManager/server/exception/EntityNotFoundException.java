@@ -1,8 +1,11 @@
 package cz.czechGeeks.taskManager.server.exception;
 
+import javax.ejb.ApplicationException;
+
 import cz.czechGeeks.taskManager.server.model.TaskManagerEntity;
 
-public class EntityNotFoundException extends RuntimeException {
+@ApplicationException(rollback = true)
+public class EntityNotFoundException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	private final Class<? extends TaskManagerEntity> entityType;

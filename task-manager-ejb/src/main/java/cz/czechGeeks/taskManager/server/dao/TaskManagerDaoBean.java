@@ -33,7 +33,7 @@ public class TaskManagerDaoBean implements TaskManagerDao {
 	}
 
 	@Override
-	public <T extends TaskManagerEntity> T findNonNull(Class<T> entityType, Object primaryKey) {
+	public <T extends TaskManagerEntity> T findNonNull(Class<T> entityType, Object primaryKey) throws EntityNotFoundException {
 		T entity = find(entityType, primaryKey);
 		if (entity == null) {
 			throw new EntityNotFoundException(entityType, primaryKey);
@@ -62,6 +62,12 @@ public class TaskManagerDaoBean implements TaskManagerDao {
 	@Override
 	public void merge(TaskManagerEntity entity) {
 		em.merge(entity);
+		em.flush();
+	}
+	
+	@Override
+	public void remove(TaskManagerEntity entity) {
+		em.remove(entity);
 		em.flush();
 	}
 
