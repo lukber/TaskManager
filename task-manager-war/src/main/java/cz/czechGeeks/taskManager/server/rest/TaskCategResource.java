@@ -3,6 +3,8 @@ package cz.czechGeeks.taskManager.server.rest;
 import java.net.URI;
 import java.util.List;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -26,12 +28,11 @@ import cz.czechGeeks.taskManager.server.rest.util.UriHelper;
 import cz.czechGeeks.taskManager.server.service.TaskCategService;
 import cz.czechGeeks.taskManager.server.util.ServiceLocator;
 
+@Stateful
 @Path("/TaskCateg")
 public class TaskCategResource {
 
-	@Context
-	UriInfo uriInfo;
-
+	@EJB
 	TaskCategService categService;
 
 	public TaskCategResource() {
@@ -68,7 +69,7 @@ public class TaskCategResource {
 
 	@POST
 	@Produces("application/xml")
-	public Response insertTaskCateg(@FormParam("name") String name) {
+	public Response insertTaskCateg(@FormParam("name") String name, @Context UriInfo uriInfo) {
 		if (name == null || name.isEmpty()) {
 			return Response.noContent().build();
 		}
