@@ -31,4 +31,32 @@
 		<servlet-name>resteasy-servlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+
+	<!-- Roles -->
+	<security-role>
+		<role-name>loggedUser</role-name>
+	</security-role>
+
+	<!-- Resource / Role Mapping -->
+	<security-constraint>
+		<display-name>Logged users area</display-name>
+		<web-resource-collection>
+			<web-resource-name>loggedUserResources</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+
+		<auth-constraint>
+			<description>For loggedUser role only</description>
+			<role-name>loggedUser</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+
 </web-app>

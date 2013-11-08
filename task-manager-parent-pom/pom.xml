@@ -143,6 +143,7 @@
 			</dependency>
 			<!-- web services in jboss as 7.1.1.Final - end -->
 
+			<!-- RESTEASY in jboss as 7.1.1.Final - start -->
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-jaxrs</artifactId>
@@ -154,6 +155,28 @@
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-hibernatevalidator-provider</artifactId>
 				<version>3.0.5.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- RESTEASY in jboss as 7.1.1.Final - end -->
+
+			<dependency>
+				<groupId>org.picketbox</groupId>
+				<artifactId>identity-spi</artifactId>
+				<version>4.0.19.Final</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.picketbox</groupId>
+				<artifactId>authorization-spi</artifactId>
+				<version>4.0.19.Final</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.as</groupId>
+				<artifactId>jboss-as-security</artifactId>
+				<version>7.1.1.Final</version>
 				<scope>provided</scope>
 			</dependency>
 
