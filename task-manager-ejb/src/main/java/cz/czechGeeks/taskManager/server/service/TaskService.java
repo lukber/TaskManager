@@ -53,4 +53,19 @@ public class TaskService {
 		return categ;
 	}
 
+	public boolean isUpdatable(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isDeleteable(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void delete(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

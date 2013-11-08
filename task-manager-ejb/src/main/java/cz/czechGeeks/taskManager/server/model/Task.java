@@ -48,15 +48,15 @@ public class Task implements TaskManagerEntity {
 	@Column(name = "TSK_UPD_DATE")
 	private Timestamp updDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "TSK_CATEG_ID", referencedColumnName = "TSK_CATEG_ID", insertable = false, updatable = false)
 	private TaskCateg categ;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "TSK_LOGIN_ID_EXECUTOR", referencedColumnName = "LOGIN_ID", insertable = false, updatable = false)
 	private Login executor;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "TSK_LOGIN_ID_INS", referencedColumnName = "LOGIN_ID", insertable = false, updatable = false)
 	private Login inserter;
 
