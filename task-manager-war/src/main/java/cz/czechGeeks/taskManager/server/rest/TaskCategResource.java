@@ -101,8 +101,9 @@ public class TaskCategResource {
 	}
 
 	@DELETE
+	@Path("{id}")
 	@Produces("application/xml")
-	public Response deleteTaskCateg(@FormParam("id") Long id) {
+	public Response deleteTaskCateg(@PathParam("id") Long id) {
 		try {
 			categService.delete(id);
 		} catch (Exception e) {
