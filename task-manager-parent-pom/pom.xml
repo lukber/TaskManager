@@ -11,6 +11,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sfl4j.version>1.6.1</sfl4j.version>
 		<hibernate.version>3.6.10.Final</hibernate.version>
+		<android.platform.version>1.6_r2</android.platform.version>
+		<android.plugin.version>3.5.3</android.plugin.version>
+		<spring.version>1.0.1.RELEASE</spring.version>
 	</properties>
 
 	<build>
