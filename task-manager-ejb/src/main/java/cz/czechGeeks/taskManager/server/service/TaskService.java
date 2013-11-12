@@ -2,6 +2,7 @@ package cz.czechGeeks.taskManager.server.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -14,6 +15,7 @@ import javax.persistence.criteria.Root;
 
 import cz.czechGeeks.taskManager.server.dao.TaskManagerDao;
 import cz.czechGeeks.taskManager.server.exception.EntityNotFoundException;
+import cz.czechGeeks.taskManager.server.exception.EntityNotPermitedException;
 import cz.czechGeeks.taskManager.server.model.Task;
 
 /**
@@ -63,6 +65,7 @@ public class TaskService {
 
 		query.select(root);
 		query.where(predicates.toArray(new Predicate[0]));
+		query.orderBy(builder.desc(root.get("finishToDate")));
 
 		return entityManager.createQuery(query).getResultList();
 	}
@@ -72,11 +75,16 @@ public class TaskService {
 	 * 
 	 * @param id
 	 *            identifikator ukolu
+	 * @param forLoginId
 	 * @return
 	 * @throws EntityNotFoundException
 	 *             zaznam nebyl nalezen
+	 * @throws EntityNotPermitedException
 	 */
-	public Task get(Long id) throws EntityNotFoundException {
+	public Task get(Long id, Long forLoginId) throws EntityNotFoundException, EntityNotPermitedException {
+		if (!isDisplayable(id, forLoginId)) {
+			throw new EntityNotPermitedException(Task.class, id);
+		}
 		return dao.findNonNull(Task.class, id);
 	}
 
@@ -98,17 +106,20 @@ public class TaskService {
 	 * @return nove zalozeny ukol
 	 */
 	public Task insert(Long categId, Long executorId, Long inserterId, String name, String desc, Timestamp finishToDate) {
-		Task categ = new Task();
+		Task task = new Task();
 
-		categ.setCategId(categId);
-		categ.setExecutorId(executorId);
-		categ.setInserterId(inserterId);
-		categ.setName(name);
-		categ.setDesc(desc);
-		categ.setFinishToDate(finishToDate);
+		task.setCategId(categId);
+		task.setExecutorId(executorId);
+		task.setInserterId(inserterId);
+		task.setName(name);
+		task.setDesc(desc);
+		task.setFinishToDate(finishToDate);
 
-		dao.persist(categ);
-		return categ;
+		task.setInsDate(new Timestamp(new Date().getTime()));
+		task.setUpdDate(new Timestamp(new Date().getTime()));
+
+		dao.persist(task);
+		return task;
 	}
 
 	/**
@@ -139,17 +150,19 @@ public class TaskService {
 			throw new IllegalStateException("Entitu nelze upravovat");
 		}
 
-		Task categ = dao.findNonNull(Task.class, id);
+		Task task = dao.findNonNull(Task.class, id);
 
-		categ.setCategId(categId);
-		categ.setExecutorId(executorId);
-		categ.setName(name);
-		categ.setDesc(desc);
-		categ.setFinishToDate(finishToDate);
+		task.setCategId(categId);
+		task.setExecutorId(executorId);
+		task.setName(name);
+		task.setDesc(desc);
+		task.setFinishToDate(finishToDate);
 
-		dao.merge(categ);
-		dao.refresh(categ);
-		return categ;
+		task.setUpdDate(new Timestamp(new Date().getTime()));
+
+		dao.merge(task);
+		dao.refresh(task);
+		return task;
 	}
 
 	/**
@@ -169,6 +182,32 @@ public class TaskService {
 
 		Task entity = dao.findNonNull(Task.class, id);
 		dao.remove(entity);
+	}
+
+	/**
+	 * Uzavreni ukolu
+	 * 
+	 * @param id
+	 *            ID ukolu
+	 * @param loginId
+	 *            ID uzivatele ktery ukol uzavira
+	 * @return uzavreny ukol
+	 * @throws EntityNotFoundException
+	 *             zaznam nebyl nalezen
+	 * 
+	 */
+	public Task close(Long id, Long loginId) throws EntityNotFoundException {
+		if (!isCloseable(id, loginId)) {
+			throw new IllegalStateException("Uzivatel nema prava k uzavreni ukolu");
+		}
+
+		Task task = dao.findNonNull(Task.class, id);
+		task.setFinishedDate(new Timestamp(new Date().getTime()));
+		task.setUpdDate(new Timestamp(new Date().getTime()));
+
+		dao.persist(task);
+		dao.refresh(task);
+		return task;
 	}
 
 	/**
@@ -201,6 +240,38 @@ public class TaskService {
 	public boolean isDeleteable(Long id, Long forLoginId) throws EntityNotFoundException {
 		Task entity = dao.findNonNull(Task.class, id);
 		return entity.getInserterId().equals(forLoginId);
+	}
+
+	/**
+	 * Priznak jestli je mozne zobrazit danemu uzivateli
+	 * 
+	 * @param id
+	 *            ID ukolu
+	 * @param forLoginId
+	 *            ID uzivatele
+	 * @return TRUE - uzivatel muze zaznam videt pokud je definovan jako resitel nebo jako zakladatel
+	 * @throws EntityNotFoundException
+	 *             zaznam nebyl nalezen
+	 */
+	public boolean isDisplayable(Long id, Long forLoginId) throws EntityNotFoundException {
+		Task entity = dao.findNonNull(Task.class, id);
+		return entity.getInserterId().equals(forLoginId) || entity.getExecutorId().equals(forLoginId);
+	}
+
+	/**
+	 * Priznak jestli uzivatel muze ukol uzavrit
+	 * 
+	 * @param id
+	 *            ID ukolu
+	 * @param forLoginId
+	 *            ID uzivatele ktery chce ukol uzavrit
+	 * @return TRUE - uzivatel muze zaznam uzavrit pokud jeste neni uzavren a je definovan jako resitel nebo jako zakladatel
+	 * @throws EntityNotFoundException
+	 *             zaznam nebyl nalezen
+	 */
+	public boolean isCloseable(Long id, Long forLoginId) throws EntityNotFoundException {
+		Task entity = dao.findNonNull(Task.class, id);
+		return entity.getFinishedDate() == null && (entity.getInserterId().equals(forLoginId) || entity.getExecutorId().equals(forLoginId));
 	}
 
 }

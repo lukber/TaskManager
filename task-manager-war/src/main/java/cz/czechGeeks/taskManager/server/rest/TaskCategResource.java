@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -22,11 +23,9 @@ import cz.czechGeeks.taskManager.server.exception.EntityNotFoundException;
 import cz.czechGeeks.taskManager.server.model.TaskCateg;
 import cz.czechGeeks.taskManager.server.rest.to.ErrorMessageTO;
 import cz.czechGeeks.taskManager.server.rest.to.TaskCategTO;
-import cz.czechGeeks.taskManager.server.rest.to.TaskCategTOList;
 import cz.czechGeeks.taskManager.server.rest.toBuilder.TaskCategTOBuilder;
 import cz.czechGeeks.taskManager.server.rest.util.UriHelper;
 import cz.czechGeeks.taskManager.server.service.TaskCategService;
-import cz.czechGeeks.taskManager.server.util.ServiceLocator;
 
 @Stateful
 @Path("/TaskCateg")
@@ -35,17 +34,12 @@ public class TaskCategResource {
 	@EJB
 	TaskCategService categService;
 
-	public TaskCategResource() {
-		categService = ServiceLocator.INSTANCE.getService(TaskCategService.class);
-	}
-
 	@GET
 	@Path("{id}")
-	@Produces("application/xml")
-	public Response getTaskCateg(@PathParam("id") String id) {
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getTaskCateg(@PathParam("id") Long id) {
 		try {
-			Long entityId = Long.valueOf(id);
-			TaskCateg categ = categService.get(entityId);
+			TaskCateg categ = categService.get(id);
 			TaskCategTO categTO = TaskCategTOBuilder.build(categ);
 			return Response.ok(categTO).build();
 		} catch (Exception e) {
@@ -55,12 +49,11 @@ public class TaskCategResource {
 
 	@GET
 	@Path("all")
-	@Produces("application/xml")
-	public Response getTaskCategs() {
-		TaskCategTOList toList = new TaskCategTOList();
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getAllTaskCategs() {
 		try {
 			List<TaskCateg> entityList = categService.getAll();
-			toList.setToList(TaskCategTOBuilder.build(entityList));
+			List<TaskCategTO> toList = TaskCategTOBuilder.build(entityList);
 			return Response.ok(toList).build();
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
@@ -68,8 +61,9 @@ public class TaskCategResource {
 	}
 
 	@POST
-	@Produces("application/xml")
-	public Response insertTaskCateg(@FormParam("name") String name, @Context UriInfo uriInfo) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response addTaskCateg(String name, @Context UriInfo uriInfo) {
 		if (name == null || name.isEmpty()) {
 			return Response.noContent().build();
 		}
@@ -85,8 +79,9 @@ public class TaskCategResource {
 
 	@PUT
 	@Path("{id}")
-	@Produces("application/xml")
-	public Response updateTaskCateg(@PathParam("id") Long id, @FormParam("name") String name) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response updateTaskCateg(@PathParam("id") Long id, String name) {
 		if (name == null || name.isEmpty()) {
 			return Response.noContent().build();
 		}
@@ -97,13 +92,12 @@ public class TaskCategResource {
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
 		}
-
 		return Response.ok().build();
 	}
 
 	@DELETE
 	@Path("{id}")
-	@Produces("application/xml")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response deleteTaskCateg(@PathParam("id") Long id) {
 		try {
 			categService.delete(id);
