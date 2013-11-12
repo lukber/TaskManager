@@ -57,21 +57,6 @@
 				<type>war</type>
 			</dependency>
 
-			<!-- knihovny pro kompilaci/test -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.8.1</version>
-				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
-				<version>1.8.4</version>
-				<scope>test</scope>
-			</dependency>
-
 			<!-- knihovny v jboss as 7.1.1.Final -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -109,12 +94,14 @@
 				<version>${hibernate.version}</version>
 				<scope>provided</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>${hibernate.version}</version>
 				<scope>provided</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-envers</artifactId>
@@ -181,6 +168,34 @@
 				<artifactId>jboss-as-security</artifactId>
 				<version>7.1.1.Final</version>
 				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>2.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.android</groupId>
+				<artifactId>spring-android-rest-template</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.android</groupId>
+				<artifactId>spring-android-auth</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.android</groupId>
+				<artifactId>spring-android-core</artifactId>
+				<version>${spring.version}</version>
 			</dependency>
 
 		</dependencies>
