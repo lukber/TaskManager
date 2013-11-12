@@ -22,43 +22,43 @@ public class Task implements TaskManagerEntity {
 	private Long id;
 
 	@Column(name = "TSK_CATEG_ID")
-	private Long categId;
+	private Long categId;// kategorie tasku
 
 	@Column(name = "TSK_LOGIN_ID_EXECUTOR")
-	private Long executorId;
+	private Long executorId;// ID uzivatele ktery ma task udelat
 
 	@Column(name = "TSK_LOGIN_ID_INS")
-	private Long inserterId;
+	private Long inserterId;// ID uzivatele ktery task zalozil
 
 	@Column(name = "TSK_NAME")
-	private String name;
+	private String name;// nazev tasku
 
 	@Column(name = "TSK_DESK")
-	private String desc;
+	private String desc;// popis tasku
 
 	@Column(name = "TSK_FINISH_TO_DATE")
-	private Timestamp finishToDate;
+	private Timestamp finishToDate;// datum a cas do kdy ma byt dokonceno
 
 	@Column(name = "TSK_FINISHED_DATE")
-	private Timestamp finishedDate;
+	private Timestamp finishedDate;// datum a cas dokonceni
 
 	@Column(name = "TSK_INS_DATE")
-	private Timestamp insDate;
+	private Timestamp insDate;// systemova informace - datum a cas vlozeni zaznamu
 
 	@Column(name = "TSK_UPD_DATE")
-	private Timestamp updDate;
+	private Timestamp updDate;// systemova informace - datum a cas upravy zaznamu
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "TSK_CATEG_ID", referencedColumnName = "TSK_CATEG_ID", insertable = false, updatable = false)
-	private TaskCateg categ;
+	private TaskCateg categ;// entita kategorie
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "TSK_LOGIN_ID_EXECUTOR", referencedColumnName = "LOGIN_ID", insertable = false, updatable = false)
-	private Login executor;
+	private Login executor;// entita login ktery ma task udelat
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "TSK_LOGIN_ID_INS", referencedColumnName = "LOGIN_ID", insertable = false, updatable = false)
-	private Login inserter;
+	private Login inserter;// entita login ktery ma task udelat
 
 	public Long getId() {
 		return id;
@@ -76,6 +76,11 @@ public class Task implements TaskManagerEntity {
 		this.categId = categId;
 	}
 
+	/**
+	 * ID uzivatele, ktery ma ukol udelat
+	 * 
+	 * @return
+	 */
 	public Long getExecutorId() {
 		return executorId;
 	}
@@ -84,6 +89,11 @@ public class Task implements TaskManagerEntity {
 		this.executorId = executorId;
 	}
 
+	/**
+	 * ID uzivatele ktery ukol zalozil
+	 * 
+	 * @return
+	 */
 	public Long getInserterId() {
 		return inserterId;
 	}
@@ -92,6 +102,11 @@ public class Task implements TaskManagerEntity {
 		this.inserterId = inserterId;
 	}
 
+	/**
+	 * Nazev ukolu
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
@@ -100,6 +115,11 @@ public class Task implements TaskManagerEntity {
 		this.name = name;
 	}
 
+	/**
+	 * Popis ukolu
+	 * 
+	 * @return
+	 */
 	public String getDesc() {
 		return desc;
 	}
@@ -108,6 +128,11 @@ public class Task implements TaskManagerEntity {
 		this.desc = desc;
 	}
 
+	/**
+	 * Datum do kdy ma byt ukol dokoncen
+	 * 
+	 * @return
+	 */
 	public Timestamp getFinishToDate() {
 		return finishToDate;
 	}
@@ -116,6 +141,11 @@ public class Task implements TaskManagerEntity {
 		this.finishToDate = finishToDate;
 	}
 
+	/**
+	 * Datum kdy byl ukol ukoncen
+	 * 
+	 * @return
+	 */
 	public Timestamp getFinishedDate() {
 		return finishedDate;
 	}
@@ -124,6 +154,11 @@ public class Task implements TaskManagerEntity {
 		this.finishedDate = finishedDate;
 	}
 
+	/**
+	 * Systemova informace - datum vlozeni zaznamu
+	 * 
+	 * @return
+	 */
 	public Timestamp getInsDate() {
 		return insDate;
 	}
@@ -132,6 +167,11 @@ public class Task implements TaskManagerEntity {
 		this.insDate = insDate;
 	}
 
+	/**
+	 * Systemova informace - datum upravy zaznamu
+	 * 
+	 * @return
+	 */
 	public Timestamp getUpdDate() {
 		return updDate;
 	}

@@ -7,6 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Kategorie ukolu
+ * 
+ * @author lukasb
+ * 
+ */
 @Entity
 @Table(name = "TSK_CATEG", schema = "dbo")
 public class TaskCateg implements TaskManagerEntity {
@@ -19,7 +25,7 @@ public class TaskCateg implements TaskManagerEntity {
 
 	@Column(name = "TSK_CATEG_NAME")
 	private String name;
-	
+
 	public Long getId() {
 		return id;
 	}

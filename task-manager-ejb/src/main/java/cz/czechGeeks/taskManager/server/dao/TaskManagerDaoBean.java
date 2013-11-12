@@ -3,6 +3,8 @@ package cz.czechGeeks.taskManager.server.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,8 +13,16 @@ import javax.persistence.criteria.Root;
 
 import cz.czechGeeks.taskManager.server.exception.EntityNotFoundException;
 import cz.czechGeeks.taskManager.server.model.TaskManagerEntity;
+import cz.czechGeeks.taskManager.server.util.ServiceLocator;
 
+/**
+ * Data Access object. Pro instanci DAO je mozno pouzit {@link ServiceLocator}
+ * 
+ * @author lukasb
+ * 
+ */
 @Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TaskManagerDaoBean implements TaskManagerDao {
 
 	@PersistenceContext(unitName = "TaskManager")
@@ -64,7 +74,7 @@ public class TaskManagerDaoBean implements TaskManagerDao {
 		em.merge(entity);
 		em.flush();
 	}
-	
+
 	@Override
 	public void remove(TaskManagerEntity entity) {
 		em.remove(entity);

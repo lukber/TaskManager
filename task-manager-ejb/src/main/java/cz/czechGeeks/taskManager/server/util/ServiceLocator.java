@@ -9,7 +9,7 @@ import javax.naming.NamingException;
 import cz.czechGeeks.taskManager.server.exception.CantFindEjbException;
 
 /**
- * EJB locator - singleton
+ * EJB locator
  * 
  * @author lukasb
  */
