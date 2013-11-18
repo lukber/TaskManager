@@ -1,9 +1,15 @@
-package cz.czechGeeks.taskManager.client.android.to;
+package cz.czechGeeks.taskManager.client.android.model;
 
-public class LoginTO {
+/**
+ * Reprezentace uzivatele
+ * 
+ * @author lukasb
+ * 
+ */
+public class LoginModel {
 
 	private Long id;
-	private String name;
+	private String name;// nazev uzivatele
 
 	public Long getId() {
 		return id;

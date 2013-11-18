@@ -1,0 +1,107 @@
+package cz.czechGeeks.taskManager.client.android.model.manager;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import cz.czechGeeks.taskManager.client.android.model.TaskModel;
+
+/**
+ * Servis pro testovaci generovana data
+ * 
+ * @author lukasb
+ * 
+ */
+public class FakeTaskService implements TaskService {
+
+	private static List<TaskModel> mainData = new ArrayList<TaskModel>();
+	private static List<TaskModel> delegatedToMeData = new ArrayList<TaskModel>();
+	private static List<TaskModel> delegatedToOthersData = new ArrayList<TaskModel>();
+
+	public FakeTaskService() {
+		if (mainData.size() == 0) {
+			int dataCounts = 20;
+			for (int i = 1; i <= dataCounts; i++) {
+				Long id = Long.valueOf(i);
+				Long categId = Long.valueOf(1);
+				String name = "Ukol " + i;
+				String desc = "Popisek ukolu " + i;
+				Timestamp finishToDate = new Timestamp(new Date(2013, 12, i).getTime());
+				Timestamp finishedDate = null;
+				Timestamp insDate = null;
+				Timestamp updDate = null;
+				boolean updatable = true;
+				boolean deletable = true;
+				boolean closeable = true;
+
+				mainData.add(new TaskModel(id, categId, name, desc, finishToDate, finishedDate, Long.valueOf(1), Long.valueOf(1), insDate, updDate, updatable, deletable, closeable));
+				delegatedToMeData.add(new TaskModel(id * dataCounts, categId, name, desc, finishToDate, finishedDate, Long.valueOf(1), Long.valueOf(2), insDate, updDate, updatable, deletable, closeable));
+				delegatedToOthersData.add(new TaskModel(id * dataCounts * 2, categId, name, desc, finishToDate, finishedDate, Long.valueOf(2), Long.valueOf(1), insDate, updDate, updatable, deletable, closeable));
+			}
+		}
+	}
+
+	@Override
+	public List<TaskModel> getAllMain() {
+		return mainData;
+	}
+
+	@Override
+	public List<TaskModel> getAllDelegatedToMe() {
+		return delegatedToMeData;
+	}
+
+	@Override
+	public List<TaskModel> getAllDelegatedToOthers() {
+		return delegatedToOthersData;
+	}
+
+	@Override
+	public void delete(Long id) {
+		for (int i = 0; i < mainData.size(); i++) {
+			if (mainData.get(i).getId().equals(id)) {
+				mainData.remove(i);
+				return;
+			}
+		}
+		for (int i = 0; i < delegatedToMeData.size(); i++) {
+			if (delegatedToMeData.get(i).getId().equals(id)) {
+				delegatedToMeData.remove(i);
+				return;
+			}
+		}
+		for (int i = 0; i < delegatedToOthersData.size(); i++) {
+			if (delegatedToOthersData.get(i).getId().equals(id)) {
+				delegatedToOthersData.remove(i);
+				return;
+			}
+		}
+	}
+
+	@Override
+	public void update(TaskModel task) {
+		for (int i = 0; i < mainData.size(); i++) {
+			if (mainData.get(i).getId().equals(task.getId())) {
+				mainData.remove(i);
+				mainData.add(task);
+				return;
+			}
+		}
+		for (int i = 0; i < delegatedToMeData.size(); i++) {
+			if (delegatedToMeData.get(i).getId().equals(task.getId())) {
+				delegatedToMeData.remove(i);
+				delegatedToMeData.add(task);
+				return;
+			}
+		}
+		for (int i = 0; i < delegatedToOthersData.size(); i++) {
+			if (delegatedToOthersData.get(i).getId().equals(task.getId())) {
+				delegatedToOthersData.remove(i);
+				delegatedToOthersData.add(task);
+				return;
+			}
+		}
+	}
+
+}

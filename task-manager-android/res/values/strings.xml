@@ -2,25 +2,6 @@
 <resources>
 
     <string name="app_name">Task manager</string>
+    <string name="noData">Nebyly nalezeny žádné hodnoty</string>
     
-    <string name="user_name">Uživatelské jméno</string>
-    <string name="user_pass">Heslo</string>
-    <string name="sing_in">Přihlásit</string>
-    <string name="sing_in_activity">Přihlašovací formulář</string>
-    <string name="task_list_activity_label">Seznam úkolů</string>
-    
-    
-    <string name="rest_server_url">URL</string>
-    <string name="settings_screen_title">Nastavení</string>
-    <string name="settings_screen_loginCateg_title">Přihlašovací údaje</string>
-    <string name="settings_screen_loginCateg_usrName">Uživatelské jméno</string>
-    <string name="settings_screen_loginCateg_usrName_key">userName</string>
-    <string name="settings_screen_loginCateg_usrPass">Heslo</string>
-    <string name="settings_screen_loginCateg_usrPass_key">password</string>
-    <string name="settings_screen_serverCateg_title">Nastavení serveru</string>
-    <string name="settings_screen_serverCateg_url">URL</string>
-    <string name="settings_screen_serverCateg_url_key">serverUrl</string>
-    <string name="error_connectionSettingsNotDefined">Nejsou nastaveny přihlašovací údaje</string>
-    <string name="error_unauthorizedException">Neplatné uživatelské jméno nebo heslo</string>
-
 </resources>

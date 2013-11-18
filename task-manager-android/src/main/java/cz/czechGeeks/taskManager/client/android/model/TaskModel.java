@@ -1,8 +1,14 @@
-package cz.czechGeeks.taskManager.client.android.to;
+package cz.czechGeeks.taskManager.client.android.model;
 
 import java.sql.Timestamp;
 
-public class TaskTO {
+/**
+ * Reprezentace tasku
+ * 
+ * @author lukasb
+ * 
+ */
+public class TaskModel {
 
 	private Long id;
 	private Long categId;
@@ -10,18 +16,38 @@ public class TaskTO {
 	private String name;
 	private String desc;
 
-	private Timestamp finishToDate;
-	private Timestamp finishedDate;
+	private Timestamp finishToDate;// do kdy ma byt ukol splnen
+	private Timestamp finishedDate;// kdy byl ukol splnen
 
-	private Long executorId;
-	private Long inserterId;
+	private Long executorId;// ID uzivatele ktery ma ukol udelat
+	private Long inserterId;// kdo ukol zalozil
 
 	private Timestamp insDate;
 	private Timestamp updDate;
 
+	// priznaky pro upravy
 	private boolean updatable;
 	private boolean deletable;
 	private boolean closeable;
+
+	public TaskModel() {
+	}
+
+	public TaskModel(Long id, Long categId, String name, String desc, Timestamp finishToDate, Timestamp finishedDate, Long executorId, Long inserterId, Timestamp insDate, Timestamp updDate, boolean updatable, boolean deletable, boolean closeable) {
+		this.id = id;
+		this.categId = categId;
+		this.name = name;
+		this.desc = desc;
+		this.finishToDate = finishToDate;
+		this.finishedDate = finishedDate;
+		this.executorId = executorId;
+		this.inserterId = inserterId;
+		this.insDate = insDate;
+		this.updDate = updDate;
+		this.updatable = updatable;
+		this.deletable = deletable;
+		this.closeable = closeable;
+	}
 
 	public Long getId() {
 		return id;
