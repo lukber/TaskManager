@@ -2,6 +2,7 @@ package cz.czechGeeks.taskManager.client.android.fragment;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -16,7 +17,12 @@ import cz.czechGeeks.taskManager.client.android.model.loader.TaskListLoader;
 
 public class TaskListFragment extends ListFragment implements LoaderCallbacks<List<TaskModel>> {
 
+	public interface TaskListFragmentCallBack {
+		public void onTaskListItemSelected(TaskModel model);
+	}
+
 	private TaskListAdapter listAdapter;
+	private TaskListFragmentCallBack callBack;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -36,9 +42,27 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (activity instanceof TaskListFragmentCallBack) {
+			callBack = (TaskListFragmentCallBack) activity;
+		} else {
+			throw new ClassCastException("View musi implementovat " + TaskListFragmentCallBack.class);
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		callBack = null;
+	}
+
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Log.i("CLICK", "Byla vybrana polozka" + position);
+		Log.i("CLICK", "Byla vybrana polozka " + position);
+		callBack.onTaskListItemSelected(listAdapter.getItem(position));
 	}
 
 	@Override
@@ -60,7 +84,7 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 
 	@Override
 	public void onLoaderReset(Loader<List<TaskModel>> loader) {
-		 listAdapter.setData(null);
+		listAdapter.setData(null);
 	}
 
 }

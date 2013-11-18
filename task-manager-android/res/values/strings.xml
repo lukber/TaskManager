@@ -4,4 +4,6 @@
     <string name="app_name">Task manager</string>
     <string name="noData">Nebyly nalezeny žádné hodnoty</string>
     
+    <string name="main_tasks">Vlastní</string>
+    
 </resources>
