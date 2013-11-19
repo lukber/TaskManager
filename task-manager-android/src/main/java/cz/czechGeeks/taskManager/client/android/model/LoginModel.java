@@ -1,15 +1,27 @@
 package cz.czechGeeks.taskManager.client.android.model;
 
+import java.io.Serializable;
+
 /**
  * Reprezentace uzivatele
  * 
  * @author lukasb
  * 
  */
-public class LoginModel {
+public class LoginModel implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private String name;// nazev uzivatele
+
+	public LoginModel() {
+	}
+
+	public LoginModel(Long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 
 	public Long getId() {
 		return id;

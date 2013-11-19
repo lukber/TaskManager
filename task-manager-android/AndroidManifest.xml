@@ -24,7 +24,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cz.czechGeeks.taskManager.client.android.activity.TaskDetailActivity"
+            android:name="cz.czechGeeks.taskManager.client.android.activity.TaskPreviewDetailCollectionActivity"
+            android:parentActivityName="cz.czechGeeks.taskManager.client.android.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cz.czechGeeks.taskManager.client.android.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name="cz.czechGeeks.taskManager.client.android.activity.TaskPreviewDetailActivity"
             android:parentActivityName="cz.czechGeeks.taskManager.client.android.activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

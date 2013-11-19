@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import cz.czechGeeks.taskManager.client.android.R;
@@ -23,6 +22,7 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 
 	private TaskListAdapter listAdapter;
 	private TaskListFragmentCallBack callBack;
+	private List<TaskModel> data;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Log.i("CLICK", "Byla vybrana polozka " + position);
 		callBack.onTaskListItemSelected(listAdapter.getItem(position));
 	}
 

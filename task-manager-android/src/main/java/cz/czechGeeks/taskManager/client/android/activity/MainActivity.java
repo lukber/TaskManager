@@ -31,18 +31,27 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		}
 
 		@Override
-		public Fragment getItem(int arg0) {
+		public Fragment getItem(int position) {
 			return new TaskListFragment();
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return getResources().getString(R.string.main_tasks);
+			switch (position) {
+			case 0:
+				return getResources().getString(R.string.main_tasks);
+			case 1:
+				return getResources().getString(R.string.toMe_tasks);
+			case 2:
+				return getResources().getString(R.string.toOthers_tasks);
+			default:
+				return "PAGE " + position;
+			}
 		}
 
 		@Override
 		public int getCount() {
-			return 1;
+			return 3;
 		}
 
 	}
@@ -57,12 +66,21 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 
 		pagerAdapter = new MainActivityPagerAdapter(getSupportFragmentManager());
 
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		viewPager.setAdapter(pagerAdapter);
-
 		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager.setAdapter(pagerAdapter);
+		viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				// When swiping between different app sections, select the corresponding tab.
+				// We can also use ActionBar.Tab#select() to do this if we have a reference to the
+				// Tab.
+				actionBar.setSelectedNavigationItem(position);
+			}
+		});
 
 		for (int i = 0; i < pagerAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab().setText(pagerAdapter.getPageTitle(i)).setTabListener(this));
@@ -88,8 +106,8 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 
 	@Override
 	public void onTaskListItemSelected(TaskModel model) {
-		Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
-		// intent.putExtra(DetailActivity.EXTRA_URL, link);
+		Intent intent = new Intent(getApplicationContext(), TaskPreviewDetailActivity.class);
+		intent.putExtra(TaskPreviewDetailActivity.TASK_MODEL, model);
 		startActivity(intent);
 	}
 

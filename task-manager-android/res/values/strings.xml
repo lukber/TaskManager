@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Task manager</string>
+    <string name="app_name">Úkolníček</string>
+    
     <string name="noData">Nebyly nalezeny žádné hodnoty</string>
-    
     <string name="main_tasks">Vlastní</string>
+    <string name="toMe_tasks">Zadané mě</string>
+    <string name="toOthers_tasks">Zadané ostatním</string>
     
+    <string name="update">Upravit</string>
+    <string name="save">Uložit</string>
+    <string name="delete">Odstranit</string>
+    <string name="close">Uzavřít</string>
+    
+    <string name="task_categ">Kategorie:</string>
+    <string name="task_name">Název:</string>
+    <string name="task_desc">Popis:</string>
+    <string name="task_finishToDate">Dokončit do:</string>
+    <string name="task_finishedDate">Dokončeno dne:</string>
+    <string name="task_executorId">Provádí:</string>
+    <string name="task_inserterId">Založil:</string>
+    <string name="task_insDate">Založeno dne:</string>
+
 </resources>

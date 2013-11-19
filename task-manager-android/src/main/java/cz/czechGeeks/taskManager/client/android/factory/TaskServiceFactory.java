@@ -1,7 +1,7 @@
 package cz.czechGeeks.taskManager.client.android.factory;
 
-import cz.czechGeeks.taskManager.client.android.model.manager.FakeTaskService;
-import cz.czechGeeks.taskManager.client.android.model.manager.TaskService;
+import cz.czechGeeks.taskManager.client.android.model.manager.FakeTaskManager;
+import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
 /**
  * Tovarna pro vytvareni manageru pro model ukolu
@@ -14,8 +14,8 @@ public class TaskServiceFactory {
 	private TaskServiceFactory() {
 	}
 
-	public static TaskService createService() {
-		return new FakeTaskService();
+	public static TaskManager createService() {
+		return new FakeTaskManager();
 	}
 
 }

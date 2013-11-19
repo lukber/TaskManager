@@ -13,13 +13,13 @@ import cz.czechGeeks.taskManager.client.android.model.TaskModel;
  * @author lukasb
  * 
  */
-public class FakeTaskService implements TaskService {
+public class FakeTaskManager implements TaskManager {
 
 	private static List<TaskModel> mainData = new ArrayList<TaskModel>();
 	private static List<TaskModel> delegatedToMeData = new ArrayList<TaskModel>();
 	private static List<TaskModel> delegatedToOthersData = new ArrayList<TaskModel>();
 
-	public FakeTaskService() {
+	public FakeTaskManager() {
 		if (mainData.size() == 0) {
 			int dataCounts = 20;
 			for (int i = 1; i <= dataCounts; i++) {
@@ -27,17 +27,17 @@ public class FakeTaskService implements TaskService {
 				Long categId = Long.valueOf(1);
 				String name = "Ukol " + i;
 				String desc = "Popisek ukolu " + i;
-				Timestamp finishToDate = new Timestamp(new Date(2013, 12, i).getTime());
+				Timestamp finishToDate = new Timestamp(new Date().getTime());
 				Timestamp finishedDate = null;
 				Timestamp insDate = null;
 				Timestamp updDate = null;
-				boolean updatable = true;
-				boolean deletable = true;
-				boolean closeable = true;
+				boolean updatable = false;
+				boolean deletable = false;
+				boolean closeable = false;
 
-				mainData.add(new TaskModel(id, categId, name, desc, finishToDate, finishedDate, Long.valueOf(1), Long.valueOf(1), insDate, updDate, updatable, deletable, closeable));
-				delegatedToMeData.add(new TaskModel(id * dataCounts, categId, name, desc, finishToDate, finishedDate, Long.valueOf(1), Long.valueOf(2), insDate, updDate, updatable, deletable, closeable));
-				delegatedToOthersData.add(new TaskModel(id * dataCounts * 2, categId, name, desc, finishToDate, finishedDate, Long.valueOf(2), Long.valueOf(1), insDate, updDate, updatable, deletable, closeable));
+				mainData.add(new TaskModel(id, categId, "Kategorie " + i, name, desc, finishToDate, finishedDate, Long.valueOf(1), "Lukas", Long.valueOf(1), "Lukas", insDate, updDate, updatable, deletable, closeable));
+				delegatedToMeData.add(new TaskModel(id*dataCounts, categId, "Kategorie " + i, name + "_toMe", desc, finishToDate, finishedDate, Long.valueOf(1), "Lukas", Long.valueOf(2), "Karel", insDate, updDate, updatable, deletable, closeable));
+				delegatedToOthersData.add(new TaskModel(id*dataCounts*2, categId, "Kategorie " + i, name + "_toOthers", desc, finishToDate, finishedDate, Long.valueOf(2), "Karel", Long.valueOf(1), "Lukas", insDate, updDate, updatable, deletable, closeable));
 			}
 		}
 	}

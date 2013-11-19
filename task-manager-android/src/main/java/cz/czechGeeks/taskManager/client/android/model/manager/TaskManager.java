@@ -10,7 +10,7 @@ import cz.czechGeeks.taskManager.client.android.model.TaskModel;
  * @author lukasb
  * 
  */
-public interface TaskService {
+public interface TaskManager {
 
 	/**
 	 * Vrati vsechny ukoly ktere jsou mnou zalozene a ja je take mam splnit

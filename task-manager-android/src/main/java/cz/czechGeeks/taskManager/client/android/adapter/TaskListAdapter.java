@@ -1,5 +1,6 @@
 package cz.czechGeeks.taskManager.client.android.adapter;
 
+import java.io.Serializable;
 import java.util.List;
 
 import android.R;
@@ -11,8 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 
-public class TaskListAdapter extends ArrayAdapter<TaskModel> {
+public class TaskListAdapter extends ArrayAdapter<TaskModel> implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private final LayoutInflater mInflater;
 
 	public TaskListAdapter(Context context) {

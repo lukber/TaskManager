@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import cz.czechGeeks.taskManager.client.android.R;
 
-public class TaskDetailFragment extends Fragment {
+public class TaskDetailPreviewFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_task_detail, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_task_detail_preview, container, false);
 		Bundle args = getArguments();
-		((TextView) rootView.findViewById(R.id.textView1)).setText("Detail");
+		((TextView) rootView.findViewById(R.id.taskName)).setText("Detail");
+		((TextView) rootView.findViewById(R.id.taskDesc)).setText("POPIS");
 		return rootView;
 	}
 	

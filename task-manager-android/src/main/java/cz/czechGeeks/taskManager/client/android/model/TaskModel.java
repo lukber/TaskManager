@@ -1,5 +1,6 @@
 package cz.czechGeeks.taskManager.client.android.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,10 +9,12 @@ import java.sql.Timestamp;
  * @author lukasb
  * 
  */
-public class TaskModel {
+public class TaskModel implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private Long categId;
+	private String categName;
 
 	private String name;
 	private String desc;
@@ -20,7 +23,9 @@ public class TaskModel {
 	private Timestamp finishedDate;// kdy byl ukol splnen
 
 	private Long executorId;// ID uzivatele ktery ma ukol udelat
+	private String executorName;// ID uzivatele ktery ma ukol udelat
 	private Long inserterId;// kdo ukol zalozil
+	private String inserterName;// kdo ukol zalozil
 
 	private Timestamp insDate;
 	private Timestamp updDate;
@@ -33,15 +38,19 @@ public class TaskModel {
 	public TaskModel() {
 	}
 
-	public TaskModel(Long id, Long categId, String name, String desc, Timestamp finishToDate, Timestamp finishedDate, Long executorId, Long inserterId, Timestamp insDate, Timestamp updDate, boolean updatable, boolean deletable, boolean closeable) {
+	public TaskModel(Long id, Long categId, String categName, String name, String desc, Timestamp finishToDate, Timestamp finishedDate, Long executorId, String executorName, Long inserterId, String inserterName, Timestamp insDate, Timestamp updDate, boolean updatable, boolean deletable, boolean closeable) {
+		super();
 		this.id = id;
 		this.categId = categId;
+		this.categName = categName;
 		this.name = name;
 		this.desc = desc;
 		this.finishToDate = finishToDate;
 		this.finishedDate = finishedDate;
 		this.executorId = executorId;
+		this.executorName = executorName;
 		this.inserterId = inserterId;
+		this.inserterName = inserterName;
 		this.insDate = insDate;
 		this.updDate = updDate;
 		this.updatable = updatable;
@@ -63,6 +72,14 @@ public class TaskModel {
 
 	public void setCategId(Long categId) {
 		this.categId = categId;
+	}
+
+	public String getCategName() {
+		return categName;
+	}
+
+	public void setCategName(String categName) {
+		this.categName = categName;
 	}
 
 	public String getName() {
@@ -105,12 +122,28 @@ public class TaskModel {
 		this.executorId = executorId;
 	}
 
+	public String getExecutorName() {
+		return executorName;
+	}
+
+	public void setExecutorName(String executorName) {
+		this.executorName = executorName;
+	}
+
 	public Long getInserterId() {
 		return inserterId;
 	}
 
 	public void setInserterId(Long inserterId) {
 		this.inserterId = inserterId;
+	}
+
+	public String getInserterName() {
+		return inserterName;
+	}
+
+	public void setInserterName(String inserterName) {
+		this.inserterName = inserterName;
 	}
 
 	public Timestamp getInsDate() {
