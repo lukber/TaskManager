@@ -9,9 +9,9 @@ import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
  * @author lukasb
  * 
  */
-public class TaskServiceFactory {
+public class TaskManagerFactory {
 
-	private TaskServiceFactory() {
+	private TaskManagerFactory() {
 	}
 
 	public static TaskManager createService() {

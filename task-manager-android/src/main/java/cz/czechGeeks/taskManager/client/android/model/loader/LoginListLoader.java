@@ -3,7 +3,7 @@ package cz.czechGeeks.taskManager.client.android.model.loader;
 import java.util.List;
 
 import android.content.Context;
-import cz.czechGeeks.taskManager.client.android.factory.LoginServiceFactory;
+import cz.czechGeeks.taskManager.client.android.factory.LoginManagerFactory;
 import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 
 public class LoginListLoader extends AbstractListLoader<LoginModel> {
@@ -15,7 +15,7 @@ public class LoginListLoader extends AbstractListLoader<LoginModel> {
 	@Override
 	public List<LoginModel> loadInBackground() {
 		// nacteni dat
-		return LoginServiceFactory.createService().getAll();
+		return LoginManagerFactory.get(getContext()).getAll();
 	}
 
 }

@@ -2,7 +2,19 @@
 <resources>
 
     <string name="app_name">Úkolníček</string>
+    <string name="app_settings">Nastavení</string>
     
+    <string name="app_settings_rest_server_url">URL serveru</string>
+    <string name="app_settings_rest_server_url_key">rest_server_url</string>
+    <string name="app_settings_userName">Uživatelské jméno</string>
+    <string name="app_settings_userName_key">usrName</string>
+    <string name="app_settings_password">Heslo</string>
+    <string name="app_settings_password_key">password</string>
+    
+    <string name="connection_error_noEnabled">Připojení k síti není dostupné.</string>
+    <string name="signIn_error_noValid">Neplatné uživatelské jméno nebo heslo.</string>
+    
+    <string name="loadingData">Načítání dat. Prosím čekejte.</string>
     <string name="noData">Nebyly nalezeny žádné hodnoty</string>
     <string name="main_tasks">Vlastní</string>
     <string name="toMe_tasks">Zadané mě</string>
@@ -10,8 +22,11 @@
     
     <string name="update">Upravit</string>
     <string name="save">Uložit</string>
+    <string name="storno">Storno</string>
     <string name="delete">Odstranit</string>
     <string name="close">Uzavřít</string>
+    
+    <string name="detail_update">Úprava detailu</string>
     
     <string name="task_categ">Kategorie:</string>
     <string name="task_name">Název:</string>

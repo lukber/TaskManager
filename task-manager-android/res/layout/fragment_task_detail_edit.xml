@@ -1,160 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-    <TableLayout
+    <TextView
+        style="@style/FormItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top" >
+        android:text="@string/task_categ"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+    <Spinner
+        android:id="@+id/taskCateg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginLeft="15dip"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/task_categ" />
+    <TextView
+        style="@style/FormItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/task_name"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <Spinner
-                android:id="@+id/taskCateg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </TableRow>
+    <EditText
+        android:id="@+id/taskName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dip"
+        android:inputType="textPersonName"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+    <EditText
+        android:id="@+id/taskDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginLeft="15dip"
+        android:hint="@string/task_desc"
+        android:inputType="textMultiLine"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/task_name" />
+    <TextView
+        style="@style/FormItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/task_finishToDate"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <EditText
-                android:id="@+id/taskName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName" />
-        </TableRow>
+    <EditText
+        android:id="@+id/taskFinishToDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginLeft="15dip"
+        android:inputType="datetime"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+    <TextView
+        style="@style/FormItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/task_finishedDate"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/task_desc" />
+    <EditText
+        android:id="@+id/taskFinishedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginLeft="15dip"
+        android:inputType="datetime"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <EditText
-                android:id="@+id/taskDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textMultiLine" />
-        </TableRow>
+    <TextView
+        style="@style/FormItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/task_executorId"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+    <Spinner
+        android:id="@+id/taskExecutor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginLeft="15dip"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/task_finishToDate" />
+    <TextView
+        style="@style/FormItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/task_inserterId"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <EditText
-                android:id="@+id/taskFinishToDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="datetime" />
-        </TableRow>
+    <Spinner
+        android:id="@+id/taskInserter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dip"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/task_finishedDate" />
-
-            <EditText
-                android:id="@+id/taskFinishedDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="datetime" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/taskExecutorRow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/task_executorId" />
-
-            <Spinner
-                android:id="@+id/taskExecutorId"
-                style="@style/AppBaseTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/taskInserterRow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/task_inserterId" />
-
-            <Spinner
-                android:id="@+id/taskInserterId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                android:text="@string/save" />
-        </TableRow>
-
-        <TableRow            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/deleteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                android:text="@string/delete" />
-        </TableRow>
-    </TableLayout>
-
-</ScrollView>
+</LinearLayout>

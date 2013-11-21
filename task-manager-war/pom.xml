@@ -33,27 +33,6 @@
 			<artifactId>resteasy-jaxrs</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.picketbox</groupId>
-			<artifactId>picketbox</artifactId>
-			<version>4.0.7.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.picketbox</groupId>
-			<artifactId>identity-spi</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.picketbox</groupId>
-			<artifactId>authorization-spi</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.as</groupId>
-			<artifactId>jboss-as-security</artifactId>
-		</dependency>
-
 	</dependencies>
 
 	<build>

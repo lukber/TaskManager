@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_5_content_save"
+        android:showAsAction="ifRoom"
+        android:title="@string/save">
+    </item>
+    <item
+        android:id="@+id/action_storno"
+        android:icon="@drawable/ic_1_navigation_cancel"
+        android:showAsAction="ifRoom"
+        android:title="@string/storno">
+    </item>
+
+</menu>

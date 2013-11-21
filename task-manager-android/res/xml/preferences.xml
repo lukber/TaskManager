@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:defaultValue="http://10.0.2.2:8080/task-manager-war/rest"
+        android:key="@string/app_settings_rest_server_url_key"
+        android:title="@string/app_settings_rest_server_url" />
+    <EditTextPreference
+        android:key="@string/app_settings_userName_key"
+        android:title="@string/app_settings_userName" />
+    <EditTextPreference
+        android:key="@string/app_settings_password_key"
+        android:title="@string/app_settings_password" />
+
+</PreferenceScreen>

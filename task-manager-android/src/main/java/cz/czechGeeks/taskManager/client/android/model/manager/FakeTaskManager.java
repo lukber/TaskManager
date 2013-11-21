@@ -31,7 +31,7 @@ public class FakeTaskManager implements TaskManager {
 				Timestamp finishedDate = null;
 				Timestamp insDate = null;
 				Timestamp updDate = null;
-				boolean updatable = false;
+				boolean updatable = true;
 				boolean deletable = false;
 				boolean closeable = false;
 

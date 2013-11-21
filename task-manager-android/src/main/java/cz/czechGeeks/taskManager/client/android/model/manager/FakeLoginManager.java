@@ -25,4 +25,16 @@ public class FakeLoginManager implements LoginManager {
 		return mainData;
 	}
 
+	@Override
+	public LoginModel get(long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void signIn(String userName, String password, SignInCallBack callBack) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

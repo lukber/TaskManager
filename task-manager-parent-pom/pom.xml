@@ -13,6 +13,8 @@
 		<hibernate.version>3.6.10.Final</hibernate.version>
 		<android.platform.version>1.6_r2</android.platform.version>
 		<android.plugin.version>3.5.3</android.plugin.version>
+		
+		<jackson.version>1.9.13</jackson.version>
 		<spring.version>1.0.1.RELEASE</spring.version>
 	</properties>
 
@@ -150,37 +152,11 @@
 			<!-- RESTEASY in jboss as 7.1.1.Final - end -->
 
 			<dependency>
-				<groupId>org.picketbox</groupId>
-				<artifactId>identity-spi</artifactId>
-				<version>4.0.19.Final</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.picketbox</groupId>
-				<artifactId>authorization-spi</artifactId>
-				<version>4.0.19.Final</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.jboss.as</groupId>
-				<artifactId>jboss-as-security</artifactId>
-				<version>7.1.1.Final</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>joda-time</groupId>
-				<artifactId>joda-time</artifactId>
-				<version>2.2</version>
-			</dependency>
-
-			<dependency>
 				<groupId>org.springframework.android</groupId>
 				<artifactId>spring-android-rest-template</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>org.springframework.android</groupId>
 				<artifactId>spring-android-auth</artifactId>
@@ -192,10 +168,17 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+
 			<dependency>
 				<groupId>org.springframework.android</groupId>
 				<artifactId>spring-android-core</artifactId>
 				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson.version}</version>
 			</dependency>
 
 		</dependencies>
