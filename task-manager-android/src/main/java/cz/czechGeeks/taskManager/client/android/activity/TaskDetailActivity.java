@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailEditFragment;
@@ -68,7 +67,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		switch (item.getItemId()) {
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
