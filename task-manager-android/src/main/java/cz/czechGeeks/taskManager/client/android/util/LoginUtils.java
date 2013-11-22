@@ -24,12 +24,12 @@ public class LoginUtils {
 		to.setName(from.getName());
 	}
 
-	public String getLoggedUserId() {
-		return loggedUser.getName();
+	public Long getLoggedUserId() {
+		return loggedUser.getId();
 	}
 
-	public Long getLoggedUserName() {
-		return loggedUser.getId();
+	public String getLoggedUserName() {
+		return loggedUser.getName();
 	}
 
 	public void setLoggedUser(LoginModel loggedUser) {

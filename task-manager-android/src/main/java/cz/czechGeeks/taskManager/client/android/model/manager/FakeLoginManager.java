@@ -20,19 +20,21 @@ public class FakeLoginManager implements LoginManager {
 		}
 	}
 
-	@Override
-	public List<LoginModel> getAll() {
-		return mainData;
-	}
-
-	@Override
-	public LoginModel get(long userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void signIn(String userName, String password, AsyncTaskCallBack<LoginModel> callBack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void get(long userId, AsyncTaskCallBack<LoginModel> callBack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void getAll(AsyncTaskCallBack<LoginModel[]> callBack) {
 		// TODO Auto-generated method stub
 		
 	}

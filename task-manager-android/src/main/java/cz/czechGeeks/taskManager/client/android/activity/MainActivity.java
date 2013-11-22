@@ -5,9 +5,7 @@ import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -29,6 +27,8 @@ import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.LoginManager;
 import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
+import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils;
+import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.ConnectionItems;
 
 /**
  * Hlavni obrazovka reprezentovana tabem a seznamem
@@ -102,9 +102,9 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	 */
 	private void performSignIn() {
 		// Nacteni hodnot pro prihlaseni z preferences
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String userName = preferences.getString(getString(R.string.app_settings_userName_key), null);
-		String password = preferences.getString(getString(R.string.app_settings_password_key), null);
+		ConnectionItems connectionItems = PreferencesUtils.getConnectionItems(this);
+		String userName = connectionItems.USER_NAME;
+		String password = connectionItems.PASSWORD;
 		Log.i(LOG_TAG, "Pokus o prihlaseni uzivatele " + userName);
 
 		LoginManager loginManager = LoginManagerFactory.get(this);

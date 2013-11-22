@@ -5,16 +5,15 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import cz.czechGeeks.taskManager.client.android.R;
+import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils;
+import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.ConnectionItems;
 
 /**
  * Prihlasovaci dialog. Data pro zobrazeni bere z preferences. Po kliku na Prihlasit hodnoty ulozi zpet do preferences
@@ -36,10 +35,6 @@ public class SignInDialogFragment extends DialogFragment {
 		void onSignInDialogResulCancel();
 	}
 
-	private String PREFERENCES_URL_KEY;
-	private String PREFERENCES_USER_NAME_KEY;
-	private String PREFERENCES_PASSWORD;
-
 	private SignInDialogFragmentCallBack callBack;
 	private EditText baseUrl;
 	private EditText userName;
@@ -52,9 +47,6 @@ public class SignInDialogFragment extends DialogFragment {
 		FragmentActivity activity = getActivity();
 
 		// Klice pro preferences
-		PREFERENCES_URL_KEY = activity.getString(R.string.app_settings_rest_server_url_key);
-		PREFERENCES_USER_NAME_KEY = activity.getString(R.string.app_settings_userName_key);
-		PREFERENCES_PASSWORD = activity.getString(R.string.app_settings_password_key);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		LayoutInflater inflater = activity.getLayoutInflater();
@@ -65,11 +57,10 @@ public class SignInDialogFragment extends DialogFragment {
 		this.password = (EditText) rootView.findViewById(R.id.signIn_password);
 
 		// Nacteni hodnot z preferences
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-
-		String BASE_URL = preferences.getString(PREFERENCES_URL_KEY, null);
-		String LOGIN_NAME = preferences.getString(PREFERENCES_USER_NAME_KEY, null);
-		String PASSWORD = preferences.getString(PREFERENCES_PASSWORD, null);
+		ConnectionItems connectionItems = PreferencesUtils.getConnectionItems(activity);
+		String BASE_URL = connectionItems.BASE_URL;
+		String LOGIN_NAME = connectionItems.USER_NAME;
+		String PASSWORD = connectionItems.PASSWORD;
 
 		// Nastaveni hodnot z preferences do poli
 		baseUrl.setText(BASE_URL);
@@ -81,11 +72,11 @@ public class SignInDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				// Nastaveni novych hodnot do preferences
-				Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-				editor.putString(PREFERENCES_URL_KEY, baseUrl.getEditableText().toString());
-				editor.putString(PREFERENCES_USER_NAME_KEY, userName.getEditableText().toString());
-				editor.putString(PREFERENCES_PASSWORD, password.getEditableText().toString());
-				editor.commit();
+				ConnectionItems connectionItems = new ConnectionItems();
+				connectionItems.BASE_URL = baseUrl.getEditableText().toString();
+				connectionItems.USER_NAME = userName.getEditableText().toString();
+				connectionItems.PASSWORD = password.getEditableText().toString();
+				PreferencesUtils.saveConnectionItems(connectionItems, getActivity());
 
 				// volani callback
 				callBack.onSignInDialogResultOk();

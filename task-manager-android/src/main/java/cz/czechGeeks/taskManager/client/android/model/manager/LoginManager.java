@@ -1,7 +1,5 @@
 package cz.czechGeeks.taskManager.client.android.model.manager;
 
-import java.util.List;
-
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 
@@ -24,24 +22,20 @@ public interface LoginManager {
 	 * 
 	 * @param userName
 	 * @param password
-	 * @return ID prihlaseneho uzivatele
 	 */
-	public void signIn(String userName, String password, AsyncTaskCallBack<LoginModel> callBack);
+	void signIn(String userName, String password, AsyncTaskCallBack<LoginModel> callBack);
 
 	/**
 	 * Vrati uzivatele
 	 * 
 	 * @param userId
 	 *            ID uzivatele
-	 * @return
 	 */
-	public LoginModel get(long userId);
+	void get(long userId, AsyncTaskCallBack<LoginModel> callBack);
 
 	/**
 	 * Vrati vsechny uzivatele
 	 * 
-	 * @return
 	 */
-	public List<LoginModel> getAll();
-
+	void getAll(AsyncTaskCallBack<LoginModel[]> callBack);
 }
