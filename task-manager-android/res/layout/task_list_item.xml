@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/takImageUnread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@drawable/ic_5_content_unread_dark"
+        android:src="@drawable/ic_5_content_unread_dark" />
+
+    <TextView
+        android:id="@id/taskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dip"
+        android:layout_toRightOf="@id/takImageUnread"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/takImageClosed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dip"
+        android:layout_marginTop="4dip"
+        android:layout_toRightOf="@id/taskName"
+        android:contentDescription="@drawable/ic_1_navigation_accept_dark"
+        android:src="@drawable/ic_1_navigation_accept_dark" />
+
+    <TextView
+        android:id="@id/taskDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/taskName"
+        android:layout_marginTop="4dip"
+        android:layout_toRightOf="@id/takImageUnread"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@id/taskCateg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="4dip"
+        android:layout_marginTop="4dip"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@id/taskFinishToDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/taskCateg"
+        android:layout_marginRight="4dip"
+        android:layout_marginTop="4dip"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
