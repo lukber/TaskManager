@@ -1,6 +1,7 @@
 package cz.czechGeeks.taskManager.client.android.factory;
 
-import cz.czechGeeks.taskManager.client.android.model.manager.FakeTaskManager;
+import android.content.Context;
+import cz.czechGeeks.taskManager.client.android.model.manager.RestServiceTaskManager;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
 /**
@@ -14,8 +15,8 @@ public class TaskManagerFactory {
 	private TaskManagerFactory() {
 	}
 
-	public static TaskManager createService() {
-		return new FakeTaskManager();
+	public static TaskManager createService(Context context) {
+		return new RestServiceTaskManager(context);
 	}
 
 }

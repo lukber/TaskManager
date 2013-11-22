@@ -1,20 +1,23 @@
 package cz.czechGeeks.taskManager.client.android.fragment;
 
+import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.adapter.TaskListAdapter;
+import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
+import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
-import cz.czechGeeks.taskManager.client.android.model.loader.TaskListLoader;
+import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
+import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
-public class TaskListFragment extends ListFragment implements LoaderCallbacks<List<TaskModel>> {
+public class TaskListFragment extends ListFragment {
 
 	public interface TaskListFragmentCallBack {
 		public void onTaskListItemSelected(TaskModel model);
@@ -35,10 +38,19 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 		listAdapter = new TaskListAdapter(getActivity());
 		setListAdapter(listAdapter);
 
-		// Start out with a progress indicator.
-		setListShown(false);
+		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+		taskManager.getAllDelegatedToMe(new AsyncTaskCallBack<TaskModel[]>() {
 
-		getLoaderManager().initLoader(0, null, this);
+			@Override
+			public void onSuccess(TaskModel[] resumeObject) {
+				listAdapter.setData(Arrays.asList(resumeObject));
+			}
+
+			@Override
+			public void onError(ErrorMessage message) {
+				Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	@Override
@@ -62,28 +74,6 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		callBack.onTaskListItemSelected(listAdapter.getItem(position));
-	}
-
-	@Override
-	public Loader<List<TaskModel>> onCreateLoader(int arg0, Bundle arg1) {
-		return new TaskListLoader(getActivity());
-	}
-
-	@Override
-	public void onLoadFinished(Loader<List<TaskModel>> loader, List<TaskModel> data) {
-		listAdapter.setData(data);
-
-		// The list should now be shown.
-		if (isResumed()) {
-			setListShown(true);
-		} else {
-			setListShownNoAnimation(true);
-		}
-	}
-
-	@Override
-	public void onLoaderReset(Loader<List<TaskModel>> loader) {
-		listAdapter.setData(null);
 	}
 
 }

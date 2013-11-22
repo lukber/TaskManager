@@ -54,6 +54,14 @@ public abstract class AbstractAsyncTaskManager {
 	}
 
 	protected <T> void run(final String URL, final String USER_NAME, final String PASSWORD, final RequestMethod REQUEST_METHOD, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack) {
+		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, returnValueClass, callBack, null);
+	}
+
+	protected <T> void run(final String URL, final String USER_NAME, final String PASSWORD, final RequestMethod REQUEST_METHOD, final Class<T> returnValueClass, final AsyncTaskWithResultCodeCallBack callBackWithResultCode) {
+		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, returnValueClass, null, callBackWithResultCode);
+	}
+
+	private <T> void run(final String URL, final String USER_NAME, final String PASSWORD, final RequestMethod REQUEST_METHOD, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack, final AsyncTaskWithResultCodeCallBack callBackWithResultCode) {
 		Log.d(LOG_TAG, "Pripojeni k URL: " + URL);
 		Log.d(LOG_TAG, "Metoda: " + REQUEST_METHOD);
 		Log.d(LOG_TAG, "Uzivatelske jmeno: " + USER_NAME);
@@ -68,6 +76,7 @@ public abstract class AbstractAsyncTaskManager {
 			new Thread() {
 				public void run() {
 					T returnValue = null;// Navratova hodnota
+					Integer responseCode = null;// Respose code
 					ErrorMessage errorMessage = null;// Chyba
 
 					HttpURLConnection connection = null;
@@ -82,13 +91,15 @@ public abstract class AbstractAsyncTaskManager {
 
 						connection.connect();
 
-						int responseCode = connection.getResponseCode();
+						responseCode = connection.getResponseCode();
 						Log.i(LOG_TAG, "Kod odpovedi:" + responseCode);
 
 						if (responseCode == STATUS_CODE_OK) {
-							returnValue = new ObjectMapper().readValue(connection.getInputStream(), returnValueClass);
-							Log.i(LOG_TAG, "Odpoved ze serveru OK.");
-
+							if (callBack != null) {
+								returnValue = new ObjectMapper().readValue(connection.getInputStream(), returnValueClass);
+								Log.i(LOG_TAG, "Odpoved ze serveru OK.");
+							}
+							
 						} else if (responseCode == STATUS_CODE_NOT_AUTHORIZED) {
 							errorMessage = new ErrorMessage(context.getString(R.string.signIn_error_noValid));
 							Log.e(LOG_TAG, "Neplatne uzivatelske jmeno nebo heslo!");
@@ -108,17 +119,29 @@ public abstract class AbstractAsyncTaskManager {
 					}
 
 					final T retValue = returnValue;
-					final ErrorMessage errorMessageValue = errorMessage;
+					final Integer returnResponseCode = responseCode;
+					final ErrorMessage returnErrorMessage = errorMessage;
 
 					((Activity) context).runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
 							dialog.dismiss();
-							if (errorMessageValue != null) {
-								callBack.onError(errorMessageValue);
+							if (returnErrorMessage == null) {
+								if (callBack != null) {
+									callBack.onSuccess(retValue);
+								}
+								if (callBackWithResultCode != null) {
+									callBackWithResultCode.onSuccess(returnResponseCode);
+								}
 							} else {
-								callBack.onSuccess(retValue);
+								// nastala chyba
+								if (callBack != null) {
+									callBack.onError(returnErrorMessage);
+								}
+								if (callBackWithResultCode != null) {
+									callBackWithResultCode.onError(returnErrorMessage);
+								}
 							}
 						}
 					});

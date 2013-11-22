@@ -43,21 +43,6 @@ public class FakeTaskManager implements TaskManager {
 	}
 
 	@Override
-	public List<TaskModel> getAllMain() {
-		return mainData;
-	}
-
-	@Override
-	public List<TaskModel> getAllDelegatedToMe() {
-		return delegatedToMeData;
-	}
-
-	@Override
-	public List<TaskModel> getAllDelegatedToOthers() {
-		return delegatedToOthersData;
-	}
-
-	@Override
 	public void delete(Long id) {
 		for (int i = 0; i < mainData.size(); i++) {
 			if (mainData.get(i).getId().equals(id)) {
@@ -79,29 +64,59 @@ public class FakeTaskManager implements TaskManager {
 		}
 	}
 
+//	@Override
+//	public void update(TaskModel task) {
+//		for (int i = 0; i < mainData.size(); i++) {
+//			if (mainData.get(i).getId().equals(task.getId())) {
+//				mainData.remove(i);
+//				mainData.add(task);
+//				return;
+//			}
+//		}
+//		for (int i = 0; i < delegatedToMeData.size(); i++) {
+//			if (delegatedToMeData.get(i).getId().equals(task.getId())) {
+//				delegatedToMeData.remove(i);
+//				delegatedToMeData.add(task);
+//				return;
+//			}
+//		}
+//		for (int i = 0; i < delegatedToOthersData.size(); i++) {
+//			if (delegatedToOthersData.get(i).getId().equals(task.getId())) {
+//				delegatedToOthersData.remove(i);
+//				delegatedToOthersData.add(task);
+//				return;
+//			}
+//		}
+//	}
+
 	@Override
-	public void update(TaskModel task) {
-		for (int i = 0; i < mainData.size(); i++) {
-			if (mainData.get(i).getId().equals(task.getId())) {
-				mainData.remove(i);
-				mainData.add(task);
-				return;
-			}
-		}
-		for (int i = 0; i < delegatedToMeData.size(); i++) {
-			if (delegatedToMeData.get(i).getId().equals(task.getId())) {
-				delegatedToMeData.remove(i);
-				delegatedToMeData.add(task);
-				return;
-			}
-		}
-		for (int i = 0; i < delegatedToOthersData.size(); i++) {
-			if (delegatedToOthersData.get(i).getId().equals(task.getId())) {
-				delegatedToOthersData.remove(i);
-				delegatedToOthersData.add(task);
-				return;
-			}
-		}
+	public void getAllMain(AsyncTaskCallBack<TaskModel[]> callBack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void getAllDelegatedToMe(AsyncTaskCallBack<TaskModel[]> callBack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void getAllDelegatedToOthers(AsyncTaskCallBack<TaskModel[]> callBack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void get(Long id, AsyncTaskCallBack<TaskModel> callBack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(TaskModel task, AsyncTaskCallBack<TaskModel> callBack) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
