@@ -11,12 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
+import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
+import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
+import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
+import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
-public class TaskDetailEditFragment extends Fragment {
+public class TaskDetailEditFragment extends Fragment implements AsyncTaskCallBack<TaskModel> {
 
-	public static final String TASK_MODEL = "model";
+	public static final String TASK_ID = "taskId";
 
 	public interface TaskDetailEditFragmentListener {
 		void performShowPreviewFragment();
@@ -72,9 +77,11 @@ public class TaskDetailEditFragment extends Fragment {
 		inserter = (Spinner) rootView.findViewById(R.id.taskInserter);
 		binding();
 
-		final TaskModel taskModel = (TaskModel) getArguments().get(TASK_MODEL);
-		if (taskModel != null) {
-			setModelData(taskModel);
+		final Long taskId = (Long) getArguments().get(TASK_ID);
+
+		if (taskId != null) {
+			TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+			taskManager.get(taskId, this);
 		}
 
 		return rootView;
@@ -120,8 +127,14 @@ public class TaskDetailEditFragment extends Fragment {
 		// }
 	}
 
-	public void setModel(TaskModel taskModel) {
-		this.taskModel = taskModel;
+	@Override
+	public void onSuccess(TaskModel resumeObject) {
+		setModelData(resumeObject);
+	}
+
+	@Override
+	public void onError(ErrorMessage message) {
+		Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_LONG).show();
 	}
 
 }

@@ -206,7 +206,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		// Byla vybrana polozka ze seznamu
 		Log.i(LOG_TAG, "Byla vybrana polozka ze seznamu:" + model.getId());
 		Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
-		intent.putExtra(TaskDetailActivity.TASK_MODEL, model);
+		intent.putExtra(TaskDetailActivity.TASK_ID, model.getId());
 		startActivity(intent);
 	}
 

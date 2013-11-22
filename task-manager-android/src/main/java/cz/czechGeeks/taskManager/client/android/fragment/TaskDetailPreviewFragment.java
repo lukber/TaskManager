@@ -10,12 +10,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
+import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
+import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
+import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
+import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
-public class TaskDetailPreviewFragment extends Fragment {
+public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCallBack<TaskModel> {
 
-	public static final String TASK_MODEL = "model";
+	public static final String TASK_ID = "taskId";
 
 	public interface TaskDetailPreviewFragmentListener {
 		void performShowEditFragment();
@@ -69,12 +74,15 @@ public class TaskDetailPreviewFragment extends Fragment {
 		executor = (TextView) rootView.findViewById(R.id.taskExecutor);
 		inserter = (TextView) rootView.findViewById(R.id.taskInserter);
 
-		final TaskModel taskModel = (TaskModel) getArguments().get(TASK_MODEL);
-		if (taskModel == null) {
-			throw new IllegalArgumentException("Argument " + TASK_MODEL + " musi byt zadan");
+		final Long taskId = (Long) getArguments().get(TASK_ID);
+
+		if (taskId == null) {
+			throw new IllegalArgumentException("Argument " + TASK_ID + " musi byt zadan");
 		}
 
-		showModelData(taskModel);
+		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+		taskManager.get(taskId, this);
+
 		return rootView;
 	}
 
@@ -98,6 +106,16 @@ public class TaskDetailPreviewFragment extends Fragment {
 
 		executor.setText(taskModel.getExecutorName());
 		inserter.setText(taskModel.getInserterName());
+	}
+
+	@Override
+	public void onSuccess(TaskModel resumeObject) {
+		showModelData(resumeObject);
+	}
+
+	@Override
+	public void onError(ErrorMessage message) {
+		Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_LONG).show();
 	}
 
 }
