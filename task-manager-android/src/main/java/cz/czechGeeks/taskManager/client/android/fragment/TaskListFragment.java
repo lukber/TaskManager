@@ -1,20 +1,25 @@
 package cz.czechGeeks.taskManager.client.android.fragment;
 
-import java.util.List;
+import java.util.Arrays;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.adapter.TaskListAdapter;
+import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
+import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
-import cz.czechGeeks.taskManager.client.android.model.loader.TaskListLoader;
+import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
+import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
-public class TaskListFragment extends ListFragment implements LoaderCallbacks<List<TaskModel>> {
+public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<TaskModel[]> {
+
+	public enum TaskType {
+		MAIN, DELEGATED_TO_ME, DELEGATED_TO_OTHERS
+	}
 
 	public interface TaskListFragmentCallBack {
 		public void onTaskListItemSelected(TaskModel model);
@@ -22,7 +27,7 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 
 	private TaskListAdapter listAdapter;
 	private TaskListFragmentCallBack callBack;
-	private List<TaskModel> data;
+	private TaskType taskType;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -35,10 +40,24 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 		listAdapter = new TaskListAdapter(getActivity());
 		setListAdapter(listAdapter);
 
-		// Start out with a progress indicator.
-		setListShown(false);
+		if (taskType == null) {
+			throw new IllegalArgumentException("Typ tasku musi byt definovan");
+		}
 
-		getLoaderManager().initLoader(0, null, this);
+		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+		switch (taskType) {
+		case MAIN:
+			taskManager.getAllMain(this);
+			break;
+		case DELEGATED_TO_ME:
+			taskManager.getAllDelegatedToMe(this);
+			break;
+		case DELEGATED_TO_OTHERS:
+			taskManager.getAllDelegatedToOthers(this);
+			break;
+		default:
+			throw new IllegalArgumentException("Nedefinovana metoda");
+		}
 	}
 
 	@Override
@@ -64,26 +83,19 @@ public class TaskListFragment extends ListFragment implements LoaderCallbacks<Li
 		callBack.onTaskListItemSelected(listAdapter.getItem(position));
 	}
 
-	@Override
-	public Loader<List<TaskModel>> onCreateLoader(int arg0, Bundle arg1) {
-		return new TaskListLoader(getActivity());
+	public void setTaskType(TaskType taskType) {
+		this.taskType = taskType;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<List<TaskModel>> loader, List<TaskModel> data) {
-		listAdapter.setData(data);
-
-		// The list should now be shown.
-		if (isResumed()) {
-			setListShown(true);
-		} else {
-			setListShownNoAnimation(true);
-		}
+	public void onSuccess(TaskModel[] resumeObject) {
+		setEmptyText(getResources().getString(R.string.noData));
+		listAdapter.setData(Arrays.asList(resumeObject));
 	}
 
 	@Override
-	public void onLoaderReset(Loader<List<TaskModel>> loader) {
-		listAdapter.setData(null);
+	public void onError(ErrorMessage message) {
+		setEmptyText(message.getMessage());
 	}
 
 }

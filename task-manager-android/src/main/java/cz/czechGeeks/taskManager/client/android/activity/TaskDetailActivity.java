@@ -12,12 +12,11 @@ import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailEditFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailEditFragment.TaskDetailEditFragmentListener;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailPreviewFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailPreviewFragment.TaskDetailPreviewFragmentListener;
-import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 
 public class TaskDetailActivity extends FragmentActivity implements TaskDetailPreviewFragmentListener, TaskDetailEditFragmentListener {
-	public static final String TASK_MODEL = "model";
+	public static final String TASK_ID = "taskId";
 
-	private TaskModel taskModel;
+	private Long taskId;
 
 	private TaskDetailPreviewFragment previewFragment;
 	private TaskDetailEditFragment editFragment;
@@ -27,14 +26,14 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		super.onCreate(args);
 		setContentView(R.layout.activity_task_detail);
 
-		taskModel = (TaskModel) getIntent().getExtras().get(TASK_MODEL);
+		taskId = (Long) getIntent().getExtras().get(TASK_ID);
 
-		if (taskModel == null) {
-			// vytvareni noveho zaznamu
-			performShowEditFragment();
-		} else {
+		if (taskId != null) {
 			// uprava stavajiciho zaznamu
 			performShowPreviewFragment();
+		} else {
+			// vytvareni noveho zaznamu
+			performShowEditFragment();
 		}
 
 		final ActionBar actionBar = getActionBar();
@@ -45,7 +44,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 	private Fragment createOrGetPreviewFragment() {
 		if (previewFragment == null) {
 			Bundle bundle = new Bundle();
-			bundle.putSerializable(TaskDetailEditFragment.TASK_MODEL, taskModel);
+			bundle.putSerializable(TaskDetailPreviewFragment.TASK_ID, taskId);
 
 			previewFragment = new TaskDetailPreviewFragment();
 			previewFragment.setArguments(bundle);
@@ -56,7 +55,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 	private Fragment createOrGetUpdateFragment() {
 		if (editFragment == null) {
 			Bundle bundle = new Bundle();
-			bundle.putSerializable(TaskDetailEditFragment.TASK_MODEL, taskModel);
+			bundle.putSerializable(TaskDetailEditFragment.TASK_ID, taskId);
 
 			editFragment = new TaskDetailEditFragment();
 			editFragment.setArguments(bundle);
@@ -90,5 +89,9 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 	@Override
 	public void performShowPreviewFragment() {
 		showFragment(createOrGetPreviewFragment());
+	}
+
+	@Override
+	public void onTaskDetailDeleted() {
 	}
 }
