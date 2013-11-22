@@ -61,6 +61,17 @@ public class Task implements TaskManagerEntity {
 	@JoinColumn(name = "TSK_LOGIN_ID_INS", referencedColumnName = "LOGIN_ID", insertable = false, updatable = false)
 	private Login inserter;// entita login ktery ma task udelat
 
+	@Column(name = "TSK_UNREAD")
+	private Boolean unread;// priznak jestli task byl precten executorem
+
+	public Boolean getUnread() {
+		return unread;
+	}
+
+	public void setUnread(Boolean unread) {
+		this.unread = unread;
+	}
+
 	public Long getId() {
 		return id;
 	}

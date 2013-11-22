@@ -62,33 +62,13 @@ public class TaskService {
 			predicates.add(builder.greaterThanOrEqualTo(root.<Timestamp> get("finishToDate"), finishToDate));
 		}
 		if (mainTasks != null && mainTasks.booleanValue()) {
-			predicates.add(
-					builder.and(
-							builder.equal(root.get("executorId"), loginId), 
-							builder.equal(root.get("inserterId"), loginId)
-					)
-			);
+			predicates.add(builder.and(builder.equal(root.get("executorId"), loginId), builder.equal(root.get("inserterId"), loginId)));
 		} else if (delegatedToMe != null && delegatedToMe.booleanValue()) {
-			predicates.add(
-					builder.and(
-							builder.equal(root.get("executorId"), loginId), 
-							builder.notEqual(root.get("inserterId"), loginId)
-					)
-			);
+			predicates.add(builder.and(builder.equal(root.get("executorId"), loginId), builder.notEqual(root.get("inserterId"), loginId)));
 		} else if (delegatedToOthers != null && delegatedToOthers.booleanValue()) {
-			predicates.add(
-					builder.and(
-							builder.notEqual(root.get("executorId"), loginId), 
-							builder.equal(root.get("inserterId"), loginId)
-					)
-			);
+			predicates.add(builder.and(builder.notEqual(root.get("executorId"), loginId), builder.equal(root.get("inserterId"), loginId)));
 		} else {
-			predicates.add(
-					builder.or(
-							builder.equal(root.get("executorId"), loginId), 
-							builder.equal(root.get("inserterId"), loginId)
-					)
-			);
+			predicates.add(builder.or(builder.equal(root.get("executorId"), loginId), builder.equal(root.get("inserterId"), loginId)));
 		}
 
 		query.select(root);
@@ -146,6 +126,9 @@ public class TaskService {
 		task.setInsDate(new Timestamp(new Date().getTime()));
 		task.setUpdDate(new Timestamp(new Date().getTime()));
 
+		// Neprectene to bude pokazde pro task zalozeny nekomu jinemu
+		task.setUnread(!executorId.equals(inserterId));
+
 		dao.persist(task);
 		return task;
 	}
@@ -179,6 +162,11 @@ public class TaskService {
 		}
 
 		Task task = dao.findNonNull(Task.class, id);
+
+		if (!task.getExecutorId().equals(executorId)) {
+			// predal jsem task na nekoho jineho
+			task.setUnread(true);
+		}
 
 		task.setCategId(categId);
 		task.setExecutorId(executorId);
@@ -231,6 +219,30 @@ public class TaskService {
 
 		Task task = dao.findNonNull(Task.class, id);
 		task.setFinishedDate(new Timestamp(new Date().getTime()));
+		task.setUpdDate(new Timestamp(new Date().getTime()));
+
+		dao.persist(task);
+		dao.refresh(task);
+		return task;
+	}
+
+	/**
+	 * Nastaveni priznaku pro ukol ze byl precteny
+	 * 
+	 * @param id
+	 *            ID ukolu
+	 * @return
+	 * @throws EntityNotFoundException
+	 * @throws IllegalStateException
+	 *             Pokud se pokousi oznacit ukol jako precteny ten ktery ho nema zadan
+	 */
+	public Task markReaded(Long id, Long loginId) throws EntityNotFoundException {
+		Task task = dao.findNonNull(Task.class, id);
+
+		if (!loginId.equals(task.getExecutorId())) {
+			throw new IllegalStateException("Pouze ten kdo ma ukol splnit muze ukol oznacit jako precteny");
+		}
+		task.setUnread(false);
 		task.setUpdDate(new Timestamp(new Date().getTime()));
 
 		dao.persist(task);

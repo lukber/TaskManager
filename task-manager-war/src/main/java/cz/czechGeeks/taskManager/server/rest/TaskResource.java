@@ -59,13 +59,7 @@ public class TaskResource {
 	@GET
 	@Path("all")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getAllTasks(
-			@QueryParam("categId") Long categId, 
-			@QueryParam("mainTasks") Boolean mainTasks,
-			@QueryParam("delegatedToMe") Boolean delegatedToMe,
-			@QueryParam("delegatedToOthers") Boolean delegatedToOthers,
-			@QueryParam("finishToDate") Timestamp finishToDate, 
-			@Context SecurityContext securityContext) {
+	public Response getAllTasks(@QueryParam("categId") Long categId, @QueryParam("mainTasks") Boolean mainTasks, @QueryParam("delegatedToMe") Boolean delegatedToMe, @QueryParam("delegatedToOthers") Boolean delegatedToOthers, @QueryParam("finishToDate") Timestamp finishToDate, @Context SecurityContext securityContext) {
 		String userName = securityContext.getUserPrincipal().getName();
 		try {
 			Long loginId = loginService.getId(userName);
@@ -129,11 +123,11 @@ public class TaskResource {
 		}
 		return Response.ok().build();
 	}
-	
+
 	@PUT
 	@Path("/close/{id}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response closeTask(@PathParam("id") Long id,  @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
+	public Response closeTask(@PathParam("id") Long id, @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
 		String userName = securityContext.getUserPrincipal().getName();
 		try {
 			Long loginId = loginService.getId(userName);
@@ -146,6 +140,21 @@ public class TaskResource {
 		return Response.ok().build();
 	}
 
+	@PUT
+	@Path("/markReaded/{id}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response markReadedTask(@PathParam("id") Long id, @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
+		String userName = securityContext.getUserPrincipal().getName();
+		try {
+			Long loginId = loginService.getId(userName);
+			taskService.markReaded(id, loginId);
+		} catch (EntityNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		} catch (Exception e) {
+			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
+		}
+		return Response.ok().build();
+	}
 
 	@DELETE
 	@Path("{id}")

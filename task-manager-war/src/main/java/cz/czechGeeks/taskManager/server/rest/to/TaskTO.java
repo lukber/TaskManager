@@ -32,6 +32,7 @@ public class TaskTO {
 	private boolean updatable;
 	private boolean deletable;
 	private boolean closeable;
+	private boolean unread;
 
 	public Long getId() {
 		return id;
@@ -163,6 +164,14 @@ public class TaskTO {
 
 	public void setInserterName(String inserterName) {
 		this.inserterName = inserterName;
+	}
+
+	public boolean isUnread() {
+		return unread;
+	}
+
+	public void setUnread(boolean unread) {
+		this.unread = unread;
 	}
 
 }
