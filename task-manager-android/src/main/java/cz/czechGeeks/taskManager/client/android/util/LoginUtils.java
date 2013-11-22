@@ -2,18 +2,18 @@ package cz.czechGeeks.taskManager.client.android.util;
 
 import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 
-public class LoginUtil {
+public class LoginUtils {
 
-	private static LoginUtil instance;
+	private static LoginUtils instance;
 
 	private LoginModel loggedUser = null;
 
-	public LoginUtil() {
+	public LoginUtils() {
 	}
 
-	public static LoginUtil get() {
+	public static LoginUtils get() {
 		if (instance == null) {
-			instance = new LoginUtil();
+			instance = new LoginUtils();
 		}
 
 		return instance;

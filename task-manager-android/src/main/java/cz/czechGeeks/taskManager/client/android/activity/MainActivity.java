@@ -28,7 +28,7 @@ import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.LoginManager;
-import cz.czechGeeks.taskManager.client.android.util.LoginUtil;
+import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 
 /**
  * Hlavni obrazovka reprezentovana tabem a seznamem
@@ -117,7 +117,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 				Toast.makeText(getApplicationContext(), signedUserName, Toast.LENGTH_SHORT).show();
 
 				// Ulozeni prihlaseneho uzivatele do pameti
-				LoginUtil.get().setLoggedUser(resumeObject);
+				LoginUtils.get().setLoggedUser(resumeObject);
 
 				// Zobrazeni obsahu
 				viewPager.setAdapter(pagerAdapter);

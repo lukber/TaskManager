@@ -18,7 +18,7 @@ import android.util.Log;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.LoginModel;
-import cz.czechGeeks.taskManager.client.android.util.ProgressDialogUtil;
+import cz.czechGeeks.taskManager.client.android.util.ProgressDialogUtils;
 
 public class RestServiceLoginManager implements LoginManager {
 
@@ -35,7 +35,7 @@ public class RestServiceLoginManager implements LoginManager {
 
 	public RestServiceLoginManager(Context context) {
 		this.context = context;
-		this.dialog = ProgressDialogUtil.create(context);
+		this.dialog = ProgressDialogUtils.create(context);
 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		this.baseUrl = preferences.getString(context.getString(R.string.app_settings_rest_server_url_key), null) + "/Login";

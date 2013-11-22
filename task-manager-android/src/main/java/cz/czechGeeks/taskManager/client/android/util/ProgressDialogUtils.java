@@ -4,9 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import cz.czechGeeks.taskManager.client.android.R;
 
-public class ProgressDialogUtil {
+public class ProgressDialogUtils {
 
-	private ProgressDialogUtil() {
+	private ProgressDialogUtils() {
 	}
 
 	public static ProgressDialog create(Context context) {
