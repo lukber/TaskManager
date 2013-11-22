@@ -19,6 +19,7 @@ import cz.czechGeeks.taskManager.client.android.model.manager.AbstractAsyncTaskM
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskWithResultCodeCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
+import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 
 public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCallBack<TaskModel> {
 
@@ -136,6 +137,24 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 	@Override
 	public void onSuccess(TaskModel resumeObject) {
 		showModelData(resumeObject);
+
+		if (LoginUtils.get().getLoggedUserId().equals(resumeObject.getExecutorId()) && resumeObject.isUnread()) {
+			// Pokud jsem ten kdo ma ukol splnit a ukol je neprecteny tak ho oznacim jako precteny
+			TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+			taskManager.markAsReaded(taskId, new AsyncTaskWithResultCodeCallBack() {
+
+				@Override
+				public void onSuccess(Integer responseCode) {
+					Toast.makeText(getActivity(), R.string.taskMarkedAsReaded, Toast.LENGTH_SHORT).show();
+				}
+
+				@Override
+				public void onError(ErrorMessage message) {
+					String errorMessage = getActivity().getText(R.string.taskMarkedAsReaded_error) + message.getMessage();
+					Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+				}
+			});
+		}
 	}
 
 	@Override

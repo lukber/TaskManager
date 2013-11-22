@@ -13,6 +13,8 @@
     <string name="app_settings_password_key">password</string>
     
     <string name="valueDeleted">Záznam byl odstraněn</string>
+    <string name="taskMarkedAsReaded_error">Při označování úkolu jako přečtený došlo k chybě:</string>
+    <string name="taskMarkedAsReaded">Úkol byl označen jako přečtený</string>
     <string name="valueNotDeleted">Záznam se nepodařilo odstranit</string>
     <string name="connection_error_noEnabled">Připojení k síti není dostupné.</string>
     <string name="signIn_error_noValid">Neplatné uživatelské jméno nebo heslo.</string>

@@ -46,4 +46,12 @@ public interface TaskManager {
 	 */
 	void update(TaskModel task, AsyncTaskCallBack<TaskModel> callBack);
 
+	/**
+	 * Oznaceni ukolu jako precteneho
+	 * 
+	 * @param id
+	 * @param callBack
+	 */
+	void markAsReaded(Long id, AsyncTaskWithResultCodeCallBack callBack);
+
 }
