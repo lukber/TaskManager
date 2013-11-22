@@ -32,7 +32,7 @@ public class FakeLoginManager implements LoginManager {
 	}
 
 	@Override
-	public void signIn(String userName, String password, SignInCallBack callBack) {
+	public void signIn(String userName, String password, AsyncTaskCallBack<LoginModel> callBack) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/DialogHeader"
+        android:layout_width="match_parent"
+        android:text="@string/app_settings_signIn" />
+
+    <EditText
+        android:id="@+id/signIn_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/app_settings_rest_server_url"
+        android:inputType="textUri" />
+
+    <EditText
+        android:id="@+id/signIn_userName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:hint="@string/app_settings_userName"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/signIn_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:fontFamily="sans-serif"
+        android:hint="@string/app_settings_password"
+        android:inputType="textPassword" />
+
+</LinearLayout>

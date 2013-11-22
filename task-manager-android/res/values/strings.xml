@@ -6,6 +6,7 @@
     
     <string name="app_settings_rest_server_url">URL serveru</string>
     <string name="app_settings_rest_server_url_key">rest_server_url</string>
+    <string name="app_settings_signIn">Přihlášení uživatele</string>
     <string name="app_settings_userName">Uživatelské jméno</string>
     <string name="app_settings_userName_key">usrName</string>
     <string name="app_settings_password">Heslo</string>
@@ -13,6 +14,7 @@
     
     <string name="connection_error_noEnabled">Připojení k síti není dostupné.</string>
     <string name="signIn_error_noValid">Neplatné uživatelské jméno nebo heslo.</string>
+    <string name="signedUser">Přihlášený uživatel:</string>
     
     <string name="loadingData">Načítání dat. Prosím čekejte.</string>
     <string name="noData">Nebyly nalezeny žádné hodnoty</string>
@@ -20,6 +22,7 @@
     <string name="toMe_tasks">Zadané mě</string>
     <string name="toOthers_tasks">Zadané ostatním</string>
     
+    <string name="signIn">Přihlásit</string>
     <string name="update">Upravit</string>
     <string name="save">Uložit</string>
     <string name="storno">Storno</string>

@@ -42,7 +42,7 @@ public class RestServiceLoginManager implements LoginManager {
 	}
 
 	@Override
-	public void signIn(final String userName, final String password, final SignInCallBack callBack) {
+	public void signIn(final String userName, final String password, final AsyncTaskCallBack<LoginModel> callBack) {
 		ConnectivityManager connectionManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
 
@@ -110,16 +110,16 @@ public class RestServiceLoginManager implements LoginManager {
 						public void run() {
 							dialog.dismiss();
 							if (errorMessageValue != null) {
-								callBack.onSignInProcessError(errorMessageValue);
+								callBack.onError(errorMessageValue);
 							} else {
-								callBack.onUserSigned(retValue);
+								callBack.onSuccess(retValue);
 							}
 						}
 					});
 				}
 			}.start();
 		} else {
-			callBack.onSignInProcessError(new ErrorMessage(context.getString(R.string.connection_error_noEnabled)));
+			callBack.onError(new ErrorMessage(context.getString(R.string.connection_error_noEnabled)));
 		}
 	}
 

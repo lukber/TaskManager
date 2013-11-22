@@ -3,12 +3,15 @@
 
     <EditTextPreference
         android:defaultValue="http://10.0.2.2:8080/task-manager-war/rest"
+        android:inputType="textUri"
         android:key="@string/app_settings_rest_server_url_key"
         android:title="@string/app_settings_rest_server_url" />
     <EditTextPreference
+        android:inputType="textPersonName"
         android:key="@string/app_settings_userName_key"
         android:title="@string/app_settings_userName" />
     <EditTextPreference
+        android:inputType="textPassword"
         android:key="@string/app_settings_password_key"
         android:title="@string/app_settings_password" />
 

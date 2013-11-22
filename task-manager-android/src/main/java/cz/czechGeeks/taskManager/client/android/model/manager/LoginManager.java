@@ -26,7 +26,7 @@ public interface LoginManager {
 	 * @param password
 	 * @return ID prihlaseneho uzivatele
 	 */
-	public void signIn(String userName, String password, SignInCallBack callBack);
+	public void signIn(String userName, String password, AsyncTaskCallBack<LoginModel> callBack);
 
 	/**
 	 * Vrati uzivatele
