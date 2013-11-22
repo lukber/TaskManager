@@ -21,6 +21,7 @@ import cz.czechGeeks.taskManager.client.android.fragment.SignInDialogFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.SignInDialogFragment.SignInDialogFragmentCallBack;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskListFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskListFragment.TaskListFragmentCallBack;
+import cz.czechGeeks.taskManager.client.android.fragment.TaskListFragment.TaskType;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
@@ -52,7 +53,22 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 
 		@Override
 		public Fragment getItem(int position) {
-			return new TaskListFragment();
+			switch (position) {
+			case 0:
+				TaskListFragment mainFragment = new TaskListFragment();
+				mainFragment.setTaskType(TaskType.MAIN);
+				return mainFragment;
+			case 1:
+				TaskListFragment toMeFragment = new TaskListFragment();
+				toMeFragment.setTaskType(TaskType.DELEGATED_TO_ME);
+				return toMeFragment;
+			case 2:
+				TaskListFragment toOthersFragment = new TaskListFragment();
+				toOthersFragment.setTaskType(TaskType.DELEGATED_TO_OTHERS);
+				return toOthersFragment;
+			default:
+				throw new IllegalStateException("Nedefinovany fragment");
+			}
 		}
 
 		@Override

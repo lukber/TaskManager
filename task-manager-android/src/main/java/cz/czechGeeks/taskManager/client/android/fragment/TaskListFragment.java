@@ -1,14 +1,12 @@
 package cz.czechGeeks.taskManager.client.android.fragment;
 
 import java.util.Arrays;
-import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.adapter.TaskListAdapter;
 import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
@@ -17,7 +15,11 @@ import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
-public class TaskListFragment extends ListFragment {
+public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<TaskModel[]> {
+
+	public enum TaskType {
+		MAIN, DELEGATED_TO_ME, DELEGATED_TO_OTHERS
+	}
 
 	public interface TaskListFragmentCallBack {
 		public void onTaskListItemSelected(TaskModel model);
@@ -25,7 +27,7 @@ public class TaskListFragment extends ListFragment {
 
 	private TaskListAdapter listAdapter;
 	private TaskListFragmentCallBack callBack;
-	private List<TaskModel> data;
+	private TaskType taskType;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -38,19 +40,24 @@ public class TaskListFragment extends ListFragment {
 		listAdapter = new TaskListAdapter(getActivity());
 		setListAdapter(listAdapter);
 
+		if (taskType == null) {
+			throw new IllegalArgumentException("Typ tasku musi byt definovan");
+		}
+
 		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
-		taskManager.getAllDelegatedToMe(new AsyncTaskCallBack<TaskModel[]>() {
-
-			@Override
-			public void onSuccess(TaskModel[] resumeObject) {
-				listAdapter.setData(Arrays.asList(resumeObject));
-			}
-
-			@Override
-			public void onError(ErrorMessage message) {
-				Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_SHORT).show();
-			}
-		});
+		switch (taskType) {
+		case MAIN:
+			taskManager.getAllMain(this);
+			break;
+		case DELEGATED_TO_ME:
+			taskManager.getAllDelegatedToMe(this);
+			break;
+		case DELEGATED_TO_OTHERS:
+			taskManager.getAllDelegatedToOthers(this);
+			break;
+		default:
+			throw new IllegalArgumentException("Nedefinovana metoda");
+		}
 	}
 
 	@Override
@@ -74,6 +81,21 @@ public class TaskListFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		callBack.onTaskListItemSelected(listAdapter.getItem(position));
+	}
+
+	public void setTaskType(TaskType taskType) {
+		this.taskType = taskType;
+	}
+
+	@Override
+	public void onSuccess(TaskModel[] resumeObject) {
+		setEmptyText(getResources().getString(R.string.noData));
+		listAdapter.setData(Arrays.asList(resumeObject));
+	}
+
+	@Override
+	public void onError(ErrorMessage message) {
+		setEmptyText(message.getMessage());
 	}
 
 }
