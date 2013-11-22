@@ -12,13 +12,11 @@ import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailEditFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailEditFragment.TaskDetailEditFragmentListener;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailPreviewFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailPreviewFragment.TaskDetailPreviewFragmentListener;
-import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 
 public class TaskDetailActivity extends FragmentActivity implements TaskDetailPreviewFragmentListener, TaskDetailEditFragmentListener {
 	public static final String TASK_ID = "taskId";
 
 	private Long taskId;
-	private TaskModel taskModel;
 
 	private TaskDetailPreviewFragment previewFragment;
 	private TaskDetailEditFragment editFragment;
