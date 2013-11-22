@@ -34,6 +34,7 @@ public class TaskModel implements Serializable {
 	private boolean updatable;
 	private boolean deletable;
 	private boolean closeable;
+	private boolean unread;
 
 	public TaskModel() {
 	}
@@ -184,6 +185,14 @@ public class TaskModel implements Serializable {
 
 	public void setCloseable(boolean closeable) {
 		this.closeable = closeable;
+	}
+
+	public boolean isUnread() {
+		return unread;
+	}
+
+	public void setUnread(boolean unread) {
+		this.unread = unread;
 	}
 
 }

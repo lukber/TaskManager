@@ -40,4 +40,9 @@ public class RestServiceTaskManager extends AbstractAsyncTaskManager implements 
 		run("/Task/" + id, RequestMethod.DELETE, TaskModel.class, callBack);	
 	}
 
+	@Override
+	public void markAsReaded(Long id, AsyncTaskWithResultCodeCallBack callBack) {
+		run("/Task/markReaded/" + id, RequestMethod.PUT, TaskModel.class, callBack);		
+	}
+
 }

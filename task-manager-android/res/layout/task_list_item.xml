@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/takImageUnread"
+        android:id="@+id/taskImageUnread"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -17,12 +17,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dip"
         android:layout_marginTop="4dip"
-        android:layout_toRightOf="@id/takImageUnread"
+        android:layout_toRightOf="@id/taskImageUnread"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
-        android:id="@+id/takImageClosed"
+        android:id="@+id/taskImageClosed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dip"
@@ -36,8 +37,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/taskName"
+        android:layout_marginLeft="4dip"
         android:layout_marginTop="4dip"
-        android:layout_toRightOf="@id/takImageUnread"
+        android:layout_toRightOf="@id/taskImageUnread"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView

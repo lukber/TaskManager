@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
@@ -46,6 +47,12 @@ public class TaskListAdapter extends ArrayAdapter<TaskModel> implements Serializ
 		((TextView) view.findViewById(R.id.taskDesc)).setText(item.getDesc());
 		((TextView) view.findViewById(R.id.taskCateg)).setText(item.getCategName());
 		((TextView) view.findViewById(R.id.taskFinishToDate)).setText((item.getFinishToDate() != null) ? java.text.DateFormat.getDateTimeInstance().format(item.getFinishToDate()) : "");
+
+		ImageView taskImageClosed = (ImageView) view.findViewById(R.id.taskImageClosed);
+		taskImageClosed.setVisibility(item.getFinishedDate() != null ? ImageView.VISIBLE : ImageView.GONE);
+
+		ImageView taskImageUnread = (ImageView) view.findViewById(R.id.taskImageUnread);
+		taskImageUnread.setVisibility(item.isUnread() ? ImageView.VISIBLE : ImageView.GONE);
 
 		return view;
 	}
