@@ -25,6 +25,10 @@ public class TaskTO {
 	private Timestamp insDate;
 	private Timestamp updDate;
 
+	private String categName;
+	private String executorName;// ID uzivatele ktery ma ukol udelat
+	private String inserterName;// kdo ukol zalozil
+
 	private boolean updatable;
 	private boolean deletable;
 	private boolean closeable;
@@ -135,6 +139,30 @@ public class TaskTO {
 
 	public void setCloseable(boolean closeable) {
 		this.closeable = closeable;
+	}
+
+	public String getCategName() {
+		return categName;
+	}
+
+	public void setCategName(String categName) {
+		this.categName = categName;
+	}
+
+	public String getExecutorName() {
+		return executorName;
+	}
+
+	public void setExecutorName(String executorName) {
+		this.executorName = executorName;
+	}
+
+	public String getInserterName() {
+		return inserterName;
+	}
+
+	public void setInserterName(String inserterName) {
+		this.inserterName = inserterName;
 	}
 
 }

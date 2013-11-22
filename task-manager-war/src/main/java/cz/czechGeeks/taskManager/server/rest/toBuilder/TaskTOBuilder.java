@@ -26,6 +26,10 @@ public class TaskTOBuilder {
 		to.setCategId(task.getCategId());
 		to.setExecutorId(task.getExecutorId());
 		to.setInserterId(task.getInserterId());
+		
+		to.setCategName(task.getCateg().getName());
+		to.setExecutorName(task.getExecutor().getLoginName());
+		to.setInserterName(task.getInserter().getLoginName());
 
 		to.setUpdatable(service.isUpdatable(task.getId(), forLoginId));
 		to.setDeletable(service.isDeleteable(task.getId(), forLoginId));

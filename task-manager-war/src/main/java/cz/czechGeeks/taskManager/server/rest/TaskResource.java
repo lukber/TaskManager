@@ -59,11 +59,17 @@ public class TaskResource {
 	@GET
 	@Path("all")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getAllTasks(@QueryParam("categId") Long categId, @QueryParam("finishToDate") Timestamp finishToDate, @Context SecurityContext securityContext) {
+	public Response getAllTasks(
+			@QueryParam("categId") Long categId, 
+			@QueryParam("mainTasks") Boolean mainTasks,
+			@QueryParam("delegatedToMe") Boolean delegatedToMe,
+			@QueryParam("delegatedToOthers") Boolean delegatedToOthers,
+			@QueryParam("finishToDate") Timestamp finishToDate, 
+			@Context SecurityContext securityContext) {
 		String userName = securityContext.getUserPrincipal().getName();
 		try {
 			Long loginId = loginService.getId(userName);
-			List<Task> entityList = taskService.getAll(loginId, categId, finishToDate);
+			List<Task> entityList = taskService.getAll(loginId, categId, mainTasks, delegatedToMe, delegatedToOthers, finishToDate);
 			List<TaskTO> toList = TaskTOBuilder.build(entityList, loginId);
 			return Response.ok(toList).build();
 		} catch (Exception e) {

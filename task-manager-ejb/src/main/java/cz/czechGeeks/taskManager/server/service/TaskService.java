@@ -43,7 +43,7 @@ public class TaskService {
 	 * @throws IllegalStateException
 	 *             loginID = null
 	 */
-	public List<Task> getAll(Long loginId, Long categId, Timestamp finishToDate) {
+	public List<Task> getAll(Long loginId, Long categId, Boolean mainTasks, Boolean delegatedToMe, Boolean delegatedToOthers, Timestamp finishToDate) {
 		if (loginId == null) {
 			throw new IllegalArgumentException("Je potreba zadat alespon jeden parametr");
 		}
@@ -54,13 +54,41 @@ public class TaskService {
 		Root<Task> root = query.from(Task.class);
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		predicates.add(builder.or(builder.equal(root.get("executorId"), loginId), builder.equal(root.get("inserterId"), loginId)));
 
 		if (categId != null) {
 			predicates.add(builder.equal(root.get("categId"), categId));
 		}
 		if (finishToDate != null) {
 			predicates.add(builder.greaterThanOrEqualTo(root.<Timestamp> get("finishToDate"), finishToDate));
+		}
+		if (mainTasks != null && mainTasks.booleanValue()) {
+			predicates.add(
+					builder.and(
+							builder.equal(root.get("executorId"), loginId), 
+							builder.equal(root.get("inserterId"), loginId)
+					)
+			);
+		} else if (delegatedToMe != null && delegatedToMe.booleanValue()) {
+			predicates.add(
+					builder.and(
+							builder.equal(root.get("executorId"), loginId), 
+							builder.notEqual(root.get("inserterId"), loginId)
+					)
+			);
+		} else if (delegatedToOthers != null && delegatedToOthers.booleanValue()) {
+			predicates.add(
+					builder.and(
+							builder.notEqual(root.get("executorId"), loginId), 
+							builder.equal(root.get("inserterId"), loginId)
+					)
+			);
+		} else {
+			predicates.add(
+					builder.or(
+							builder.equal(root.get("executorId"), loginId), 
+							builder.equal(root.get("inserterId"), loginId)
+					)
+			);
 		}
 
 		query.select(root);
