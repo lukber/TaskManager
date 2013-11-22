@@ -37,7 +37,7 @@ public interface TaskManager {
 	 * 
 	 * @param id
 	 */
-	void delete(Long id);
+	void delete(Long id, AsyncTaskWithResultCodeCallBack callBack);
 
 	/**
 	 * Aktualizace ukolu

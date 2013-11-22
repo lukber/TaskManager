@@ -15,7 +15,9 @@ import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
+import cz.czechGeeks.taskManager.client.android.model.manager.AbstractAsyncTaskManager;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
+import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskWithResultCodeCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
 public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCallBack<TaskModel> {
@@ -24,6 +26,8 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 
 	public interface TaskDetailPreviewFragmentListener {
 		void performShowEditFragment();
+
+		void onTaskDetailDeleted();
 	}
 
 	private TaskDetailPreviewFragmentListener activityListener;
@@ -36,6 +40,8 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 
 	private TextView executor;
 	private TextView inserter;
+
+	private Long taskId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,26 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 		case R.id.action_edit_task:
 			activityListener.performShowEditFragment();
 			return true;
+		case R.id.action_delete_task:
+			TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+			taskManager.delete(taskId, new AsyncTaskWithResultCodeCallBack() {
 
+				@Override
+				public void onSuccess(Integer responseCode) {
+					if (responseCode.intValue() == AbstractAsyncTaskManager.STATUS_CODE_OK) {
+						Toast.makeText(getActivity(), R.string.valueDeleted, Toast.LENGTH_SHORT).show();
+						getActivity().finish();
+					} else {
+						Toast.makeText(getActivity(), R.string.valueNotDeleted, Toast.LENGTH_SHORT).show();
+					}
+				}
+
+				@Override
+				public void onError(ErrorMessage message) {
+					Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_SHORT).show();
+				}
+			});
+			return true;
 		default:
 			break;
 		}
@@ -74,7 +99,7 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 		executor = (TextView) rootView.findViewById(R.id.taskExecutor);
 		inserter = (TextView) rootView.findViewById(R.id.taskInserter);
 
-		final Long taskId = (Long) getArguments().get(TASK_ID);
+		taskId = (Long) getArguments().get(TASK_ID);
 
 		if (taskId == null) {
 			throw new IllegalArgumentException("Argument " + TASK_ID + " musi byt zadan");

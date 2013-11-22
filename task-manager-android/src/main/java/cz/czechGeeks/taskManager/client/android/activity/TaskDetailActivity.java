@@ -92,4 +92,8 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 	public void performShowPreviewFragment() {
 		showFragment(createOrGetPreviewFragment());
 	}
+
+	@Override
+	public void onTaskDetailDeleted() {
+	}
 }

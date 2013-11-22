@@ -30,15 +30,14 @@ public class RestServiceTaskManager extends AbstractAsyncTaskManager implements 
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void update(TaskModel task, AsyncTaskCallBack<TaskModel> callBack) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(TaskModel task, AsyncTaskCallBack<TaskModel> callBack) {
-		// TODO Auto-generated method stub
-
+	public void delete(Long id, AsyncTaskWithResultCodeCallBack callBack) {
+		run("/Task/" + id, RequestMethod.DELETE, TaskModel.class, callBack);	
 	}
 
 }

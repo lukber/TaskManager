@@ -12,6 +12,8 @@
     <string name="app_settings_password">Heslo</string>
     <string name="app_settings_password_key">password</string>
     
+    <string name="valueDeleted">Záznam byl odstraněn</string>
+    <string name="valueNotDeleted">Záznam se nepodařilo odstranit</string>
     <string name="connection_error_noEnabled">Připojení k síti není dostupné.</string>
     <string name="signIn_error_noValid">Neplatné uživatelské jméno nebo heslo.</string>
     <string name="signedUser">Přihlášený uživatel:</string>

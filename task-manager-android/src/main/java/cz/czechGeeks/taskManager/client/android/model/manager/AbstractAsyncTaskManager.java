@@ -24,9 +24,9 @@ public abstract class AbstractAsyncTaskManager {
 		GET, POST, PUT, DELETE
 	}
 
-	private static final int STATUS_CODE_OK = 200;
-	private static final int STATUS_CODE_SYSTEM_ERROR = 500;
-	private static final int STATUS_CODE_NOT_AUTHORIZED = 401;
+	public static final int STATUS_CODE_OK = 200;
+	public static final int STATUS_CODE_SYSTEM_ERROR = 500;
+	public static final int STATUS_CODE_NOT_AUTHORIZED = 401;
 
 	private static final String LOG_TAG = "AsyncTaskManager";
 
@@ -43,6 +43,14 @@ public abstract class AbstractAsyncTaskManager {
 	}
 
 	protected <T> void run(String baseUrlPostFix, RequestMethod requestMethod, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack) {
+		run(baseUrlPostFix, requestMethod, returnValueClass, callBack, null);
+	}
+
+	protected <T> void run(String baseUrlPostFix, RequestMethod requestMethod, final Class<T> returnValueClass, final AsyncTaskWithResultCodeCallBack callBack) {
+		run(baseUrlPostFix, requestMethod, returnValueClass, null, callBack);
+	}
+
+	protected <T> void run(String baseUrlPostFix, RequestMethod requestMethod, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack, final AsyncTaskWithResultCodeCallBack callBackWithResultCode) {
 		ConnectionItems connectionItems = PreferencesUtils.getConnectionItems(context);
 
 		final String URL = connectionItems.BASE_URL + baseUrlPostFix;
@@ -50,7 +58,7 @@ public abstract class AbstractAsyncTaskManager {
 		final String PASSWORD = connectionItems.PASSWORD;
 		final RequestMethod REQUEST_METHOD = requestMethod;
 
-		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, returnValueClass, callBack);
+		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, returnValueClass, callBack, callBackWithResultCode);
 	}
 
 	protected <T> void run(final String URL, final String USER_NAME, final String PASSWORD, final RequestMethod REQUEST_METHOD, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack) {
@@ -99,7 +107,7 @@ public abstract class AbstractAsyncTaskManager {
 								returnValue = new ObjectMapper().readValue(connection.getInputStream(), returnValueClass);
 								Log.i(LOG_TAG, "Odpoved ze serveru OK.");
 							}
-							
+
 						} else if (responseCode == STATUS_CODE_NOT_AUTHORIZED) {
 							errorMessage = new ErrorMessage(context.getString(R.string.signIn_error_noValid));
 							Log.e(LOG_TAG, "Neplatne uzivatelske jmeno nebo heslo!");
