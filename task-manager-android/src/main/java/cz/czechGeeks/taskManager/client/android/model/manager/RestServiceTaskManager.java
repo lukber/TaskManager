@@ -1,6 +1,7 @@
 package cz.czechGeeks.taskManager.client.android.model.manager;
 
 import android.content.Context;
+import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 
 public class RestServiceTaskManager extends AbstractAsyncTaskManager implements TaskManager {
@@ -30,19 +31,40 @@ public class RestServiceTaskManager extends AbstractAsyncTaskManager implements 
 	}
 
 	@Override
+	public void insert(TaskModel task, AsyncTaskCallBack<TaskModel> callBack) {
+		run("/Task", RequestMethod.POST, task, TaskModel.class, callBack);
+	}
+
+	@Override
 	public void update(TaskModel task, AsyncTaskCallBack<TaskModel> callBack) {
-		// TODO Auto-generated method stub
-
+		run("/Task/" + task.getId(), RequestMethod.PUT, task, TaskModel.class, callBack);
 	}
 
 	@Override
-	public void delete(Long id, AsyncTaskWithResultCodeCallBack callBack) {
-		run("/Task/" + id, RequestMethod.DELETE, TaskModel.class, callBack);	
+	public void delete(final TaskModel task, final AsyncTaskCallBack<TaskModel> callBack) {
+		run("/Task/" + task.getId(), RequestMethod.DELETE, TaskModel.class, new AsyncTaskCallBack<TaskModel>() {
+
+			@Override
+			public void onSuccess(TaskModel resumeObject) {
+				// metoda delete posle jen OK odpoved jako smazano proto musim naplnit sam
+				callBack.onSuccess(task);
+			}
+
+			@Override
+			public void onError(ErrorMessage message) {
+				callBack.onError(message);
+			}
+		});
 	}
 
 	@Override
-	public void markAsReaded(Long id, AsyncTaskWithResultCodeCallBack callBack) {
-		run("/Task/markReaded/" + id, RequestMethod.PUT, TaskModel.class, callBack);		
+	public void markAsReaded(TaskModel task, AsyncTaskCallBack<TaskModel> callBack) {
+		run("/Task/markReaded/" + task.getId(), RequestMethod.PUT, TaskModel.class, callBack);
+	}
+
+	@Override
+	public void close(TaskModel task, AsyncTaskCallBack<TaskModel> callBack) {
+		run("/Task/close/" + task.getId(), RequestMethod.PUT, TaskModel.class, callBack);
 	}
 
 }

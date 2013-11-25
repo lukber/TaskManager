@@ -44,6 +44,10 @@ public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<
 			throw new IllegalArgumentException("Typ tasku musi byt definovan");
 		}
 
+		loadData();
+	}
+
+	public void loadData() {
 		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
 		switch (taskType) {
 		case MAIN:
@@ -91,11 +95,14 @@ public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<
 	public void onSuccess(TaskModel[] resumeObject) {
 		setEmptyText(getResources().getString(R.string.noData));
 		listAdapter.setData(Arrays.asList(resumeObject));
+		listAdapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void onError(ErrorMessage message) {
 		setEmptyText(message.getMessage());
+		listAdapter.setData(null);
+		listAdapter.notifyDataSetChanged();
 	}
 
 }

@@ -91,7 +91,7 @@ public class TaskResource {
 			Task task = taskService.insert(categId, executorId, inserterId, name, desc, finishToDate);
 			URI requestUri = uriInfo.getRequestUri();
 			URI uriWithId = UriHelper.createUriWithId(requestUri, task.getId());
-			return Response.created(uriWithId).build();
+			return Response.created(uriWithId).entity(TaskTOBuilder.build(task, inserterId)).build();
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
 		}
@@ -115,13 +115,13 @@ public class TaskResource {
 		try {
 			Long loginId = loginService.getId(userName);
 			Long executorId = (taskTO.getExecutorId() != null) ? taskTO.getExecutorId() : loginId;
-			taskService.update(id, loginId, categId, executorId, name, desc, finishToDate);
+			Task task = taskService.update(id, loginId, categId, executorId, name, desc, finishToDate);
+			return Response.ok(TaskTOBuilder.build(task, loginId)).build();
 		} catch (EntityNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
 		}
-		return Response.ok().build();
 	}
 
 	@PUT
@@ -131,13 +131,13 @@ public class TaskResource {
 		String userName = securityContext.getUserPrincipal().getName();
 		try {
 			Long loginId = loginService.getId(userName);
-			taskService.close(id, loginId);
+			Task task = taskService.close(id, loginId);
+			return Response.ok(TaskTOBuilder.build(task, loginId)).build();
 		} catch (EntityNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
 		}
-		return Response.ok().build();
 	}
 
 	@PUT
@@ -147,13 +147,13 @@ public class TaskResource {
 		String userName = securityContext.getUserPrincipal().getName();
 		try {
 			Long loginId = loginService.getId(userName);
-			taskService.markReaded(id, loginId);
+			Task task = taskService.markReaded(id, loginId);
+			return Response.ok(TaskTOBuilder.build(task, loginId)).build();
 		} catch (EntityNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
 		}
-		return Response.ok().build();
 	}
 
 	@DELETE

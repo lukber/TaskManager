@@ -49,7 +49,7 @@ public class TaskListAdapter extends ArrayAdapter<TaskModel> implements Serializ
 		((TextView) view.findViewById(R.id.taskFinishToDate)).setText((item.getFinishToDate() != null) ? java.text.DateFormat.getDateTimeInstance().format(item.getFinishToDate()) : "");
 
 		ImageView taskImageClosed = (ImageView) view.findViewById(R.id.taskImageClosed);
-		taskImageClosed.setVisibility(item.getFinishedDate() != null ? ImageView.VISIBLE : ImageView.GONE);
+		taskImageClosed.setVisibility(!item.isCloseable() ? ImageView.VISIBLE : ImageView.GONE);
 
 		ImageView taskImageUnread = (ImageView) view.findViewById(R.id.taskImageUnread);
 		taskImageUnread.setVisibility(item.isUnread() ? ImageView.VISIBLE : ImageView.GONE);

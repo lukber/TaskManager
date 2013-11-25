@@ -6,7 +6,6 @@ import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
+import cz.czechGeeks.taskManager.client.android.adapter.TaskListAdapter;
 import cz.czechGeeks.taskManager.client.android.factory.LoginManagerFactory;
 import cz.czechGeeks.taskManager.client.android.fragment.SignInDialogFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.SignInDialogFragment.SignInDialogFragmentCallBack;
@@ -28,6 +28,7 @@ import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.LoginManager;
 import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
+import cz.czechGeeks.taskManager.client.android.util.ModelActionType;
 import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils;
 import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.ConnectionItems;
 
@@ -37,7 +38,7 @@ import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.Connection
  * @author lukasb
  * 
  */
-public class MainActivity extends FragmentActivity implements TabListener, TaskListFragmentCallBack, SignInDialogFragmentCallBack {
+public class MainActivity extends FragmentActivity implements TabListener, TaskListFragmentCallBack, SignInDialogFragmentCallBack, TaskModelActionsCallBack {
 
 	/**
 	 * Pager adapter obsahujuci fragmenty tasku pro jednotlive taby actionbaru
@@ -47,24 +48,31 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	 */
 	private class MainActivityPagerAdapter extends FragmentPagerAdapter {
 
+		private TaskListFragment mainFragment;
+		private TaskListFragment toMeFragment;
+		private TaskListFragment toOthersFragment;
+
 		public MainActivityPagerAdapter(FragmentManager fm) {
 			super(fm);
+
+			mainFragment = new TaskListFragment();
+			mainFragment.setTaskType(TaskType.MAIN);
+
+			toMeFragment = new TaskListFragment();
+			toMeFragment.setTaskType(TaskType.DELEGATED_TO_ME);
+
+			toOthersFragment = new TaskListFragment();
+			toOthersFragment.setTaskType(TaskType.DELEGATED_TO_OTHERS);
 		}
 
 		@Override
-		public Fragment getItem(int position) {
+		public TaskListFragment getItem(int position) {
 			switch (position) {
 			case 0:
-				TaskListFragment mainFragment = new TaskListFragment();
-				mainFragment.setTaskType(TaskType.MAIN);
 				return mainFragment;
 			case 1:
-				TaskListFragment toMeFragment = new TaskListFragment();
-				toMeFragment.setTaskType(TaskType.DELEGATED_TO_ME);
 				return toMeFragment;
 			case 2:
-				TaskListFragment toOthersFragment = new TaskListFragment();
-				toOthersFragment.setTaskType(TaskType.DELEGATED_TO_OTHERS);
 				return toOthersFragment;
 			default:
 				throw new IllegalStateException("Nedefinovany fragment");
@@ -93,6 +101,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	}
 
 	private static final int RESULT_SETTINGS = 1;
+	private static final int SHOW_DETAIL_REQUEST_CODE = 1;
 	private static final String LOG_TAG = "MainActivity";
 
 	private MainActivityPagerAdapter pagerAdapter;
@@ -206,8 +215,31 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		// Byla vybrana polozka ze seznamu
 		Log.i(LOG_TAG, "Byla vybrana polozka ze seznamu:" + model.getId());
 		Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
-		intent.putExtra(TaskDetailActivity.TASK_ID, model.getId());
-		startActivity(intent);
+		intent.putExtra(TaskDetailActivity.TASK_MODEL, model);
+		startActivityForResult(intent, SHOW_DETAIL_REQUEST_CODE);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == SHOW_DETAIL_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				ModelActionType actionType = (ModelActionType) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL_ACTION);
+				TaskModel model = (TaskModel) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL);
+				TaskListFragment listFragmen = pagerAdapter.getItem(viewPager.getCurrentItem());
+				TaskListAdapter taskListAdapter = (TaskListAdapter) listFragmen.getListAdapter();
+				if (actionType == ModelActionType.UPDATE) {
+					int position = taskListAdapter.getPosition(model);
+					taskListAdapter.remove(model);
+					taskListAdapter.insert(model,position);
+					taskListAdapter.notifyDataSetChanged();
+				} else if (actionType == ModelActionType.DELETE) {
+					taskListAdapter.remove(model);
+					taskListAdapter.notifyDataSetChanged();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -220,6 +252,22 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	public void onSignInDialogResulCancel() {
 		Log.w(LOG_TAG, "Na prihlasovacim formulaci bylo stisknuto tlacitko storno. Ukoncuji aplikaci");
 		finish();
+	}
+
+	@Override
+	public void onTaskUpdated(TaskModel updatedTask) {
+		TaskListFragment taskListFragment = pagerAdapter.getItem(viewPager.getCurrentItem());
+		TaskListAdapter taskListAdapter = (TaskListAdapter) taskListFragment.getListAdapter();
+		taskListAdapter.add(updatedTask);
+		taskListAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onTaskDeleted(TaskModel deletedTask) {
+		TaskListFragment taskListFragment = pagerAdapter.getItem(viewPager.getCurrentItem());
+		TaskListAdapter taskListAdapter = (TaskListAdapter) taskListFragment.getListAdapter();
+		taskListAdapter.remove(deletedTask);
+		taskListAdapter.notifyDataSetChanged();
 	}
 
 }

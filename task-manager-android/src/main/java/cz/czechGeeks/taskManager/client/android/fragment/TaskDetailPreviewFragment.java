@@ -12,26 +12,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
+import cz.czechGeeks.taskManager.client.android.activity.TaskDetailActivity;
+import cz.czechGeeks.taskManager.client.android.activity.TaskModelActionsCallBack;
 import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
-import cz.czechGeeks.taskManager.client.android.model.manager.AbstractAsyncTaskManager;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
-import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskWithResultCodeCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 
-public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCallBack<TaskModel> {
+public class TaskDetailPreviewFragment extends Fragment {
 
-	public static final String TASK_ID = "taskId";
-
-	public interface TaskDetailPreviewFragmentListener {
+	public interface TaskDetailPreviewFragmentCallBack extends TaskModelActionsCallBack {
 		void performShowEditFragment();
-
-		void onTaskDetailDeleted();
 	}
 
-	private TaskDetailPreviewFragmentListener activityListener;
+	private TaskDetailPreviewFragmentCallBack callBack;
 
 	private TextView categ;
 	private TextView name;
@@ -42,7 +38,7 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 	private TextView executor;
 	private TextView inserter;
 
-	private Long taskId;
+	private TaskModel taskModel;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,29 +54,53 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
 		switch (item.getItemId()) {
 		case R.id.action_edit_task:
-			activityListener.performShowEditFragment();
+			if (taskModel.isUpdatable()) {
+				callBack.performShowEditFragment();
+			} else {
+				Toast.makeText(getActivity(), R.string.task_isNotUpdatable, Toast.LENGTH_SHORT).show();
+			}
 			return true;
+
 		case R.id.action_delete_task:
-			TaskManager taskManager = TaskManagerFactory.createService(getActivity());
-			taskManager.delete(taskId, new AsyncTaskWithResultCodeCallBack() {
+			if (taskModel.isDeletable()) {
+				taskManager.delete(taskModel, new AsyncTaskCallBack<TaskModel>() {
 
-				@Override
-				public void onSuccess(Integer responseCode) {
-					if (responseCode.intValue() == AbstractAsyncTaskManager.STATUS_CODE_OK) {
-						Toast.makeText(getActivity(), R.string.valueDeleted, Toast.LENGTH_SHORT).show();
-						getActivity().finish();
-					} else {
-						Toast.makeText(getActivity(), R.string.valueNotDeleted, Toast.LENGTH_SHORT).show();
+					@Override
+					public void onSuccess(TaskModel resumeObject) {
+						callBack.onTaskDeleted(taskModel);
 					}
-				}
 
-				@Override
-				public void onError(ErrorMessage message) {
-					Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_SHORT).show();
-				}
-			});
+					@Override
+					public void onError(ErrorMessage message) {
+						Toast.makeText(getActivity(), getActivity().getString(R.string.valueNotDeleted) + message.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				});
+			} else {
+				Toast.makeText(getActivity(), R.string.task_isNotDeletable, Toast.LENGTH_SHORT).show();
+			}
+			return true;
+
+		case R.id.action_close_task:
+			if (taskModel.isCloseable()) {
+				taskManager.close(taskModel, new AsyncTaskCallBack<TaskModel>() {
+
+					@Override
+					public void onSuccess(TaskModel resumeObject) {
+						setModelData(resumeObject);
+						callBack.onTaskUpdated(resumeObject);
+					}
+
+					@Override
+					public void onError(ErrorMessage message) {
+						Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				});
+			} else {
+				Toast.makeText(getActivity(), R.string.task_isNotCloseable, Toast.LENGTH_SHORT).show();
+			}
 			return true;
 		default:
 			break;
@@ -100,15 +120,14 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 		executor = (TextView) rootView.findViewById(R.id.taskExecutor);
 		inserter = (TextView) rootView.findViewById(R.id.taskInserter);
 
-		taskId = (Long) getArguments().get(TASK_ID);
+		TaskModel taskModel = (TaskModel) getArguments().get(TaskDetailActivity.TASK_MODEL);
 
-		if (taskId == null) {
-			throw new IllegalArgumentException("Argument " + TASK_ID + " musi byt zadan");
+		if (taskModel == null) {
+			throw new IllegalArgumentException("Argument " + TaskDetailActivity.TASK_MODEL + " musi byt zadan");
 		}
 
-		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
-		taskManager.get(taskId, this);
-
+		setModelData(taskModel);
+		markModelAsReaded(taskModel);
 		return rootView;
 	}
 
@@ -116,13 +135,15 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
-			activityListener = (TaskDetailPreviewFragmentListener) activity;
+			callBack = (TaskDetailPreviewFragmentCallBack) activity;
 		} catch (Exception e) {
-			throw new ClassCastException("Activity musi implementovat " + TaskDetailPreviewFragmentListener.class);
+			throw new ClassCastException("Activity musi implementovat " + TaskDetailPreviewFragmentCallBack.class);
 		}
 	}
 
-	private void showModelData(TaskModel taskModel) {
+	private void setModelData(TaskModel taskModel) {
+		this.taskModel = taskModel;
+
 		categ.setText(taskModel.getCategName());
 		name.setText(taskModel.getName());
 		desc.setText(taskModel.getDesc());
@@ -134,18 +155,17 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 		inserter.setText(taskModel.getInserterName());
 	}
 
-	@Override
-	public void onSuccess(TaskModel resumeObject) {
-		showModelData(resumeObject);
-
-		if (LoginUtils.get().getLoggedUserId().equals(resumeObject.getExecutorId()) && resumeObject.isUnread()) {
+	public void markModelAsReaded(TaskModel taskModel) {
+		if (LoginUtils.get().getLoggedUserId().equals(taskModel.getExecutorId()) && taskModel.isUnread()) {
 			// Pokud jsem ten kdo ma ukol splnit a ukol je neprecteny tak ho oznacim jako precteny
 			TaskManager taskManager = TaskManagerFactory.createService(getActivity());
-			taskManager.markAsReaded(taskId, new AsyncTaskWithResultCodeCallBack() {
+			taskManager.markAsReaded(taskModel, new AsyncTaskCallBack<TaskModel>() {
 
 				@Override
-				public void onSuccess(Integer responseCode) {
+				public void onSuccess(TaskModel resumeObject) {
 					Toast.makeText(getActivity(), R.string.taskMarkedAsReaded, Toast.LENGTH_SHORT).show();
+					setModelData(resumeObject);
+					callBack.onTaskUpdated(resumeObject);
 				}
 
 				@Override
@@ -155,11 +175,6 @@ public class TaskDetailPreviewFragment extends Fragment implements AsyncTaskCall
 				}
 			});
 		}
-	}
-
-	@Override
-	public void onError(ErrorMessage message) {
-		Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_LONG).show();
 	}
 
 }

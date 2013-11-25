@@ -11,23 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
-import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
-import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
+import cz.czechGeeks.taskManager.client.android.activity.TaskDetailActivity;
+import cz.czechGeeks.taskManager.client.android.activity.TaskModelActionsCallBack;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
-import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
-import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 
-public class TaskDetailEditFragment extends Fragment implements AsyncTaskCallBack<TaskModel> {
+public class TaskDetailEditFragment extends Fragment {
 
-	public static final String TASK_ID = "taskId";
-
-	public interface TaskDetailEditFragmentListener {
+	public interface TaskDetailEditFragmentCallBack extends TaskModelActionsCallBack {
 		void performShowPreviewFragment();
 	}
 
-	private TaskDetailEditFragmentListener activityListener;
+	private TaskDetailEditFragmentCallBack callBack;
 	private TaskModel taskModel;
 
 	private Spinner categ;
@@ -54,9 +49,10 @@ public class TaskDetailEditFragment extends Fragment implements AsyncTaskCallBac
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_save:
+			callBack.onTaskUpdated(taskModel);
 			return true;
 		case R.id.action_storno:
-			activityListener.performShowPreviewFragment();
+			callBack.performShowPreviewFragment();
 			return true;
 		default:
 			break;
@@ -77,11 +73,10 @@ public class TaskDetailEditFragment extends Fragment implements AsyncTaskCallBac
 		inserter = (Spinner) rootView.findViewById(R.id.taskInserter);
 		binding();
 
-		final Long taskId = (Long) getArguments().get(TASK_ID);
+		final TaskModel taskModel = (TaskModel) getArguments().get(TaskDetailActivity.TASK_MODEL);
 
-		if (taskId != null) {
-			TaskManager taskManager = TaskManagerFactory.createService(getActivity());
-			taskManager.get(taskId, this);
+		if (taskModel != null) {
+			setModelData(taskModel);
 		}
 
 		return rootView;
@@ -92,9 +87,9 @@ public class TaskDetailEditFragment extends Fragment implements AsyncTaskCallBac
 		super.onAttach(activity);
 
 		try {
-			activityListener = (TaskDetailEditFragmentListener) activity;
+			callBack = (TaskDetailEditFragmentCallBack) activity;
 		} catch (Exception e) {
-			throw new ClassCastException("Activity musi implementovat " + TaskDetailEditFragmentListener.class);
+			throw new ClassCastException("Activity musi implementovat " + TaskDetailEditFragmentCallBack.class);
 		}
 	}
 
@@ -125,16 +120,6 @@ public class TaskDetailEditFragment extends Fragment implements AsyncTaskCallBac
 		// } else {
 		// inserterRow.setVisibility(TableRow.GONE);
 		// }
-	}
-
-	@Override
-	public void onSuccess(TaskModel resumeObject) {
-		setModelData(resumeObject);
-	}
-
-	@Override
-	public void onError(ErrorMessage message) {
-		Toast.makeText(getActivity(), message.getMessage(), Toast.LENGTH_LONG).show();
 	}
 
 }

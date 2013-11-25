@@ -27,31 +27,32 @@ public interface TaskManager {
 
 	/**
 	 * Vrati ukol dle id
-	 * 
-	 * @param id
 	 */
 	void get(Long id, AsyncTaskCallBack<TaskModel> callBack);
 
 	/**
 	 * Odstraneni ukolu
-	 * 
-	 * @param id
 	 */
-	void delete(Long id, AsyncTaskWithResultCodeCallBack callBack);
+	void delete(TaskModel task, AsyncTaskCallBack<TaskModel> callBack);
 
 	/**
 	 * Aktualizace ukolu
-	 * 
-	 * @param task
 	 */
 	void update(TaskModel task, AsyncTaskCallBack<TaskModel> callBack);
 
 	/**
-	 * Oznaceni ukolu jako precteneho
-	 * 
-	 * @param id
-	 * @param callBack
+	 * Zalozeni ukolu
 	 */
-	void markAsReaded(Long id, AsyncTaskWithResultCodeCallBack callBack);
+	void insert(TaskModel task, AsyncTaskCallBack<TaskModel> callBack);
+
+	/**
+	 * Oznaceni ukolu jako precteneho
+	 */
+	void markAsReaded(TaskModel task, AsyncTaskCallBack<TaskModel> callBack);
+
+	/**
+	 * Uzavreni tasku
+	 */
+	void close(TaskModel task, AsyncTaskCallBack<TaskModel> callBack);
 
 }

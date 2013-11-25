@@ -15,16 +15,17 @@
     <string name="valueDeleted">Záznam byl odstraněn</string>
     <string name="taskMarkedAsReaded_error">Při označování úkolu jako přečtený došlo k chybě:</string>
     <string name="taskMarkedAsReaded">Úkol byl označen jako přečtený</string>
-    <string name="valueNotDeleted">Záznam se nepodařilo odstranit</string>
+    <string name="valueNotDeleted">Záznam se nepodařilo odstranit: </string>
     <string name="connection_error_noEnabled">Připojení k síti není dostupné.</string>
     <string name="signIn_error_noValid">Neplatné uživatelské jméno nebo heslo.</string>
-    <string name="signedUser">Přihlášený uživatel:</string>
+    <string name="signedUser">Přihlášený uživatel: </string>
     
     <string name="loadingData">Načítání dat. Prosím čekejte.</string>
     <string name="noData">Nebyly nalezeny žádné hodnoty</string>
-    <string name="main_tasks">Vlastní</string>
-    <string name="toMe_tasks">Zadané mě</string>
-    <string name="toOthers_tasks">Zadané ostatním</string>
+    
+    <string name="main_tasks">Osobní</string>
+    <string name="toMe_tasks">Pro mě</string>
+    <string name="toOthers_tasks">Pro ostatní</string>
     
     <string name="signIn">Přihlásit</string>
     <string name="update">Upravit</string>
@@ -44,4 +45,8 @@
     <string name="task_inserterId">Založil:</string>
     <string name="task_insDate">Založeno dne:</string>
 
+    <string name="task_isNotUpdatable">Záznam není možné upravovat</string>
+    <string name="task_isNotCloseable">Záznam není možné uzavřít</string>
+    <string name="task_isNotDeletable">Záznam není možné odstranit</string>
+    
 </resources>

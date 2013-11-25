@@ -71,7 +71,7 @@ public class TaskCategResource {
 			TaskCateg taskCateg = categService.insert(name);
 			URI requestUri = uriInfo.getRequestUri();
 			URI uriWithId = UriHelper.createUriWithId(requestUri, taskCateg.getId());
-			return Response.created(uriWithId).build();
+			return Response.created(uriWithId).entity(TaskCategTOBuilder.build(taskCateg)).build();
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
 		}
@@ -86,13 +86,13 @@ public class TaskCategResource {
 			return Response.noContent().build();
 		}
 		try {
-			categService.update(id, name);
+			TaskCateg taskCateg = categService.update(id, name);
+			return Response.ok(TaskCategTOBuilder.build(taskCateg)).build();
 		} catch (EntityNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
 		}
-		return Response.ok().build();
 	}
 
 	@DELETE

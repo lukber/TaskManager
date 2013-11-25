@@ -25,6 +25,7 @@ public abstract class AbstractAsyncTaskManager {
 	}
 
 	public static final int STATUS_CODE_OK = 200;
+	public static final int STATUS_CODE_CREATED = 201;
 	public static final int STATUS_CODE_SYSTEM_ERROR = 500;
 	public static final int STATUS_CODE_NOT_AUTHORIZED = 401;
 
@@ -43,14 +44,10 @@ public abstract class AbstractAsyncTaskManager {
 	}
 
 	protected <T> void run(String baseUrlPostFix, RequestMethod requestMethod, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack) {
-		run(baseUrlPostFix, requestMethod, returnValueClass, callBack, null);
+		run(baseUrlPostFix, requestMethod, null, returnValueClass, callBack);
 	}
 
-	protected <T> void run(String baseUrlPostFix, RequestMethod requestMethod, final Class<T> returnValueClass, final AsyncTaskWithResultCodeCallBack callBack) {
-		run(baseUrlPostFix, requestMethod, returnValueClass, null, callBack);
-	}
-
-	protected <T> void run(String baseUrlPostFix, RequestMethod requestMethod, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack, final AsyncTaskWithResultCodeCallBack callBackWithResultCode) {
+	protected <T> void run(String baseUrlPostFix, RequestMethod requestMethod, final Object REQUEST_VALUE, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack) {
 		ConnectionItems connectionItems = PreferencesUtils.getConnectionItems(context);
 
 		final String URL = connectionItems.BASE_URL + baseUrlPostFix;
@@ -58,18 +55,14 @@ public abstract class AbstractAsyncTaskManager {
 		final String PASSWORD = connectionItems.PASSWORD;
 		final RequestMethod REQUEST_METHOD = requestMethod;
 
-		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, returnValueClass, callBack, callBackWithResultCode);
+		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, REQUEST_VALUE, returnValueClass, callBack);
 	}
 
 	protected <T> void run(final String URL, final String USER_NAME, final String PASSWORD, final RequestMethod REQUEST_METHOD, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack) {
-		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, returnValueClass, callBack, null);
+		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, null, returnValueClass, callBack);
 	}
 
-	protected <T> void run(final String URL, final String USER_NAME, final String PASSWORD, final RequestMethod REQUEST_METHOD, final Class<T> returnValueClass, final AsyncTaskWithResultCodeCallBack callBackWithResultCode) {
-		run(URL, USER_NAME, PASSWORD, REQUEST_METHOD, returnValueClass, null, callBackWithResultCode);
-	}
-
-	private <T> void run(final String URL, final String USER_NAME, final String PASSWORD, final RequestMethod REQUEST_METHOD, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack, final AsyncTaskWithResultCodeCallBack callBackWithResultCode) {
+	private <T> void run(final String URL, final String USER_NAME, final String PASSWORD, final RequestMethod REQUEST_METHOD, final Object REQUEST_VALUE, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack) {
 		Log.d(LOG_TAG, "Pripojeni k URL: " + URL);
 		Log.d(LOG_TAG, "Metoda: " + REQUEST_METHOD);
 		Log.d(LOG_TAG, "Uzivatelske jmeno: " + USER_NAME);
@@ -84,7 +77,6 @@ public abstract class AbstractAsyncTaskManager {
 			new Thread() {
 				public void run() {
 					T returnValue = null;// Navratova hodnota
-					Integer responseCode = null;// Respose code
 					ErrorMessage errorMessage = null;// Chyba
 
 					HttpURLConnection connection = null;
@@ -97,16 +89,20 @@ public abstract class AbstractAsyncTaskManager {
 						connection.setRequestProperty("Accept", "application/json");
 						connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((USER_NAME + ":" + PASSWORD).getBytes(), Base64.NO_WRAP));
 
+						if (REQUEST_VALUE != null) {
+							new ObjectMapper().writeValue(connection.getOutputStream(), REQUEST_VALUE);
+						}
+
 						connection.connect();
 
-						responseCode = connection.getResponseCode();
+						int responseCode = connection.getResponseCode();
 						Log.i(LOG_TAG, "Kod odpovedi:" + responseCode);
 
-						if (responseCode == STATUS_CODE_OK) {
-							if (callBack != null) {
+						if (responseCode == STATUS_CODE_OK || responseCode == STATUS_CODE_CREATED) {
+							if (REQUEST_METHOD != RequestMethod.DELETE) {
 								returnValue = new ObjectMapper().readValue(connection.getInputStream(), returnValueClass);
-								Log.i(LOG_TAG, "Odpoved ze serveru OK.");
 							}
+							Log.i(LOG_TAG, "Odpoved ze serveru OK.");
 
 						} else if (responseCode == STATUS_CODE_NOT_AUTHORIZED) {
 							errorMessage = new ErrorMessage(context.getString(R.string.signIn_error_noValid));
@@ -118,8 +114,8 @@ public abstract class AbstractAsyncTaskManager {
 						}
 
 					} catch (final Exception e) {
-						errorMessage = new ErrorMessage(e.getLocalizedMessage());
-						Log.e(LOG_TAG, "Systemova chyba: " + errorMessage.getMessage());
+						errorMessage = new ErrorMessage(e.getMessage());
+						Log.e(LOG_TAG, "Systemova chyba: " + errorMessage.getMessage(), e);
 					} finally {
 						if (connection != null) {
 							connection.disconnect();
@@ -127,7 +123,6 @@ public abstract class AbstractAsyncTaskManager {
 					}
 
 					final T retValue = returnValue;
-					final Integer returnResponseCode = responseCode;
 					final ErrorMessage returnErrorMessage = errorMessage;
 
 					((Activity) context).runOnUiThread(new Runnable() {
@@ -136,20 +131,10 @@ public abstract class AbstractAsyncTaskManager {
 						public void run() {
 							dialog.dismiss();
 							if (returnErrorMessage == null) {
-								if (callBack != null) {
-									callBack.onSuccess(retValue);
-								}
-								if (callBackWithResultCode != null) {
-									callBackWithResultCode.onSuccess(returnResponseCode);
-								}
+								callBack.onSuccess(retValue);
 							} else {
 								// nastala chyba
-								if (callBack != null) {
-									callBack.onError(returnErrorMessage);
-								}
-								if (callBackWithResultCode != null) {
-									callBackWithResultCode.onError(returnErrorMessage);
-								}
+								callBack.onError(returnErrorMessage);
 							}
 						}
 					});
