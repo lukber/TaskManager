@@ -39,7 +39,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		taskType = (TaskType) getIntent().getExtras().get(TASK_TYPE);
 		taskModel = (TaskModel) getIntent().getExtras().get(TASK_MODEL);
 
-		if (taskModel != null) {
+		if (taskModel != null && taskModel.getId() != null) {
 			// uprava stavajiciho zaznamu - zobrazeni nahledu
 			performShowPreviewFragment();
 		} else {
@@ -51,7 +51,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
-	
+
 	private Fragment createOrGetPreviewFragment() {
 		if (previewFragment == null) {
 			Bundle bundle = new Bundle();

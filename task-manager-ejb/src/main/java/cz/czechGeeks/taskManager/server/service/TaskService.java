@@ -130,6 +130,7 @@ public class TaskService {
 		task.setUnread(!executorId.equals(inserterId));
 
 		dao.persist(task);
+		dao.refresh(task);
 		return task;
 	}
 

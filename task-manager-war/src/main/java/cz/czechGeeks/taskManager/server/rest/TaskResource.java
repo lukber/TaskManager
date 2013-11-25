@@ -91,7 +91,8 @@ public class TaskResource {
 			Task task = taskService.insert(categId, executorId, inserterId, name, desc, finishToDate);
 			URI requestUri = uriInfo.getRequestUri();
 			URI uriWithId = UriHelper.createUriWithId(requestUri, task.getId());
-			return Response.created(uriWithId).entity(TaskTOBuilder.build(task, inserterId)).build();
+			TaskTO responseTaskTO = TaskTOBuilder.build(task, inserterId);
+			return Response.created(uriWithId).entity(responseTaskTO).build();
 		} catch (Exception e) {
 			return Response.serverError().entity(new ErrorMessageTO(e.getCause().getLocalizedMessage())).build();
 		}

@@ -36,6 +36,7 @@
     
     <string name="detail_update">Úprava detailu</string>
     
+    <string name="task_new">Nový úkol</string>
     <string name="task_categ">Kategorie:</string>
     <string name="task_name">Název:</string>
     <string name="task_desc">Popis:</string>

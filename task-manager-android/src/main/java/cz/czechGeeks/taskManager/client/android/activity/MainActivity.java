@@ -173,6 +173,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
 		getMenuInflater().inflate(R.menu.settings, menu);
 		return true;
 	}
@@ -187,6 +188,14 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 			Intent i = new Intent(this, SettingsActivity.class);
 			startActivityForResult(i, RESULT_SETTINGS);
 			break;
+		case R.id.menu_newTask:
+			Log.d(LOG_TAG, "Klik na polozku pridani ukolu");
+			TaskType taskType = pagerAdapter.getItem(viewPager.getCurrentItem()).getTaskType();
+			TaskModel model = new TaskModel();
+			Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
+			intent.putExtra(TaskDetailActivity.TASK_TYPE, taskType);
+			intent.putExtra(TaskDetailActivity.TASK_MODEL, model);
+			startActivityForResult(intent, SHOW_DETAIL_REQUEST_CODE);
 		}
 
 		return true;
@@ -235,7 +244,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 				if (actionType == ModelActionType.UPDATE) {
 					int position = taskListAdapter.getPosition(model);
 					taskListAdapter.remove(model);
-					taskListAdapter.insert(model, position);
+					taskListAdapter.insert(model, position < 0 ? 0 : position);
 					taskListAdapter.notifyDataSetChanged();
 				} else if (actionType == ModelActionType.DELETE) {
 					taskListAdapter.remove(model);
