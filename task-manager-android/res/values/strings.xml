@@ -50,6 +50,7 @@
     <string name="task_isNotDeletable">Záznam není možné odstranit</string>
     
     <string name="error_taskCategLoading">Načítání kategorií se nezdařilo</string>
+    <string name="error_taskSaving">Ukládání změn úkolu se nezdařilo</string>
     <string name="error_loginsLoading">Načítání uživatelů se nezdařilo</string>
 
 </resources>

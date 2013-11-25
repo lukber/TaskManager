@@ -23,6 +23,7 @@ import cz.czechGeeks.taskManager.client.android.activity.TaskDetailActivity;
 import cz.czechGeeks.taskManager.client.android.activity.TaskModelActionsCallBack;
 import cz.czechGeeks.taskManager.client.android.factory.LoginManagerFactory;
 import cz.czechGeeks.taskManager.client.android.factory.TaskCategManagerFactory;
+import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 import cz.czechGeeks.taskManager.client.android.model.TaskCategModel;
@@ -30,6 +31,7 @@ import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.LoginManager;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskCategManager;
+import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
@@ -71,6 +73,29 @@ public class TaskDetailEditFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_save:
+			AsyncTaskCallBack<TaskModel> putDataCallBack = new AsyncTaskCallBack<TaskModel>() {
+
+				@Override
+				public void onSuccess(TaskModel resumeObject) {
+					callBack.onTaskUpdated(resumeObject);
+					callBack.performShowPreviewFragment();
+				}
+
+				@Override
+				public void onError(ErrorMessage message) {
+					Toast.makeText(getActivity(), R.string.error_taskSaving, Toast.LENGTH_SHORT).show();
+				}
+			};
+
+			updateTaskModelFromView();
+			TaskManager taskManager = TaskManagerFactory.get(getActivity());
+			if (taskModel.getId() == null) {
+				// INSERT
+				taskManager.insert(taskModel, putDataCallBack);
+			} else {
+				// UPDATE
+				taskManager.update(taskModel, putDataCallBack);
+			}
 			callBack.onTaskUpdated(taskModel);
 			return true;
 		case R.id.action_storno:
@@ -80,6 +105,26 @@ public class TaskDetailEditFragment extends Fragment {
 			break;
 		}
 		throw new IllegalArgumentException("Nedefinovana akce:" + item);
+	}
+
+	private void updateTaskModelFromView() {
+		TaskCategModel selectedCateg = categAdapter.getItem(categ.getSelectedItemPosition());
+		taskModel.setCategId(selectedCateg.getId());
+		taskModel.setCategName(selectedCateg.getName());
+
+		taskModel.setName(name.getEditableText().toString());
+		taskModel.setDesc(desc.getEditableText().toString());
+
+		if (finishToDate.getVisibility() != EditText.GONE) {
+			// Nastaveni finish to date
+			// taskModel.setFinishToDate(new TimestafinishToDate.getEditableText().toString());
+		}
+
+		if (executor.getVisibility() != Spinner.GONE) {
+			LoginModel executorModel = executorAdapter.getItem(executor.getSelectedItemPosition());
+			taskModel.setExecutorId(executorModel.getId());
+			taskModel.setExecutorName(executorModel.getName());
+		}
 	}
 
 	@Override
@@ -100,7 +145,7 @@ public class TaskDetailEditFragment extends Fragment {
 		if (taskType == TaskType.DELEGATED_TO_ME) {
 			// Neni mozno menit datum do kdy ma byt dokonceno tak policko schovam
 			((TextView) rootView.findViewById(R.id.taskFinishToDateTitle)).setVisibility(Spinner.GONE);
-			finishToDate.setVisibility(Spinner.GONE);
+			finishToDate.setVisibility(EditText.GONE);
 		}
 
 		executorAdapter = new ArrayAdapter<LoginModel>(getActivity(), android.R.layout.simple_spinner_item);

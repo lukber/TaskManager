@@ -87,6 +87,7 @@ public abstract class AbstractAsyncTaskManager {
 						connection = (HttpURLConnection) url.openConnection();
 						connection.setRequestMethod(REQUEST_METHOD.name());
 						connection.setRequestProperty("Accept", "application/json");
+						connection.setRequestProperty("Content-Type", "application/json");
 						connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((USER_NAME + ":" + PASSWORD).getBytes(), Base64.NO_WRAP));
 
 						if (REQUEST_VALUE != null) {
@@ -111,6 +112,8 @@ public abstract class AbstractAsyncTaskManager {
 						} else if (responseCode == STATUS_CODE_SYSTEM_ERROR) {
 							errorMessage = new ObjectMapper().readValue(connection.getInputStream(), ErrorMessage.class);
 							Log.e(LOG_TAG, "Systemova chyba: " + errorMessage.getMessage());
+						} else {
+							throw new IllegalStateException("Nedefinovany kod vystupu: " + responseCode);
 						}
 
 					} catch (final Exception e) {
