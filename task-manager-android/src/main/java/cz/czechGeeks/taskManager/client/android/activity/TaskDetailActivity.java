@@ -15,13 +15,16 @@ import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailPreviewFragme
 import cz.czechGeeks.taskManager.client.android.fragment.TaskDetailPreviewFragment.TaskDetailPreviewFragmentCallBack;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.util.ModelActionType;
+import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
 public class TaskDetailActivity extends FragmentActivity implements TaskDetailPreviewFragmentCallBack, TaskDetailEditFragmentCallBack {
 
 	public static final String TASK_MODEL_ACTION = "modelAction";
 	public static final String TASK_MODEL = "model";
+	public static final String TASK_TYPE = "modelType";
 
 	private ModelActionType actionType;
+	private TaskType taskType;
 	private TaskModel taskModel;
 
 	private TaskDetailPreviewFragment previewFragment;
@@ -33,6 +36,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		setContentView(R.layout.activity_task_detail);
 		setResult(RESULT_CANCELED);
 
+		taskType = (TaskType) getIntent().getExtras().get(TASK_TYPE);
 		taskModel = (TaskModel) getIntent().getExtras().get(TASK_MODEL);
 
 		if (taskModel != null) {
@@ -51,6 +55,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 	private Fragment createOrGetPreviewFragment() {
 		if (previewFragment == null) {
 			Bundle bundle = new Bundle();
+			bundle.putSerializable(TASK_TYPE, taskType);
 			bundle.putSerializable(TASK_MODEL, taskModel);
 
 			previewFragment = new TaskDetailPreviewFragment();
@@ -62,6 +67,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 	private Fragment createOrGetUpdateFragment() {
 		if (editFragment == null) {
 			Bundle bundle = new Bundle();
+			bundle.putSerializable(TASK_TYPE, taskType);
 			bundle.putSerializable(TASK_MODEL, taskModel);
 
 			editFragment = new TaskDetailEditFragment();
@@ -75,8 +81,8 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		switch (item.getItemId()) {
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
-			
 			Intent intent = new Intent();
+			intent.putExtra(TASK_TYPE, taskType);
 			intent.putExtra(TASK_MODEL_ACTION, actionType);
 			intent.putExtra(TASK_MODEL, taskModel);
 			setResult(RESULT_OK, intent);
@@ -115,6 +121,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		Toast.makeText(this, R.string.valueDeleted, Toast.LENGTH_SHORT).show();
 
 		Intent intent = new Intent();
+		intent.putExtra(TASK_TYPE, taskType);
 		intent.putExtra(TASK_MODEL_ACTION, ModelActionType.DELETE);
 		intent.putExtra(TASK_MODEL, deletedTask);
 		setResult(RESULT_OK, intent);

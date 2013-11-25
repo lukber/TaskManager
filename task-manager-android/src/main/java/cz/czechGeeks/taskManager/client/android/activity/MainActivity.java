@@ -21,7 +21,6 @@ import cz.czechGeeks.taskManager.client.android.fragment.SignInDialogFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.SignInDialogFragment.SignInDialogFragmentCallBack;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskListFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskListFragment.TaskListFragmentCallBack;
-import cz.czechGeeks.taskManager.client.android.fragment.TaskListFragment.TaskType;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
@@ -31,6 +30,7 @@ import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 import cz.czechGeeks.taskManager.client.android.util.ModelActionType;
 import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils;
 import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.ConnectionItems;
+import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
 /**
  * Hlavni obrazovka reprezentovana tabem a seznamem
@@ -213,8 +213,11 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	@Override
 	public void onTaskListItemSelected(TaskModel model) {
 		// Byla vybrana polozka ze seznamu
+		TaskType taskType = pagerAdapter.getItem(viewPager.getCurrentItem()).getTaskType();
+
 		Log.i(LOG_TAG, "Byla vybrana polozka ze seznamu:" + model.getId());
 		Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
+		intent.putExtra(TaskDetailActivity.TASK_TYPE, taskType);
 		intent.putExtra(TaskDetailActivity.TASK_MODEL, model);
 		startActivityForResult(intent, SHOW_DETAIL_REQUEST_CODE);
 	}
@@ -232,7 +235,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 				if (actionType == ModelActionType.UPDATE) {
 					int position = taskListAdapter.getPosition(model);
 					taskListAdapter.remove(model);
-					taskListAdapter.insert(model,position);
+					taskListAdapter.insert(model, position);
 					taskListAdapter.notifyDataSetChanged();
 				} else if (actionType == ModelActionType.DELETE) {
 					taskListAdapter.remove(model);

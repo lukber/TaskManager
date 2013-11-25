@@ -54,7 +54,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+		TaskManager taskManager = TaskManagerFactory.get(getActivity());
 		switch (item.getItemId()) {
 		case R.id.action_edit_task:
 			if (taskModel.isUpdatable()) {
@@ -158,7 +158,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 	public void markModelAsReaded(TaskModel taskModel) {
 		if (LoginUtils.get().getLoggedUserId().equals(taskModel.getExecutorId()) && taskModel.isUnread()) {
 			// Pokud jsem ten kdo ma ukol splnit a ukol je neprecteny tak ho oznacim jako precteny
-			TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+			TaskManager taskManager = TaskManagerFactory.get(getActivity());
 			taskManager.markAsReaded(taskModel, new AsyncTaskCallBack<TaskModel>() {
 
 				@Override

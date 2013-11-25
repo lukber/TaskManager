@@ -45,6 +45,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
+        android:id="@+id/taskFinishToDateTitle"
         style="@style/FormItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,22 +62,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        style="@style/FormItemName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/task_finishedDate"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <EditText
-        android:id="@+id/taskFinishedDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dip"
-        android:layout_marginLeft="15dip"
-        android:inputType="datetime"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
+        android:id="@+id/taskExecutorTitle"
         style="@style/FormItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,20 +74,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dip"
-        android:layout_marginLeft="15dip"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        style="@style/FormItemName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/task_inserterId"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <Spinner
-        android:id="@+id/taskInserter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginLeft="15dip"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

@@ -14,12 +14,9 @@ import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
+import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
 public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<TaskModel[]> {
-
-	public enum TaskType {
-		MAIN, DELEGATED_TO_ME, DELEGATED_TO_OTHERS
-	}
 
 	public interface TaskListFragmentCallBack {
 		public void onTaskListItemSelected(TaskModel model);
@@ -48,7 +45,7 @@ public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<
 	}
 
 	public void loadData() {
-		TaskManager taskManager = TaskManagerFactory.createService(getActivity());
+		TaskManager taskManager = TaskManagerFactory.get(getActivity());
 		switch (taskType) {
 		case MAIN:
 			taskManager.getAllMain(this);
@@ -89,6 +86,10 @@ public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<
 
 	public void setTaskType(TaskType taskType) {
 		this.taskType = taskType;
+	}
+
+	public TaskType getTaskType() {
+		return taskType;
 	}
 
 	@Override

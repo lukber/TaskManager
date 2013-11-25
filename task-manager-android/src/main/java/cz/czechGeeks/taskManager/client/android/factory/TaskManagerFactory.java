@@ -15,7 +15,7 @@ public class TaskManagerFactory {
 	private TaskManagerFactory() {
 	}
 
-	public static TaskManager createService(Context context) {
+	public static TaskManager get(Context context) {
 		return new RestServiceTaskManager(context);
 	}
 

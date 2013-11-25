@@ -257,13 +257,13 @@ public class TaskService {
 	 *            ID ukolu
 	 * @param forLoginId
 	 *            ID uzivatele pro ktereho se ma vyhodnotit
-	 * @return TRUE - uzivatel muze upravovat ukol pouze pokud ho sam zalozil a zaroven ukol neni uzavren
+	 * @return TRUE - uzivatel muze upravovat ukol pouze pokud ho sam zalozil nebo ho ma vypracovat a zaroven ukol neni uzavren
 	 * @throws EntityNotFoundException
 	 *             zaznam nebyl nalezen
 	 */
 	public boolean isUpdatable(Long id, Long forLoginId) throws EntityNotFoundException {
 		Task entity = dao.findNonNull(Task.class, id);
-		return entity.getInserterId().equals(forLoginId) && entity.getFinishedDate() == null;
+		return (entity.getInserterId().equals(forLoginId) || entity.getExecutorId().equals(forLoginId)) && entity.getFinishedDate() == null;
 	}
 
 	/**
