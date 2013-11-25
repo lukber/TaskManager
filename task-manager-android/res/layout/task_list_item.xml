@@ -33,16 +33,6 @@
         android:src="@drawable/ic_1_navigation_accept_dark" />
 
     <TextView
-        android:id="@id/taskDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/taskName"
-        android:layout_marginLeft="4dip"
-        android:layout_marginTop="4dip"
-        android:layout_toRightOf="@id/taskImageUnread"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
         android:id="@id/taskCateg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -40,6 +40,8 @@
     <string name="task_name">Název:</string>
     <string name="task_desc">Popis:</string>
     <string name="task_finishToDate">Dokončit do:</string>
+    <string name="task_finishToDate_date">Datum</string>
+    <string name="task_finishToDate_time">Čas</string>
     <string name="task_finishedDate">Dokončeno dne:</string>
     <string name="task_executorId">Provádí:</string>
     <string name="task_inserterId">Založil:</string>

@@ -41,7 +41,6 @@ public class TaskListAdapter extends ArrayAdapter<TaskModel> {
 		TaskModel item = getItem(position);
 
 		((TextView) view.findViewById(R.id.taskName)).setText(item.getName());
-		((TextView) view.findViewById(R.id.taskDesc)).setText(item.getDesc());
 		((TextView) view.findViewById(R.id.taskCateg)).setText(item.getCategName());
 		((TextView) view.findViewById(R.id.taskFinishToDate)).setText((item.getFinishToDate() != null) ? java.text.DateFormat.getDateTimeInstance().format(item.getFinishToDate()) : "");
 

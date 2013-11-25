@@ -1,10 +1,16 @@
 package cz.czechGeeks.taskManager.client.android.fragment;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,9 +20,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.activity.TaskDetailActivity;
@@ -52,7 +60,10 @@ public class TaskDetailEditFragment extends Fragment {
 	private Spinner categ;
 	private EditText name;
 	private EditText desc;
-	private EditText finishToDate;
+	private EditText finishToDate_date;
+	private EditText finishToDate_time;
+
+	private Calendar finishToDateCalendar;
 
 	private ArrayAdapter<LoginModel> executorAdapter;
 	private Spinner executor;
@@ -115,9 +126,9 @@ public class TaskDetailEditFragment extends Fragment {
 		taskModel.setName(name.getEditableText().toString());
 		taskModel.setDesc(desc.getEditableText().toString());
 
-		if (finishToDate.getVisibility() != EditText.GONE) {
-			// Nastaveni finish to date
-			// taskModel.setFinishToDate(new TimestafinishToDate.getEditableText().toString());
+		if (finishToDate_date.getVisibility() != EditText.GONE && !finishToDate_date.getEditableText().toString().isEmpty()) {
+			// mam nastaveny nejaky datum
+			taskModel.setFinishToDate(new Timestamp(finishToDateCalendar.getTimeInMillis()));
 		}
 
 		if (executor.getVisibility() != Spinner.GONE) {
@@ -141,11 +152,59 @@ public class TaskDetailEditFragment extends Fragment {
 		name = (EditText) rootView.findViewById(R.id.taskName);
 		desc = (EditText) rootView.findViewById(R.id.taskDesc);
 
-		finishToDate = (EditText) rootView.findViewById(R.id.taskFinishToDate);
+		finishToDate_date = (EditText) rootView.findViewById(R.id.taskFinishToDate_date);
+		finishToDate_time = (EditText) rootView.findViewById(R.id.taskFinishToDate_time);
+		finishToDateCalendar = Calendar.getInstance();
+
+		finishToDate_date.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				int year = finishToDateCalendar.get(Calendar.YEAR);
+				int monthOfYear = finishToDateCalendar.get(Calendar.MONTH);
+				int dayOfMonth = finishToDateCalendar.get(Calendar.DAY_OF_MONTH);
+
+				OnDateSetListener dateCallBack = new OnDateSetListener() {
+
+					@Override
+					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+						finishToDateCalendar.set(year, monthOfYear, dayOfMonth);
+						finishToDate_date.setText(java.text.DateFormat.getDateInstance().format(finishToDateCalendar.getTime()));
+					}
+				};
+
+				DatePickerDialog dialog = new DatePickerDialog(getActivity(), dateCallBack, year, monthOfYear, dayOfMonth);
+				dialog.show();
+			}
+		});
+
+		finishToDate_time.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				int hourOfDay = finishToDateCalendar.get(Calendar.HOUR_OF_DAY);
+				int minute = finishToDateCalendar.get(Calendar.MINUTE);
+
+				OnTimeSetListener timeCallBack = new OnTimeSetListener() {
+
+					@Override
+					public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+						finishToDateCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+						finishToDateCalendar.set(Calendar.MINUTE, minute);
+						finishToDate_time.setText(hourOfDay + ":" + minute);
+					}
+				};
+
+				TimePickerDialog dialog = new TimePickerDialog(getActivity(), timeCallBack, hourOfDay, minute, true);
+				dialog.show();
+			}
+		});
+
 		if (taskType == TaskType.DELEGATED_TO_ME) {
 			// Neni mozno menit datum do kdy ma byt dokonceno tak policko schovam
 			((TextView) rootView.findViewById(R.id.taskFinishToDateTitle)).setVisibility(Spinner.GONE);
-			finishToDate.setVisibility(EditText.GONE);
+			finishToDate_date.setVisibility(EditText.GONE);
+			finishToDate_time.setVisibility(EditText.GONE);
 		}
 
 		executorAdapter = new ArrayAdapter<LoginModel>(getActivity(), android.R.layout.simple_spinner_item);
@@ -240,7 +299,16 @@ public class TaskDetailEditFragment extends Fragment {
 		name.setText(taskModel.getName());
 		desc.setText(taskModel.getDesc());
 
-		finishToDate.setText((taskModel.getFinishToDate() != null) ? java.text.DateFormat.getDateTimeInstance().format(taskModel.getFinishToDate()) : "");
+		if (taskModel.getFinishToDate() != null) {
+			finishToDateCalendar.setTimeInMillis(taskModel.getFinishToDate().getTime());
+			finishToDate_date.setText(java.text.DateFormat.getDateInstance().format(finishToDateCalendar.getTime()));
+			finishToDate_time.setText(java.text.DateFormat.getTimeInstance().format(finishToDateCalendar.getTime()));
+		} else {
+			finishToDate_date.setText("");
+			finishToDate_time.setText("");
+		}
+
+		// finishToDate.setText((taskModel.getFinishToDate() != null) ? java.text.DateFormat.getDateTimeInstance().format(taskModel.getFinishToDate()) : "");
 
 		Long executorId = taskModel.getExecutorId();
 		if (executorId != null) {

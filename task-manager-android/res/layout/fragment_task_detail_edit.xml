@@ -53,11 +53,22 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <EditText
-        android:id="@+id/taskFinishToDate"
+        android:id="@+id/taskFinishToDate_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dip"
         android:layout_marginLeft="15dip"
+        android:hint="@string/task_finishToDate_date"
+        android:inputType="date"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/taskFinishToDate_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:layout_marginLeft="15dip"
+        android:hint="@string/task_finishToDate_time"
         android:inputType="datetime"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
