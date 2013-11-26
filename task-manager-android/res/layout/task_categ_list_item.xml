@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dip" >
+
+    <TextView
+        android:id="@id/taskCateg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dip"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageButton
+        android:id="@+id/taskCategDeleteButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="4dip"
+        android:contentDescription="@string/delete"
+        android:src="@drawable/ic_5_content_discard"
+        android:text="@string/delete"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/taskCategEditButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="4dip"
+        android:layout_toLeftOf="@id/taskCategDeleteButton"
+        android:contentDescription="@string/update"
+        android:src="@drawable/ic_5_content_edit"
+        android:text="@string/update"
+        android:visibility="gone" />
+
+</RelativeLayout>

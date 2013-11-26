@@ -48,4 +48,5 @@
     <string name="task_isNotCloseable">Záznam není možné uzavřít</string>
     <string name="task_isNotDeletable">Záznam není možné odstranit</string>
     
+    <string name="taskCateg_list">Seznam kategorií</string>
 </resources>

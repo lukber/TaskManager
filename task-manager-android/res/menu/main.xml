@@ -6,5 +6,11 @@
         android:showAsAction="ifRoom"
         android:title="@string/task_new">
     </item>
+    
+    <item
+        android:id="@+id/menu_taskCategList"
+        android:showAsAction="ifRoom"
+        android:title="@string/taskCateg_list">
+    </item>
 
 </menu>

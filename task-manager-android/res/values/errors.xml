@@ -5,6 +5,7 @@
     <string name="error_taskNameIsNotSet">Není zadán název úkolu</string>
     <string name="error_taskExecutorNotSelected">Není zadán uživatel, který má úkol splnit</string>
     <string name="error_taskCategLoading">Načítání kategorií se nezdařilo</string>
+    <string name="error_taskCategDelete">Odstranění kategorie se nezdařilo:</string>
     <string name="error_taskSaving">Ukládání změn úkolu se nezdařilo</string>
     <string name="error_taskCantCreateTaskDelegatedToMe">Není možné zakládat úkoly od někoho jiného</string>
     <string name="error_taskNotDeleted">Úkol se nepodařilo smazat:</string>

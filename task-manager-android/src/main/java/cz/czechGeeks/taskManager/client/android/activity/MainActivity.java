@@ -185,8 +185,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		case R.id.menu_settings:
 			// Zobrazeni nastaveni
 			Log.d(LOG_TAG, "Klik na polozku menu nastaveni");
-			Intent i = new Intent(this, SettingsActivity.class);
-			startActivityForResult(i, RESULT_SETTINGS);
+			startActivityForResult(new Intent(this, SettingsActivity.class), RESULT_SETTINGS);
 			break;
 		case R.id.menu_newTask:
 			Log.d(LOG_TAG, "Klik na polozku pridani ukolu");
@@ -198,10 +197,15 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 			}
 
 			TaskModel model = new TaskModel();
-			Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
+			Intent intent = new Intent(this, TaskDetailActivity.class);
 			intent.putExtra(TaskDetailActivity.TASK_TYPE, taskType);
 			intent.putExtra(TaskDetailActivity.TASK_MODEL, model);
 			startActivityForResult(intent, SHOW_DETAIL_REQUEST_CODE);
+			break;
+
+		case R.id.menu_taskCategList:
+			startActivityForResult(new Intent(this, TaskCategListActivity.class), RESULT_SETTINGS);
+			break;
 		}
 
 		return true;
