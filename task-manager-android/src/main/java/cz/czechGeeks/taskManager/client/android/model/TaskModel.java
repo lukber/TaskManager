@@ -36,6 +36,35 @@ public class TaskModel implements Serializable {
 	private boolean closeable;
 	private boolean unread;
 
+	public TaskModel createCopy() {
+		TaskModel copy = new TaskModel();
+		
+		copy.id = id;
+		copy.categId = categId;
+		copy.categName = categName;
+
+		copy.name = name;
+		copy.desc = desc;
+
+		copy.finishToDate = finishToDate;
+		copy.finishedDate = finishedDate;
+
+		copy.executorId = executorId;
+		copy.executorName = executorName;
+		copy.inserterId = inserterId;
+		copy.inserterName = inserterName;
+
+		copy.insDate = insDate;
+		copy.updDate = updDate;
+
+		copy.updatable = updatable;
+		copy.deletable = deletable;
+		copy.closeable = closeable;
+		copy.unread = unread;
+
+		return copy;
+	}
+
 	public TaskModel() {
 	}
 

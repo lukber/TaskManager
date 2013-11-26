@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.activity.TaskDetailActivity;
-import cz.czechGeeks.taskManager.client.android.activity.TaskModelActionsCallBack;
 import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
@@ -23,11 +22,36 @@ import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 
 public class TaskDetailPreviewFragment extends Fragment {
 
-	public interface TaskDetailPreviewFragmentCallBack extends TaskModelActionsCallBack {
-		void performShowEditFragment();
+	public interface TaskDetailPreviewFragmentCallBack {
+		/**
+		 * Uzivatel klepnul na tlacitko editovat
+		 */
+		void onTaskEditButtonClick();
+
+		/**
+		 * Ukol byl uzavren
+		 * 
+		 * @param model
+		 */
+		void onTaskClosed(TaskModel closedModel);
+
+		/**
+		 * Ukol byl smazan
+		 * 
+		 * @param model
+		 */
+		void onTaskDeleted(TaskModel deletedModel);
+
+		/**
+		 * Ukol byl oznacen jako precteny
+		 * 
+		 * @param model
+		 */
+		void onTaskReaded(TaskModel readedModel);
 	}
 
 	private TaskDetailPreviewFragmentCallBack callBack;
+	private TaskModel taskModel;
 
 	private TextView categ;
 	private TextView name;
@@ -37,8 +61,6 @@ public class TaskDetailPreviewFragment extends Fragment {
 
 	private TextView executor;
 	private TextView inserter;
-
-	private TaskModel taskModel;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +80,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 		switch (item.getItemId()) {
 		case R.id.action_edit_task:
 			if (taskModel.isUpdatable()) {
-				callBack.performShowEditFragment();
+				callBack.onTaskEditButtonClick();
 			} else {
 				Toast.makeText(getActivity(), R.string.task_isNotUpdatable, Toast.LENGTH_SHORT).show();
 			}
@@ -70,7 +92,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 
 					@Override
 					public void onSuccess(TaskModel resumeObject) {
-						callBack.onTaskDeleted(taskModel);
+						callBack.onTaskDeleted(resumeObject);
 					}
 
 					@Override
@@ -89,8 +111,8 @@ public class TaskDetailPreviewFragment extends Fragment {
 
 					@Override
 					public void onSuccess(TaskModel resumeObject) {
-						setModelData(resumeObject);
-						callBack.onTaskUpdated(resumeObject);
+						setTaskModel(resumeObject);
+						callBack.onTaskClosed(resumeObject.createCopy());
 					}
 
 					@Override
@@ -126,7 +148,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 			throw new IllegalArgumentException("Argument " + TaskDetailActivity.TASK_MODEL + " musi byt zadan");
 		}
 
-		setModelData(taskModel);
+		setTaskModel(taskModel);
 		markModelAsReaded(taskModel);
 		return rootView;
 	}
@@ -141,7 +163,13 @@ public class TaskDetailPreviewFragment extends Fragment {
 		}
 	}
 
-	private void setModelData(TaskModel taskModel) {
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		callBack = null;
+	}
+
+	private void setTaskModel(TaskModel taskModel) {
 		this.taskModel = taskModel;
 
 		categ.setText(taskModel.getCategName());
@@ -164,13 +192,13 @@ public class TaskDetailPreviewFragment extends Fragment {
 				@Override
 				public void onSuccess(TaskModel resumeObject) {
 					Toast.makeText(getActivity(), R.string.taskMarkedAsReaded, Toast.LENGTH_SHORT).show();
-					setModelData(resumeObject);
-					callBack.onTaskUpdated(resumeObject);
+					setTaskModel(resumeObject);
+					callBack.onTaskReaded(resumeObject.createCopy());
 				}
 
 				@Override
 				public void onError(ErrorMessage message) {
-					String errorMessage = getActivity().getText(R.string.taskMarkedAsReaded_error) + message.getMessage();
+					String errorMessage = getActivity().getText(R.string.error_taskMarkingAsReaded) + message.getMessage();
 					Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
 				}
 			});

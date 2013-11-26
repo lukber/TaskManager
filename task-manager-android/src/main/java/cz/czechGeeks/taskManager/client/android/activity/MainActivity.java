@@ -38,7 +38,7 @@ import cz.czechGeeks.taskManager.client.android.util.TaskType;
  * @author lukasb
  * 
  */
-public class MainActivity extends FragmentActivity implements TabListener, TaskListFragmentCallBack, SignInDialogFragmentCallBack, TaskModelActionsCallBack {
+public class MainActivity extends FragmentActivity implements TabListener, TaskListFragmentCallBack, SignInDialogFragmentCallBack {
 
 	/**
 	 * Pager adapter obsahujuci fragmenty tasku pro jednotlive taby actionbaru
@@ -191,6 +191,12 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		case R.id.menu_newTask:
 			Log.d(LOG_TAG, "Klik na polozku pridani ukolu");
 			TaskType taskType = pagerAdapter.getItem(viewPager.getCurrentItem()).getTaskType();
+
+			if (taskType == TaskType.DELEGATED_TO_ME) {
+				Toast.makeText(getApplicationContext(), R.string.error_taskCantCreateTaskDelegatedToMe, Toast.LENGTH_SHORT).show();
+				return true;
+			}
+
 			TaskModel model = new TaskModel();
 			Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
 			intent.putExtra(TaskDetailActivity.TASK_TYPE, taskType);
@@ -237,17 +243,17 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 
 		if (requestCode == SHOW_DETAIL_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
-				ModelActionType actionType = (ModelActionType) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL_ACTION);
+				ModelActionType actionType = (ModelActionType) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL_ACTION_TYPE);
 				TaskModel model = (TaskModel) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL);
 				TaskListFragment listFragmen = pagerAdapter.getItem(viewPager.getCurrentItem());
 				TaskListAdapter taskListAdapter = (TaskListAdapter) listFragmen.getListAdapter();
 				if (actionType == ModelActionType.UPDATE) {
 					int position = taskListAdapter.getPosition(model);
-					taskListAdapter.remove(model);
+					taskListAdapter.remove(model);// Odstrani ho na zaklade ID
 					taskListAdapter.insert(model, position < 0 ? 0 : position);
 					taskListAdapter.notifyDataSetChanged();
 				} else if (actionType == ModelActionType.DELETE) {
-					taskListAdapter.remove(model);
+					taskListAdapter.remove(model);// Odstrani ho na zaklade ID
 					taskListAdapter.notifyDataSetChanged();
 				}
 			}
@@ -264,22 +270,6 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	public void onSignInDialogResulCancel() {
 		Log.w(LOG_TAG, "Na prihlasovacim formulaci bylo stisknuto tlacitko storno. Ukoncuji aplikaci");
 		finish();
-	}
-
-	@Override
-	public void onTaskUpdated(TaskModel updatedTask) {
-		TaskListFragment taskListFragment = pagerAdapter.getItem(viewPager.getCurrentItem());
-		TaskListAdapter taskListAdapter = (TaskListAdapter) taskListFragment.getListAdapter();
-		taskListAdapter.add(updatedTask);
-		taskListAdapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void onTaskDeleted(TaskModel deletedTask) {
-		TaskListFragment taskListFragment = pagerAdapter.getItem(viewPager.getCurrentItem());
-		TaskListAdapter taskListAdapter = (TaskListAdapter) taskListFragment.getListAdapter();
-		taskListAdapter.remove(deletedTask);
-		taskListAdapter.notifyDataSetChanged();
 	}
 
 }

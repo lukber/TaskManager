@@ -19,32 +19,35 @@ import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
 public class TaskDetailActivity extends FragmentActivity implements TaskDetailPreviewFragmentCallBack, TaskDetailEditFragmentCallBack {
 
-	public static final String TASK_MODEL_ACTION = "modelAction";
-	public static final String TASK_MODEL = "model";
-	public static final String TASK_TYPE = "modelType";
+	public static final String TASK_MODEL_ACTION_TYPE = "cz.czechGeeks.taskManager.client.android.activity.ModelActionType";// Vystupni priznak - co se s ukolem udalo
+	public static final String TASK_TYPE = "cz.czechGeeks.taskManager.client.android.activity.ModelType";
+	public static final String TASK_MODEL = "cz.czechGeeks.taskManager.client.android.activity.Model";
 
 	private ModelActionType actionType;
 	private TaskType taskType;
 	private TaskModel taskModel;
 
-	private TaskDetailPreviewFragment previewFragment;
-	private TaskDetailEditFragment editFragment;
-
 	@Override
 	protected void onCreate(Bundle args) {
 		super.onCreate(args);
 		setContentView(R.layout.activity_task_detail);
-		setResult(RESULT_CANCELED);
 
 		taskType = (TaskType) getIntent().getExtras().get(TASK_TYPE);
+		if (taskType == null) {
+			throw new IllegalArgumentException("Argument " + TASK_TYPE + " musi byt zadan");
+		}
+
 		taskModel = (TaskModel) getIntent().getExtras().get(TASK_MODEL);
+		if (taskModel == null) {
+			throw new IllegalArgumentException("Argument " + TASK_MODEL + " musi byt zadan");
+		}
 
 		if (taskModel != null && taskModel.getId() != null) {
 			// uprava stavajiciho zaznamu - zobrazeni nahledu
-			performShowPreviewFragment();
+			showFragment(createPreviewFragment());
 		} else {
 			// vytvareni noveho zaznamu
-			performShowEditFragment();
+			showFragment(createUpdateFragment());
 		}
 
 		final ActionBar actionBar = getActionBar();
@@ -52,27 +55,23 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
-	private Fragment createOrGetPreviewFragment() {
-		if (previewFragment == null) {
-			Bundle bundle = new Bundle();
-			bundle.putSerializable(TASK_TYPE, taskType);
-			bundle.putSerializable(TASK_MODEL, taskModel);
+	private Fragment createPreviewFragment() {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(TASK_TYPE, taskType);
+		bundle.putSerializable(TASK_MODEL, taskModel);
 
-			previewFragment = new TaskDetailPreviewFragment();
-			previewFragment.setArguments(bundle);
-		}
+		TaskDetailPreviewFragment previewFragment = new TaskDetailPreviewFragment();
+		previewFragment.setArguments(bundle);
 		return previewFragment;
 	}
 
-	private Fragment createOrGetUpdateFragment() {
-		if (editFragment == null) {
-			Bundle bundle = new Bundle();
-			bundle.putSerializable(TASK_TYPE, taskType);
-			bundle.putSerializable(TASK_MODEL, taskModel);
+	private Fragment createUpdateFragment() {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(TASK_TYPE, taskType);
+		bundle.putSerializable(TASK_MODEL, taskModel);
 
-			editFragment = new TaskDetailEditFragment();
-			editFragment.setArguments(bundle);
-		}
+		TaskDetailEditFragment editFragment = new TaskDetailEditFragment();
+		editFragment.setArguments(bundle);
 		return editFragment;
 	}
 
@@ -82,8 +81,8 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
 			Intent intent = new Intent();
+			intent.putExtra(TASK_MODEL_ACTION_TYPE, actionType);
 			intent.putExtra(TASK_TYPE, taskType);
-			intent.putExtra(TASK_MODEL_ACTION, actionType);
 			intent.putExtra(TASK_MODEL, taskModel);
 			setResult(RESULT_OK, intent);
 
@@ -91,16 +90,6 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public void performShowEditFragment() {
-		showFragment(createOrGetUpdateFragment());
-	}
-
-	@Override
-	public void performShowPreviewFragment() {
-		showFragment(createOrGetPreviewFragment());
 	}
 
 	private void showFragment(Fragment fragment) {
@@ -111,21 +100,51 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 	}
 
 	@Override
-	public void onTaskUpdated(TaskModel updatedTask) {
-		this.taskModel = updatedTask;
-		actionType = ModelActionType.UPDATE;
-	}
-
-	@Override
 	public void onTaskDeleted(TaskModel deletedTask) {
 		Toast.makeText(this, R.string.valueDeleted, Toast.LENGTH_SHORT).show();
 
 		Intent intent = new Intent();
+		intent.putExtra(TASK_MODEL_ACTION_TYPE, ModelActionType.DELETE);
 		intent.putExtra(TASK_TYPE, taskType);
-		intent.putExtra(TASK_MODEL_ACTION, ModelActionType.DELETE);
 		intent.putExtra(TASK_MODEL, deletedTask);
 		setResult(RESULT_OK, intent);
 
 		finish();
+	}
+
+	@Override
+	public void onTaskSaved(TaskModel model) {
+		this.taskModel = model;
+		actionType = ModelActionType.UPDATE;
+		showFragment(createPreviewFragment());
+	}
+
+	@Override
+	public void onTaskStornoEditing() {
+		if (taskModel.getId() == null) {
+			// Je zakladan novy ukol - storno ukonci detail activity
+			setResult(RESULT_CANCELED);
+			finish();
+			return;
+		}
+
+		showFragment(createPreviewFragment());
+	}
+
+	@Override
+	public void onTaskEditButtonClick() {
+		showFragment(createUpdateFragment());
+	}
+
+	@Override
+	public void onTaskClosed(TaskModel closedModel) {
+		this.taskModel = closedModel;
+		actionType = ModelActionType.UPDATE;
+	}
+
+	@Override
+	public void onTaskReaded(TaskModel readedModel) {
+		this.taskModel = readedModel;
+		actionType = ModelActionType.UPDATE;
 	}
 }

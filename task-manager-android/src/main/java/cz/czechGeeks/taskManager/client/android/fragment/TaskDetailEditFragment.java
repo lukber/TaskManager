@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -28,7 +29,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.activity.TaskDetailActivity;
-import cz.czechGeeks.taskManager.client.android.activity.TaskModelActionsCallBack;
 import cz.czechGeeks.taskManager.client.android.factory.LoginManagerFactory;
 import cz.czechGeeks.taskManager.client.android.factory.TaskCategManagerFactory;
 import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
@@ -45,21 +45,37 @@ import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
 public class TaskDetailEditFragment extends Fragment {
 
-	public interface TaskDetailEditFragmentCallBack extends TaskModelActionsCallBack {
-		void performShowPreviewFragment();
+	public interface TaskDetailEditFragmentCallBack {
+		/**
+		 * Volano po ulozeni zmen
+		 * 
+		 * @param model
+		 */
+		void onTaskSaved(TaskModel model);
+
+		/**
+		 * Uzivatel stornuje zmeny
+		 */
+		void onTaskStornoEditing();
 	}
 
+	// seznam vsech kategorii
 	private Map<Long, TaskCategModel> categMap = new HashMap<Long, TaskCategModel>();
+
+	// seznam vsech uzivatelu
 	private Map<Long, LoginModel> loginMap = new HashMap<Long, LoginModel>();
 
 	private TaskDetailEditFragmentCallBack callBack;
+
 	private TaskType taskType;
 	private TaskModel taskModel;
 
 	private ArrayAdapter<TaskCategModel> categAdapter;
 	private Spinner categ;
+
 	private EditText name;
 	private EditText desc;
+
 	private EditText finishToDate_date;
 	private EditText finishToDate_time;
 
@@ -84,12 +100,18 @@ public class TaskDetailEditFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_save:
+			boolean isValid = checkInputData();
+			if (!isValid) {
+				// data nejsou validni - nebude se provadet update
+				return true;
+			}
+
 			AsyncTaskCallBack<TaskModel> putDataCallBack = new AsyncTaskCallBack<TaskModel>() {
 
 				@Override
 				public void onSuccess(TaskModel resumeObject) {
-					callBack.onTaskUpdated(resumeObject);
-					callBack.performShowPreviewFragment();
+					taskModel = resumeObject;
+					callBack.onTaskSaved(resumeObject.createCopy());
 				}
 
 				@Override
@@ -107,10 +129,9 @@ public class TaskDetailEditFragment extends Fragment {
 				// UPDATE
 				taskManager.update(taskModel, putDataCallBack);
 			}
-			callBack.onTaskUpdated(taskModel);
 			return true;
 		case R.id.action_storno:
-			callBack.performShowPreviewFragment();
+			callBack.onTaskStornoEditing();
 			return true;
 		default:
 			break;
@@ -118,32 +139,19 @@ public class TaskDetailEditFragment extends Fragment {
 		throw new IllegalArgumentException("Nedefinovana akce:" + item);
 	}
 
-	private void updateTaskModelFromView() {
-		TaskCategModel selectedCateg = categAdapter.getItem(categ.getSelectedItemPosition());
-		taskModel.setCategId(selectedCateg.getId());
-		taskModel.setCategName(selectedCateg.getName());
-
-		taskModel.setName(name.getEditableText().toString());
-		taskModel.setDesc(desc.getEditableText().toString());
-
-		if (finishToDate_date.getVisibility() != EditText.GONE && !finishToDate_date.getEditableText().toString().isEmpty()) {
-			// mam nastaveny nejaky datum
-			taskModel.setFinishToDate(new Timestamp(finishToDateCalendar.getTimeInMillis()));
-		}
-
-		if (executor.getVisibility() != Spinner.GONE) {
-			LoginModel executorModel = executorAdapter.getItem(executor.getSelectedItemPosition());
-			taskModel.setExecutorId(executorModel.getId());
-			taskModel.setExecutorName(executorModel.getName());
-		}
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_task_detail_edit, container, false);
 
 		taskType = (TaskType) getArguments().get(TaskDetailActivity.TASK_TYPE);
+		if (taskType == null) {
+			throw new IllegalArgumentException("TaskType musi byt zadan");
+		}
+
 		taskModel = (TaskModel) getArguments().get(TaskDetailActivity.TASK_MODEL);
+		if (taskModel == null) {
+			throw new IllegalArgumentException("TaskModel musi byt zadan");
+		}
 
 		categAdapter = new ArrayAdapter<TaskCategModel>(getActivity(), android.R.layout.simple_spinner_item);
 		categ = (Spinner) rootView.findViewById(R.id.taskCateg);
@@ -156,10 +164,10 @@ public class TaskDetailEditFragment extends Fragment {
 		finishToDate_time = (EditText) rootView.findViewById(R.id.taskFinishToDate_time);
 		finishToDateCalendar = Calendar.getInstance();
 
-		finishToDate_date.setOnClickListener(new View.OnClickListener() {
+		finishToDate_date.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
 				int year = finishToDateCalendar.get(Calendar.YEAR);
 				int monthOfYear = finishToDateCalendar.get(Calendar.MONTH);
 				int dayOfMonth = finishToDateCalendar.get(Calendar.DAY_OF_MONTH);
@@ -175,13 +183,14 @@ public class TaskDetailEditFragment extends Fragment {
 
 				DatePickerDialog dialog = new DatePickerDialog(getActivity(), dateCallBack, year, monthOfYear, dayOfMonth);
 				dialog.show();
+				return true;
 			}
 		});
 
-		finishToDate_time.setOnClickListener(new View.OnClickListener() {
+		finishToDate_time.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
-			public void onClick(View v) {
+			public boolean onTouch(View v, MotionEvent event) {
 				int hourOfDay = finishToDateCalendar.get(Calendar.HOUR_OF_DAY);
 				int minute = finishToDateCalendar.get(Calendar.MINUTE);
 
@@ -197,6 +206,7 @@ public class TaskDetailEditFragment extends Fragment {
 
 				TimePickerDialog dialog = new TimePickerDialog(getActivity(), timeCallBack, hourOfDay, minute, true);
 				dialog.show();
+				return true;
 			}
 		});
 
@@ -216,10 +226,6 @@ public class TaskDetailEditFragment extends Fragment {
 			executor.setVisibility(Spinner.GONE);
 		}
 
-		if (taskModel != null) {
-			setModelData(taskModel);
-		}
-
 		TaskCategManager taskCategManager = TaskCategManagerFactory.get(getActivity());
 		taskCategManager.getAll(new AsyncTaskCallBack<TaskCategModel[]>() {
 
@@ -235,7 +241,7 @@ public class TaskDetailEditFragment extends Fragment {
 					categAdapter.addAll(Arrays.asList(resumeObject));
 					categAdapter.notifyDataSetChanged();
 
-					setModelData(taskModel);
+					updateViewFromTaskModel();
 				}
 			}
 
@@ -266,7 +272,7 @@ public class TaskDetailEditFragment extends Fragment {
 					executorAdapter.addAll(loginMap.values());
 					executorAdapter.notifyDataSetChanged();
 
-					setModelData(taskModel);
+					updateViewFromTaskModel();
 				}
 			}
 
@@ -275,6 +281,8 @@ public class TaskDetailEditFragment extends Fragment {
 				Toast.makeText(getActivity(), R.string.error_loginsLoading, Toast.LENGTH_SHORT).show();
 			}
 		});
+
+		updateViewFromTaskModel();
 
 		return rootView;
 	}
@@ -290,7 +298,59 @@ public class TaskDetailEditFragment extends Fragment {
 		}
 	}
 
-	private void setModelData(TaskModel taskModel) {
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		callBack = null;
+	}
+
+	private boolean checkInputData() {
+		// Kontrola vstupnich dat od uzivatele
+		if (categ.getSelectedItemPosition() == Spinner.INVALID_POSITION) {
+			// Neni zadana kategorie
+			Toast.makeText(getActivity(), R.string.error_taskCategNotSelected, Toast.LENGTH_SHORT).show();
+			return false;
+		}
+
+		if (name.getEditableText().toString() == null || name.getEditableText().toString().isEmpty()) {
+			// Neni zadan nazev ukolu
+			Toast.makeText(getActivity(), R.string.error_taskNameIsNotSet, Toast.LENGTH_SHORT).show();
+			return false;
+		}
+
+		if (executor.getVisibility() == Spinner.VISIBLE && executor.getSelectedItemPosition() == Spinner.INVALID_POSITION) {
+			// Neni nastaven exekutor
+			Toast.makeText(getActivity(), R.string.error_taskExecutorNotSelected, Toast.LENGTH_SHORT).show();
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Aktualizace dat z formulare
+	 */
+	private void updateTaskModelFromView() {
+		TaskCategModel selectedCateg = categAdapter.getItem(categ.getSelectedItemPosition());
+		taskModel.setCategId(selectedCateg.getId());
+		taskModel.setCategName(selectedCateg.getName());
+
+		taskModel.setName(name.getEditableText().toString());
+		taskModel.setDesc(desc.getEditableText().toString());
+
+		if (finishToDate_date.getVisibility() == EditText.VISIBLE && !finishToDate_date.getEditableText().toString().isEmpty()) {
+			// mam nastaveny nejaky datum
+			taskModel.setFinishToDate(new Timestamp(finishToDateCalendar.getTimeInMillis()));
+		}
+
+		if (executor.getVisibility() == Spinner.VISIBLE) {
+			LoginModel executorModel = executorAdapter.getItem(executor.getSelectedItemPosition());
+			taskModel.setExecutorId(executorModel.getId());
+			taskModel.setExecutorName(executorModel.getName());
+		}
+	}
+
+	private void updateViewFromTaskModel() {
 		Long categId = taskModel.getCategId();
 		if (categId != null) {
 			categ.setSelection(categAdapter.getPosition(categMap.get(categId)));
@@ -307,8 +367,6 @@ public class TaskDetailEditFragment extends Fragment {
 			finishToDate_date.setText("");
 			finishToDate_time.setText("");
 		}
-
-		// finishToDate.setText((taskModel.getFinishToDate() != null) ? java.text.DateFormat.getDateTimeInstance().format(taskModel.getFinishToDate()) : "");
 
 		Long executorId = taskModel.getExecutorId();
 		if (executorId != null) {
