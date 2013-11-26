@@ -101,4 +101,10 @@ public class SignInDialogFragment extends DialogFragment {
 		}
 	}
 
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		callBack = null;
+	}
+
 }
