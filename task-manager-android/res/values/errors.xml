@@ -7,7 +7,10 @@
     <string name="error_taskCategLoading">Načítání kategorií se nezdařilo</string>
     <string name="error_taskSaving">Ukládání změn úkolu se nezdařilo</string>
     <string name="error_taskCantCreateTaskDelegatedToMe">Není možné zakládat úkoly od někoho jiného</string>
-    <string name="error_loginsLoading">Načítání uživatelů se nezdařilo</string>
+    <string name="error_taskNotDeleted">Úkol se nepodařilo smazat:</string>
     <string name="error_taskMarkingAsReaded">Při označování úkolu jako přečtený došlo k chybě:</string>
+    <string name="error_loginsLoading">Načítání uživatelů se nezdařilo</string>
+    <string name="error_noValidUserNameOrPass">Neplatné uživatelské jméno nebo heslo.</string>
+    <string name="error_connection">Připojení k síti není dostupné.</string>
 
 </resources>

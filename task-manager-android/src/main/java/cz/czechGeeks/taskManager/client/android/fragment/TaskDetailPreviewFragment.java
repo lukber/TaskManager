@@ -97,7 +97,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 
 					@Override
 					public void onError(ErrorMessage message) {
-						Toast.makeText(getActivity(), getActivity().getString(R.string.valueNotDeleted) + message.getMessage(), Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), getActivity().getString(R.string.error_taskNotDeleted) + message.getMessage(), Toast.LENGTH_SHORT).show();
 					}
 				});
 			} else {

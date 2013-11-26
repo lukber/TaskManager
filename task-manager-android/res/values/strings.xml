@@ -14,12 +14,9 @@
     
     <string name="valueDeleted">Záznam byl odstraněn</string>
     <string name="taskMarkedAsReaded">Úkol byl označen jako přečtený</string>
-    <string name="valueNotDeleted">Záznam se nepodařilo odstranit: </string>
-    <string name="connection_error_noEnabled">Připojení k síti není dostupné.</string>
-    <string name="signIn_error_noValid">Neplatné uživatelské jméno nebo heslo.</string>
     <string name="signedUser">Přihlášený uživatel: </string>
     
-    <string name="loadingData">Načítání dat. Prosím čekejte.</string>
+    <string name="loadingData">Načítání dat</string>
     <string name="noData">Nebyly nalezeny žádné hodnoty</string>
     
     <string name="main_tasks">Osobní</string>

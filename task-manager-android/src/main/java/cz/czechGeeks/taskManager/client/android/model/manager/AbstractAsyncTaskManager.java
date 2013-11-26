@@ -106,7 +106,7 @@ public abstract class AbstractAsyncTaskManager {
 							Log.i(LOG_TAG, "Odpoved ze serveru OK.");
 
 						} else if (responseCode == STATUS_CODE_NOT_AUTHORIZED) {
-							errorMessage = new ErrorMessage(context.getString(R.string.signIn_error_noValid));
+							errorMessage = new ErrorMessage(context.getString(R.string.error_noValidUserNameOrPass));
 							Log.e(LOG_TAG, "Neplatne uzivatelske jmeno nebo heslo!");
 
 						} else if (responseCode == STATUS_CODE_SYSTEM_ERROR) {
@@ -144,7 +144,7 @@ public abstract class AbstractAsyncTaskManager {
 				}
 			}.start();
 		} else {
-			callBack.onError(new ErrorMessage(context.getString(R.string.connection_error_noEnabled)));
+			callBack.onError(new ErrorMessage(context.getString(R.string.error_connection)));
 		}
 	}
 
