@@ -17,15 +17,22 @@ import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.util.ModelActionType;
 import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
+/**
+ * Repreyentace detail tasku
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskDetailActivity extends FragmentActivity implements TaskDetailPreviewFragmentCallBack, TaskDetailEditFragmentCallBack {
 
+	// Extras parametry
 	public static final String TASK_MODEL_ACTION_TYPE = "cz.czechGeeks.taskManager.client.android.activity.ModelActionType";// Vystupni priznak - co se s ukolem udalo
 	public static final String TASK_TYPE = "cz.czechGeeks.taskManager.client.android.activity.ModelType";
 	public static final String TASK_MODEL = "cz.czechGeeks.taskManager.client.android.activity.Model";
 
-	private ModelActionType actionType;
-	private TaskType taskType;
-	private TaskModel taskModel;
+	private ModelActionType actionType;// typ akce nad provedenym taskem
+	private TaskType taskType;// typ tasku
+	private TaskModel taskModel;// zdroj dat
 
 	@Override
 	protected void onCreate(Bundle args) {
@@ -43,8 +50,10 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		}
 
 		if (taskModel != null && taskModel.getId() != null) {
+			// mam zdroj - zobrazim nahled
 			showPreviewFragment();
 		} else {
+			// nemam zdroj - jedna se o zakladani
 			showUpdateFragment();
 		}
 
@@ -52,6 +61,11 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
+	/**
+	 * Vytvoreni fragmentu pro nahled
+	 * 
+	 * @return
+	 */
 	private Fragment createPreviewFragment() {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(TASK_TYPE, taskType);
@@ -62,6 +76,11 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		return previewFragment;
 	}
 
+	/**
+	 * Vytvoreni fragmentu pro editaci
+	 * 
+	 * @return
+	 */
 	private Fragment createUpdateFragment() {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(TASK_TYPE, taskType);
@@ -77,6 +96,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		switch (item.getItemId()) {
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
+			// klik na tlacitko zpet
 			Intent intent = new Intent();
 			intent.putExtra(TASK_MODEL_ACTION_TYPE, actionType);
 			intent.putExtra(TASK_TYPE, taskType);
@@ -89,6 +109,11 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Zobrazeni fragmentu
+	 * 
+	 * @param fragment
+	 */
 	private void showFragment(Fragment fragment) {
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		transaction.replace(R.id.taskDetailFragmentContainer, fragment);

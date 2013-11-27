@@ -1,7 +1,21 @@
 package cz.czechGeeks.taskManager.client.android.util;
 
+/**
+ * Typ akce provedene nad zdrojem
+ * 
+ * @author lukasb
+ * 
+ */
 public enum ModelActionType {
 
-	DELETE, UPDATE;
+	/**
+	 * Zdroj byl odstranen
+	 */
+	DELETE,
+
+	/**
+	 * Zdroj byl aktualizovan
+	 */
+	UPDATE;
 
 }

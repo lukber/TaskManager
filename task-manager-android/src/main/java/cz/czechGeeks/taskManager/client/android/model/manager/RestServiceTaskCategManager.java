@@ -4,6 +4,11 @@ import android.content.Context;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskCategModel;
 
+/**
+ * Implementace pro REST sluzny pro KATEGORIE
+ * @author lukasb
+ *
+ */
 public class RestServiceTaskCategManager extends AbstractAsyncTaskManager implements TaskCategManager {
 
 	public RestServiceTaskCategManager(Context context) {

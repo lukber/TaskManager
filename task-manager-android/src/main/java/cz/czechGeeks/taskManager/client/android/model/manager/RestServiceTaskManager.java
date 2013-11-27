@@ -4,6 +4,12 @@ import android.content.Context;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 
+/**
+ * Implementace pro REST sluzny pro UKOLY
+ * 
+ * @author lukasb
+ * 
+ */
 public class RestServiceTaskManager extends AbstractAsyncTaskManager implements TaskManager {
 
 	public RestServiceTaskManager(Context context) {

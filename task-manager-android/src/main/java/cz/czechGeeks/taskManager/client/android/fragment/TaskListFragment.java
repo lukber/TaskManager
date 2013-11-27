@@ -16,15 +16,27 @@ import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
+/**
+ * Reprezentace seznamu ukolu
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<TaskModel[]> {
 
 	public interface TaskListFragmentCallBack {
+		/**
+		 * Byla vybrana polozka v seznamu
+		 * 
+		 * @param model
+		 *            vybrany ukol
+		 */
 		public void onTaskListItemSelected(TaskModel model);
 	}
 
 	private TaskListAdapter listAdapter;
 	private TaskListFragmentCallBack callBack;
-	private TaskType taskType;
+	private TaskType taskType;// typ ukolu - rozlisuje jaka data se budou nacitat
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -44,6 +56,9 @@ public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<
 		loadData();
 	}
 
+	/**
+	 * Nacteni dat pro zalozku
+	 */
 	public void loadData() {
 		TaskManager taskManager = TaskManagerFactory.get(getActivity());
 		switch (taskType) {
@@ -80,6 +95,7 @@ public class TaskListFragment extends ListFragment implements AsyncTaskCallBack<
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
+		// byla vybrana polozka seznamu
 		super.onListItemClick(l, v, position, id);
 		callBack.onTaskListItemSelected(listAdapter.getItem(position));
 	}

@@ -43,6 +43,12 @@ import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
+/**
+ * Editace ukolu
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskDetailEditFragment extends Fragment {
 
 	public interface TaskDetailEditFragmentCallBack {
@@ -67,8 +73,8 @@ public class TaskDetailEditFragment extends Fragment {
 
 	private TaskDetailEditFragmentCallBack callBack;
 
-	private TaskType taskType;
-	private TaskModel taskModel;
+	private TaskType taskType;// typ ukolu
+	private TaskModel taskModel;// data
 
 	private ArrayAdapter<TaskCategModel> categAdapter;
 	private Spinner categ;
@@ -99,7 +105,7 @@ public class TaskDetailEditFragment extends Fragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.action_save:
+		case R.id.action_save:// ulozeni zmen
 			boolean isValid = checkInputData();
 			if (!isValid) {
 				// data nejsou validni - nebude se provadet update
@@ -110,6 +116,7 @@ public class TaskDetailEditFragment extends Fragment {
 
 				@Override
 				public void onSuccess(TaskModel resumeObject) {
+					// data byla ulozena
 					taskModel = resumeObject;
 					callBack.onTaskSaved(resumeObject.createCopy());
 				}
@@ -130,7 +137,8 @@ public class TaskDetailEditFragment extends Fragment {
 				taskManager.update(taskModel, putDataCallBack);
 			}
 			return true;
-		case R.id.action_storno:
+
+		case R.id.action_storno:// storno uprav
 			callBack.onTaskStornoEditing();
 			return true;
 		default:
@@ -226,6 +234,7 @@ public class TaskDetailEditFragment extends Fragment {
 			executor.setVisibility(Spinner.GONE);
 		}
 
+		// nacteni vsech dostupnych kategorii
 		TaskCategManager taskCategManager = TaskCategManagerFactory.get(getActivity());
 		taskCategManager.getAll(new AsyncTaskCallBack<TaskCategModel[]>() {
 
@@ -251,6 +260,7 @@ public class TaskDetailEditFragment extends Fragment {
 			}
 		});
 
+		// nacteni vsech uzivatelu
 		LoginManager loginManager = LoginManagerFactory.get(getActivity());
 		loginManager.getAll(new AsyncTaskCallBack<LoginModel[]>() {
 
@@ -304,8 +314,12 @@ public class TaskDetailEditFragment extends Fragment {
 		callBack = null;
 	}
 
+	/**
+	 * Kontrola vstupnich dat od uzivatele
+	 * 
+	 * @return
+	 */
 	private boolean checkInputData() {
-		// Kontrola vstupnich dat od uzivatele
 		if (categ.getSelectedItemPosition() == Spinner.INVALID_POSITION) {
 			// Neni zadana kategorie
 			Toast.makeText(getActivity(), R.string.error_taskCategNotSelected, Toast.LENGTH_SHORT).show();
@@ -328,7 +342,7 @@ public class TaskDetailEditFragment extends Fragment {
 	}
 
 	/**
-	 * Aktualizace dat z formulare
+	 * Aktualizace dat z formulare do modelu
 	 */
 	private void updateTaskModelFromView() {
 		TaskCategModel selectedCateg = categAdapter.getItem(categ.getSelectedItemPosition());
@@ -350,6 +364,9 @@ public class TaskDetailEditFragment extends Fragment {
 		}
 	}
 
+	/**
+	 * Aktualizace View z modelu
+	 */
 	private void updateViewFromTaskModel() {
 		Long categId = taskModel.getCategId();
 		if (categId != null) {

@@ -19,6 +19,12 @@ import cz.czechGeeks.taskManager.client.android.model.TaskCategModel;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskCategManager;
 
+/**
+ * Seznam kategorii
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskCategListFragment extends ListFragment implements TaskCategListAdapterCallBack, TaskCategEditDialogFragmentCallBack {
 
 	private static final String LOG_TAG = "TaskCategListFragment";
@@ -41,6 +47,7 @@ public class TaskCategListFragment extends ListFragment implements TaskCategList
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_newTaskCateg:
+			// kliknuti na tlacitko pro zalozeni nove kategorie
 			showEditDialog();
 			return true;
 		default:
@@ -60,6 +67,9 @@ public class TaskCategListFragment extends ListFragment implements TaskCategList
 		loadData();
 	}
 
+	/**
+	 * Nacteni vsech dostupnych kategorii
+	 */
 	public void loadData() {
 		TaskCategManager taskCategManager = TaskCategManagerFactory.get(getActivity());
 		taskCategManager.getAll(new AsyncTaskCallBack<TaskCategModel[]>() {
@@ -82,11 +92,13 @@ public class TaskCategListFragment extends ListFragment implements TaskCategList
 
 	@Override
 	public void onTaskCategDeleteButtonClick(TaskCategModel taskCategModel) {
+		// Klik na odstranit kategorii
 		TaskCategManager taskCategManager = TaskCategManagerFactory.get(getActivity());
 		taskCategManager.delete(taskCategModel, new AsyncTaskCallBack<TaskCategModel>() {
 
 			@Override
 			public void onSuccess(TaskCategModel resumeObject) {
+				// kategorie bzla odstranena
 				listAdapter.remove(resumeObject);
 				listAdapter.notifyDataSetChanged();
 			}
@@ -101,10 +113,9 @@ public class TaskCategListFragment extends ListFragment implements TaskCategList
 
 	@Override
 	public void onTaskCategSave(final int position, String updatedCategName) {
-		// Ulozeni kategorie
 		Log.i(LOG_TAG, "Kontrola zadane hodnoty");
 
-		if (position != -1) {
+		if (position != -1) {// byla provedena uprava existujici kategorie
 			if (updatedCategName == null || updatedCategName.trim().isEmpty()) {
 				Toast.makeText(getActivity(), R.string.error_taskCategNameNotValid, Toast.LENGTH_SHORT).show();
 				showEditDialog(position, updatedCategName);
@@ -177,6 +188,12 @@ public class TaskCategListFragment extends ListFragment implements TaskCategList
 		showEditDialog(-1, null);
 	}
 
+	/**
+	 * Zobrazeni editacniho dialogu
+	 * 
+	 * @param position
+	 * @param cantegName
+	 */
 	private void showEditDialog(int position, String cantegName) {
 		Bundle bundle = new Bundle();
 		bundle.putInt(TaskCategEditDialogFragment.TASK_CATEG_POSITION, position);

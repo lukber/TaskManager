@@ -13,12 +13,27 @@ import android.view.View;
 import android.widget.EditText;
 import cz.czechGeeks.taskManager.client.android.R;
 
+/**
+ * Dialog pro editaci kategorie
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskCategEditDialogFragment extends DialogFragment {
 
 	public interface TaskCategEditDialogFragmentCallBack {
+		/**
+		 * Bylo kliknuto na tlacitko ulozit
+		 * 
+		 * @param position
+		 *            pozice kategorie v adapteru
+		 * @param newCategName
+		 *            novy nazev kategorie
+		 */
 		void onTaskCategSave(int position, String newCategName);
 	}
 
+	// Extras parametry
 	public static final String TASK_CATEG_POSITION = "cz.czechGeeks.taskManager.client.android.fragment.TaskCateg.Position";
 	public static final String TASK_CATEG_NAME = "cz.czechGeeks.taskManager.client.android.fragment.TaskCateg.Model";
 
@@ -45,12 +60,16 @@ public class TaskCategEditDialogFragment extends DialogFragment {
 		categNameEditText.setText(categName);
 
 		Builder view = builder.setView(rootView);
+
+		// tlacitko ulozit
 		view.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				callBack.onTaskCategSave(position, categNameEditText.getEditableText().toString());
 			}
 		});
+
+		// tlacitko storno
 		view.setNegativeButton(R.string.storno, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				TaskCategEditDialogFragment.this.getDialog().cancel();

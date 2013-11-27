@@ -5,6 +5,12 @@ import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils;
 import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils.ConnectionItems;
 
+/**
+ * Implementace pro REST sluzny pro LOGIN
+ * 
+ * @author lukasb
+ * 
+ */
 public class RestServiceLoginManager extends AbstractAsyncTaskManager implements LoginManager {
 
 	public RestServiceLoginManager(Context context) {

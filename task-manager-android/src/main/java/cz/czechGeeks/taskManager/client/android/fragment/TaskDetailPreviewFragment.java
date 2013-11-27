@@ -20,6 +20,12 @@ import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 
+/**
+ * Reprezentace nahledu tasku
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskDetailPreviewFragment extends Fragment {
 
 	public interface TaskDetailPreviewFragmentCallBack {
@@ -51,7 +57,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 	}
 
 	private TaskDetailPreviewFragmentCallBack callBack;
-	private TaskModel taskModel;
+	private TaskModel taskModel;// data
 
 	private TextView categ;
 	private TextView name;
@@ -78,20 +84,28 @@ public class TaskDetailPreviewFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		TaskManager taskManager = TaskManagerFactory.get(getActivity());
 		switch (item.getItemId()) {
-		case R.id.action_edit_task:
-			if (taskModel.isUpdatable()) {
+
+		case R.id.action_edit_task:// editace tasku
+
+			if (taskModel.isUpdatable()) {// kontrola jestli je mozne ukol upravit
 				callBack.onTaskEditButtonClick();
+
 			} else {
+				// ukol neni mozne editovat
 				if (taskModel.isClosed()) {
+					// ukol je jiz uzavren
 					Toast.makeText(getActivity(), R.string.error_taskCantEditIsClosed, Toast.LENGTH_SHORT).show();
 				} else {
+					// nejaky jiny duvod
 					Toast.makeText(getActivity(), R.string.task_isNotUpdatable, Toast.LENGTH_SHORT).show();
 				}
 			}
+
 			return true;
 
-		case R.id.action_delete_task:
-			if (taskModel.isDeletable()) {
+		case R.id.action_delete_task:// odstraneni tasku
+
+			if (taskModel.isDeletable()) {// kontrola jestli mohu smazat
 				taskManager.delete(taskModel, new AsyncTaskCallBack<TaskModel>() {
 
 					@Override
@@ -104,8 +118,11 @@ public class TaskDetailPreviewFragment extends Fragment {
 						Toast.makeText(getActivity(), getActivity().getString(R.string.error_taskNotDeleted) + message.getMessage(), Toast.LENGTH_SHORT).show();
 					}
 				});
+
 			} else {
+				// neni mozne smazat
 				if (!LoginUtils.get().getLoggedUserId().equals(taskModel.getInserterId())) {
+					// smazat muze jen zakladatel
 					Toast.makeText(getActivity(), R.string.error_taskCantDeleteYouAreNotInserter, Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(getActivity(), R.string.task_isNotDeletable, Toast.LENGTH_SHORT).show();
@@ -113,8 +130,9 @@ public class TaskDetailPreviewFragment extends Fragment {
 			}
 			return true;
 
-		case R.id.action_close_task:
-			if (taskModel.isCloseable()) {
+		case R.id.action_close_task: // uzavreni tasku
+
+			if (taskModel.isCloseable()) {// kontrola jestli je mozne task uzavrit
 				taskManager.close(taskModel, new AsyncTaskCallBack<TaskModel>() {
 
 					@Override
@@ -131,6 +149,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 				});
 			} else {
 				if (taskModel.isClosed()) {
+					// task je jiz uzavren
 					Toast.makeText(getActivity(), R.string.error_taskCantCloseIsClosed, Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(getActivity(), R.string.task_isNotCloseable, Toast.LENGTH_SHORT).show();
@@ -182,6 +201,11 @@ public class TaskDetailPreviewFragment extends Fragment {
 		callBack = null;
 	}
 
+	/**
+	 * nastaveni modelu do view
+	 * 
+	 * @param taskModel
+	 */
 	private void setTaskModel(TaskModel taskModel) {
 		this.taskModel = taskModel;
 
@@ -196,6 +220,11 @@ public class TaskDetailPreviewFragment extends Fragment {
 		inserter.setText(taskModel.getInserterName());
 	}
 
+	/**
+	 * kontrola jestli je task delegovan na me a pokud ano tak je oznacen jako precteny
+	 * 
+	 * @param taskModel
+	 */
 	public void markModelAsReaded(TaskModel taskModel) {
 		if (LoginUtils.get().getLoggedUserId().equals(taskModel.getExecutorId()) && taskModel.isUnread()) {
 			// Pokud jsem ten kdo ma ukol splnit a ukol je neprecteny tak ho oznacim jako precteny

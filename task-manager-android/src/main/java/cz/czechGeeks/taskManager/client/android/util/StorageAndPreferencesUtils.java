@@ -13,6 +13,12 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import cz.czechGeeks.taskManager.client.android.R;
 
+/**
+ * Utilita pro praci s nastavenim a datastorage
+ * 
+ * @author lukasb
+ * 
+ */
 public class StorageAndPreferencesUtils {
 
 	private static final String LAST_LOADED_TASK_ID_FILE_NAME_PREFIX = "LastLoadedTaskId";
@@ -23,6 +29,12 @@ public class StorageAndPreferencesUtils {
 		public String PASSWORD;
 	}
 
+	/**
+	 * Vraci udaje potrebne k navazani spojeni se serverem
+	 * 
+	 * @param context
+	 * @return
+	 */
 	public static ConnectionItems getConnectionItems(Context context) {
 		ConnectionItems connectionItems = new ConnectionItems();
 
@@ -34,6 +46,12 @@ public class StorageAndPreferencesUtils {
 		return connectionItems;
 	}
 
+	/**
+	 * Ulozeni hodnot do datastorage
+	 * 
+	 * @param connectionItems
+	 * @param context
+	 */
 	public static void saveConnectionItems(ConnectionItems connectionItems, Context context) {
 		Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 
@@ -72,6 +90,13 @@ public class StorageAndPreferencesUtils {
 		return null;
 	}
 
+	/**
+	 * Ulozeni novych hodnot do datastorage
+	 * 
+	 * @param taskId
+	 * @param context
+	 * @return
+	 */
 	public static boolean setLastLoadedTaskIdWhitchIsDelegatedToMe(Long taskId, Context context) {
 		FileOutputStream outputStream = null;
 		try {

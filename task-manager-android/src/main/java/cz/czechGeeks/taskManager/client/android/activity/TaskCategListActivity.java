@@ -6,6 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import cz.czechGeeks.taskManager.client.android.R;
 
+/**
+ * Reprezentuje akci listu kategorii
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskCategListActivity extends FragmentActivity {
 
 	@Override
@@ -14,8 +20,7 @@ public class TaskCategListActivity extends FragmentActivity {
 		setContentView(R.layout.activity_task_categ_list);
 
 		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(true);// zobrazeni tlacitka zpet
 	}
 
 	@Override
@@ -23,6 +28,7 @@ public class TaskCategListActivity extends FragmentActivity {
 		switch (item.getItemId()) {
 		// Respond to the action bar's Up/Home button
 		case android.R.id.home:
+			// stiskl jsem tlacitko zpet na hlavnim panelu
 			setResult(RESULT_OK);
 			finish();
 			return true;

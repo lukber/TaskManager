@@ -13,6 +13,12 @@ import android.widget.TextView;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.model.TaskCategModel;
 
+/**
+ * List adapter pro kategorie
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskCategListAdapter extends ArrayAdapter<TaskCategModel> {
 
 	public interface TaskCategListAdapterCallBack {
@@ -50,7 +56,8 @@ public class TaskCategListAdapter extends ArrayAdapter<TaskCategModel> {
 		final TaskCategModel item = getItem(position);
 
 		((TextView) view.findViewById(R.id.taskCateg)).setText(item.getName());
-		
+
+		// tlacitko pro editaci kategorie
 		ImageButton editButton = (ImageButton) view.findViewById(R.id.taskCategEditButton);
 		if (item.isUpdatable()) {
 			editButton.setVisibility(Button.VISIBLE);
@@ -66,6 +73,7 @@ public class TaskCategListAdapter extends ArrayAdapter<TaskCategModel> {
 			editButton.setVisibility(Button.GONE);
 		}
 
+		// tlacitko pro odstraneni kategorie
 		ImageButton deleteButton = (ImageButton) view.findViewById(R.id.taskCategDeleteButton);
 		if (item.isDeletable()) {
 			deleteButton.setVisibility(Button.VISIBLE);

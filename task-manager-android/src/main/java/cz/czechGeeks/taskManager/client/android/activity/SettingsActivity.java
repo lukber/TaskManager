@@ -5,6 +5,12 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import cz.czechGeeks.taskManager.client.android.R;
 
+/**
+ * Reprezentuje akci pro nastaveni
+ * 
+ * @author lukasb
+ * 
+ */
 public class SettingsActivity extends PreferenceActivity {
 
 	@Override

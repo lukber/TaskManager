@@ -4,6 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import cz.czechGeeks.taskManager.client.android.R;
 
+/**
+ * Utilita pro vytvareni progras dialogu
+ * 
+ * @author lukasb
+ * 
+ */
 public class ProgressDialogUtils {
 
 	private ProgressDialogUtils() {
@@ -13,6 +19,13 @@ public class ProgressDialogUtils {
 		return create(context, R.string.loadingData);
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param message
+	 *            ID zpravy
+	 * @return
+	 */
 	public static ProgressDialog create(Context context, int message) {
 		ProgressDialog progressDialog = new ProgressDialog(context);
 

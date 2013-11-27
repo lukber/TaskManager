@@ -18,8 +18,20 @@ import cz.czechGeeks.taskManager.client.android.util.ProgressDialogUtils;
 import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils;
 import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils.ConnectionItems;
 
+/**
+ * trida pro zajisteni nacitani dat ze serveru
+ * 
+ * @author lukasb
+ * 
+ */
 public abstract class AbstractAsyncTaskManager {
 
+	/**
+	 * Typ HTTP metody
+	 * 
+	 * @author lukasb
+	 * 
+	 */
 	public enum RequestMethod {
 		GET, POST, PUT, DELETE
 	}
@@ -95,6 +107,7 @@ public abstract class AbstractAsyncTaskManager {
 							new ObjectMapper().writeValue(connection.getOutputStream(), REQUEST_VALUE);
 						}
 
+						// fyzicke pripojeni
 						connection.connect();
 
 						int responseCode = connection.getResponseCode();
@@ -133,6 +146,7 @@ public abstract class AbstractAsyncTaskManager {
 
 						@Override
 						public void run() {
+							// uzavreni prograss dialogu a zavolani callback
 							dialog.dismiss();
 							if (returnErrorMessage == null) {
 								callBack.onSuccess(retValue);

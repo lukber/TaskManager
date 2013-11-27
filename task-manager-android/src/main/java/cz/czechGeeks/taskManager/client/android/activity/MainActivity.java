@@ -172,6 +172,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 					getActionBar().addTab(getActionBar().newTab().setText(pagerAdapter.getPageTitle(i)).setTabListener(MainActivity.this));
 				}
 
+				// kontrola jestli uzivatel ma nejake nove zalozene aktivity
 				checkNewDelegatedTasksToMe();
 			}
 
@@ -204,11 +205,14 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 			Log.d(LOG_TAG, "Klik na polozku menu nastaveni");
 			startActivityForResult(new Intent(this, SettingsActivity.class), RESULT_SETTINGS);
 			break;
+
 		case R.id.menu_newTask:
+			// zalozeni noveho tasku
 			Log.d(LOG_TAG, "Klik na polozku pridani ukolu");
 			TaskType taskType = pagerAdapter.getItem(viewPager.getCurrentItem()).getTaskType();
 
 			if (taskType == TaskType.DELEGATED_TO_ME) {
+				// jsem na zalozce tasku ktere jsou delegovane pro me - zde nemohu zakladat
 				Toast.makeText(getApplicationContext(), R.string.error_taskCantCreateTaskDelegatedToMe, Toast.LENGTH_SHORT).show();
 				return true;
 			}
@@ -221,6 +225,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 			break;
 
 		case R.id.menu_taskCategList:
+			// zobrazeni seznamu kategorii
 			startActivityForResult(new Intent(this, TaskCategListActivity.class), RESULT_TASKCATEG_LIST);
 			break;
 		}
@@ -249,31 +254,42 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	@Override
 	public void onTaskListItemSelected(TaskModel model) {
 		// Byla vybrana polozka ze seznamu
+		Log.i(LOG_TAG, "Byla vybrana polozka ze seznamu:" + model.getId());
 		TaskType taskType = pagerAdapter.getItem(viewPager.getCurrentItem()).getTaskType();
 
-		Log.i(LOG_TAG, "Byla vybrana polozka ze seznamu:" + model.getId());
 		Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
 		intent.putExtra(TaskDetailActivity.TASK_TYPE, taskType);
 		intent.putExtra(TaskDetailActivity.TASK_MODEL, model);
-		startActivityForResult(intent, RESULT_TASK_DETAIL);
+		startActivityForResult(intent, RESULT_TASK_DETAIL);// zobrazim detail
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// doslo k ukonceni nejake aktivity ktera byla vyvolana touto aktivitou
+		// jako napriklad uzavreni nastavani, uzavreni detailu nebo seznamu kategorii
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (requestCode == RESULT_TASK_DETAIL) {
 			if (resultCode == RESULT_OK) {
+				// doslo k uzavreni detailu tasku
+
+				// typ akce ktera byla provedena nad ukolem
 				ModelActionType actionType = (ModelActionType) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL_ACTION_TYPE);
+
+				// akce se vztahuje k modelu
 				TaskModel model = (TaskModel) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL);
+
+				// provedeni uprav v seznamu
 				TaskListFragment listFragmen = pagerAdapter.getItem(viewPager.getCurrentItem());
 				TaskListAdapter taskListAdapter = (TaskListAdapter) listFragmen.getListAdapter();
 				if (actionType == ModelActionType.UPDATE) {
+					// doslo k aktualizaci
 					int position = taskListAdapter.getPosition(model);
 					taskListAdapter.remove(model);// Odstrani ho na zaklade ID
 					taskListAdapter.insert(model, position < 0 ? 0 : position);
 					taskListAdapter.notifyDataSetChanged();
 				} else if (actionType == ModelActionType.DELETE) {
+					// task byl odstranen
 					taskListAdapter.remove(model);// Odstrani ho na zaklade ID
 					taskListAdapter.notifyDataSetChanged();
 				}
@@ -293,8 +309,14 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		finish();
 	}
 
+	/**
+	 * Kontrola jestli uzivatel nema nejake nove delegovane tasky. ID posledniho tasku se nacita z privatni datastorage
+	 */
 	private void checkNewDelegatedTasksToMe() {
+		// nacteni posledniho delegovaneho ID tasku
 		Long loadedTaskIdWhitchIsDelegatedToMe = StorageAndPreferencesUtils.getLastLoadedTaskIdWhitchIsDelegatedToMe(getApplication());
+
+		// nacteni tasku zalozenych od tohoto
 		TaskManager taskManager = TaskManagerFactory.get(this);
 		taskManager.getAllDelegatedToMe(loadedTaskIdWhitchIsDelegatedToMe, new AsyncTaskCallBack<TaskModel[]>() {
 
@@ -306,9 +328,12 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 						lastId = item.getId().longValue();
 					}
 				}
+
+				// ulozeni noveho posledniho delegovaneho tasku ID
 				StorageAndPreferencesUtils.setLastLoadedTaskIdWhitchIsDelegatedToMe(lastId, getApplicationContext());
 
 				if (resumeObject.length > 0) {
+					// mam nejake nove tasky - zobrazeni notifikace
 					createNotification(resumeObject);
 				}
 			}
@@ -321,8 +346,13 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		});
 	}
 
+	/**
+	 * Zobrazeni notifikace pro nove delegovane tasky
+	 * 
+	 * @param resumeObject
+	 */
 	private void createNotification(TaskModel[] resumeObject) {
-		StringBuilder contentText = new StringBuilder();
+		StringBuilder contentText = new StringBuilder();// seznam nazvu novych tasku
 		for (TaskModel taskModel : resumeObject) {
 			if (contentText.length() > 0) {
 				contentText.append(", ");

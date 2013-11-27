@@ -12,6 +12,12 @@ import android.widget.TextView;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 
+/**
+ * List adapter pro ukoly
+ * 
+ * @author lukasb
+ * 
+ */
 public class TaskListAdapter extends ArrayAdapter<TaskModel> {
 
 	private final LayoutInflater layoutInflater;
@@ -44,9 +50,11 @@ public class TaskListAdapter extends ArrayAdapter<TaskModel> {
 		((TextView) view.findViewById(R.id.taskCateg)).setText(item.getCategName());
 		((TextView) view.findViewById(R.id.taskFinishToDate)).setText((item.getFinishToDate() != null) ? java.text.DateFormat.getDateTimeInstance().format(item.getFinishToDate()) : "");
 
+		// Zobrazeni ikony pokud je ukol uzavren
 		ImageView taskImageClosed = (ImageView) view.findViewById(R.id.taskImageClosed);
-		taskImageClosed.setVisibility(!item.isCloseable() ? ImageView.VISIBLE : ImageView.GONE);
+		taskImageClosed.setVisibility(item.isClosed() ? ImageView.VISIBLE : ImageView.GONE);
 
+		// zobrazeni ikonkty pokud je ukol neprecteny
 		ImageView taskImageUnread = (ImageView) view.findViewById(R.id.taskImageUnread);
 		taskImageUnread.setVisibility(item.isUnread() ? ImageView.VISIBLE : ImageView.GONE);
 
