@@ -30,7 +30,7 @@ public class TaskCategEditDialogFragment extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		setCancelable(false);
+		setCancelable(true);
 
 		position = getArguments().getInt(TASK_CATEG_POSITION);
 		categName = getArguments().getString(TASK_CATEG_NAME);
@@ -45,14 +45,16 @@ public class TaskCategEditDialogFragment extends DialogFragment {
 		categNameEditText.setText(categName);
 
 		Builder view = builder.setView(rootView);
-		view.setPositiveButton(R.string.signIn, new DialogInterface.OnClickListener() {
+		view.setTitle(R.string.taskCateg_edit);
+		view.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				callBack.onTaskCategSave(position, categNameEditText.getEditableText().toString());
 			}
-		}).setNegativeButton(R.string.storno, new DialogInterface.OnClickListener() {
+		});
+		view.setNegativeButton(R.string.storno, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-				// callBack.onSignInDialogResulCancel();
+				TaskCategEditDialogFragment.this.getDialog().cancel();
 			}
 		});
 

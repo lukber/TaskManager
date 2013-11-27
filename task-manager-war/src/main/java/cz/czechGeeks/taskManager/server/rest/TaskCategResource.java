@@ -63,12 +63,12 @@ public class TaskCategResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response addTaskCateg(String name, @Context UriInfo uriInfo) {
-		if (name == null || name.isEmpty()) {
+	public Response addTaskCateg(TaskCategTO categ, @Context UriInfo uriInfo) {
+		if (categ == null) {
 			return Response.noContent().build();
 		}
 		try {
-			TaskCateg taskCateg = categService.insert(name);
+			TaskCateg taskCateg = categService.insert(categ.getName());
 			URI requestUri = uriInfo.getRequestUri();
 			URI uriWithId = UriHelper.createUriWithId(requestUri, taskCateg.getId());
 			return Response.created(uriWithId).entity(TaskCategTOBuilder.build(taskCateg)).build();
@@ -81,12 +81,12 @@ public class TaskCategResource {
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response updateTaskCateg(@PathParam("id") Long id, String name) {
-		if (name == null || name.isEmpty()) {
+	public Response updateTaskCateg(@PathParam("id") Long id, TaskCategTO categ) {
+		if (categ == null) {
 			return Response.noContent().build();
 		}
 		try {
-			TaskCateg taskCateg = categService.update(id, name);
+			TaskCateg taskCateg = categService.update(id, categ.getName());
 			return Response.ok(TaskCategTOBuilder.build(taskCateg)).build();
 		} catch (EntityNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

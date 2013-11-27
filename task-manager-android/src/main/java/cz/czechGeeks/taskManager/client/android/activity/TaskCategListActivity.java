@@ -14,6 +14,7 @@ public class TaskCategListActivity extends FragmentActivity {
 
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
 	}
 
 }

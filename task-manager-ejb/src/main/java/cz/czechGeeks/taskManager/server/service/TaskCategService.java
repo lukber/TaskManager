@@ -32,7 +32,15 @@ public class TaskCategService {
 	 * @return
 	 */
 	public List<TaskCateg> getAll() {
-		return dao.getAll(TaskCateg.class);
+		EntityManager entityManager = dao.getEntityManager();
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<TaskCateg> query = builder.createQuery(TaskCateg.class);
+		Root<TaskCateg> root = query.from(TaskCateg.class);
+
+		query.select(root);
+		query.orderBy(builder.asc(root.get("name")));
+		
+		return entityManager.createQuery(query).getResultList();
 	}
 
 	/**

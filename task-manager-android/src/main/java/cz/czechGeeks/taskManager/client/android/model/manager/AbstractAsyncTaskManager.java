@@ -110,7 +110,7 @@ public abstract class AbstractAsyncTaskManager {
 							Log.e(LOG_TAG, "Neplatne uzivatelske jmeno nebo heslo!");
 
 						} else if (responseCode == STATUS_CODE_SYSTEM_ERROR) {
-							errorMessage = new ObjectMapper().readValue(connection.getInputStream(), ErrorMessage.class);
+							errorMessage = new ObjectMapper().readValue(connection.getErrorStream(), ErrorMessage.class);
 							Log.e(LOG_TAG, "Systemova chyba: " + errorMessage.getMessage());
 						} else {
 							throw new IllegalStateException("Nedefinovany kod vystupu: " + responseCode);

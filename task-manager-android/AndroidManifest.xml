@@ -39,8 +39,7 @@
         <activity
             android:name="cz.czechGeeks.taskManager.client.android.activity.TaskCategListActivity"
             android:label="@string/taskCateg_list"
-            android:parentActivityName="cz.czechGeeks.taskManager.client.android.activity.MainActivity"
-            android:uiOptions="splitActionBarWhenNarrow" >
+            android:parentActivityName="cz.czechGeeks.taskManager.client.android.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cz.czechGeeks.taskManager.client.android.activity.MainActivity" />
