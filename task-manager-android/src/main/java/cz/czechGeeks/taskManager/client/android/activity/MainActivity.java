@@ -101,7 +101,9 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	}
 
 	private static final int RESULT_SETTINGS = 1;
-	private static final int SHOW_DETAIL_REQUEST_CODE = 1;
+	private static final int RESULT_TASK_DETAIL = 2;
+	private static final int RESULT_TASKCATEG_LIST = 3;
+	
 	private static final String LOG_TAG = "MainActivity";
 
 	private MainActivityPagerAdapter pagerAdapter;
@@ -200,11 +202,11 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 			Intent intent = new Intent(this, TaskDetailActivity.class);
 			intent.putExtra(TaskDetailActivity.TASK_TYPE, taskType);
 			intent.putExtra(TaskDetailActivity.TASK_MODEL, model);
-			startActivityForResult(intent, SHOW_DETAIL_REQUEST_CODE);
+			startActivityForResult(intent, RESULT_TASK_DETAIL);
 			break;
 
 		case R.id.menu_taskCategList:
-			startActivityForResult(new Intent(this, TaskCategListActivity.class), RESULT_SETTINGS);
+			startActivityForResult(new Intent(this, TaskCategListActivity.class), RESULT_TASKCATEG_LIST);
 			break;
 		}
 
@@ -238,14 +240,14 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		Intent intent = new Intent(getApplicationContext(), TaskDetailActivity.class);
 		intent.putExtra(TaskDetailActivity.TASK_TYPE, taskType);
 		intent.putExtra(TaskDetailActivity.TASK_MODEL, model);
-		startActivityForResult(intent, SHOW_DETAIL_REQUEST_CODE);
+		startActivityForResult(intent, RESULT_TASK_DETAIL);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == SHOW_DETAIL_REQUEST_CODE) {
+		if (requestCode == RESULT_TASK_DETAIL) {
 			if (resultCode == RESULT_OK) {
 				ModelActionType actionType = (ModelActionType) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL_ACTION_TYPE);
 				TaskModel model = (TaskModel) data.getExtras().getSerializable(TaskDetailActivity.TASK_MODEL);

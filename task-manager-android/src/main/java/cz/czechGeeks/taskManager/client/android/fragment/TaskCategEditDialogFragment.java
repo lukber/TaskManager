@@ -45,7 +45,6 @@ public class TaskCategEditDialogFragment extends DialogFragment {
 		categNameEditText.setText(categName);
 
 		Builder view = builder.setView(rootView);
-		view.setTitle(R.string.taskCateg_edit);
 		view.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {

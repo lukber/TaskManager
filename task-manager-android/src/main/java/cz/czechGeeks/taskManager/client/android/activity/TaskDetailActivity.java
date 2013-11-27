@@ -43,15 +43,12 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 		}
 
 		if (taskModel != null && taskModel.getId() != null) {
-			// uprava stavajiciho zaznamu - zobrazeni nahledu
-			showFragment(createPreviewFragment());
+			showPreviewFragment();
 		} else {
-			// vytvareni noveho zaznamu
-			showFragment(createUpdateFragment());
+			showUpdateFragment();
 		}
 
 		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -116,7 +113,7 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 	public void onTaskSaved(TaskModel model) {
 		this.taskModel = model;
 		actionType = ModelActionType.UPDATE;
-		showFragment(createPreviewFragment());
+		showPreviewFragment();
 	}
 
 	@Override
@@ -128,11 +125,25 @@ public class TaskDetailActivity extends FragmentActivity implements TaskDetailPr
 			return;
 		}
 
+		showPreviewFragment();
+	}
+
+	private void showPreviewFragment() {
+		setTitle(R.string.task_detail);
 		showFragment(createPreviewFragment());
 	}
 
 	@Override
 	public void onTaskEditButtonClick() {
+		showUpdateFragment();
+	}
+
+	private void showUpdateFragment() {
+		if (taskModel.getId() == null) {
+			setTitle(R.string.task_new);
+		} else {
+			setTitle(R.string.task_edit);
+		}
 		showFragment(createUpdateFragment());
 	}
 
