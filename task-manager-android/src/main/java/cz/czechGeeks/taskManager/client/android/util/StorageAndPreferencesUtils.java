@@ -15,6 +15,8 @@ import cz.czechGeeks.taskManager.client.android.R;
 
 public class StorageAndPreferencesUtils {
 
+	private static final String LAST_LOADED_TASK_ID_FILE_NAME_PREFIX = "LastLoadedTaskId";
+
 	public static class ConnectionItems {
 		public String BASE_URL;
 		public String USER_NAME;
@@ -51,7 +53,8 @@ public class StorageAndPreferencesUtils {
 	public static Long getLastLoadedTaskIdWhitchIsDelegatedToMe(Context context) {
 		FileInputStream inputStream = null;
 		try {
-			inputStream = context.openFileInput("LastLoadedTaskId");
+			String fileName = LAST_LOADED_TASK_ID_FILE_NAME_PREFIX + "_" + LoginUtils.get().getLoggedUserName();
+			inputStream = context.openFileInput(fileName);
 			DataInputStream dis = new DataInputStream(inputStream);
 			return dis.readLong();
 		} catch (Exception e) {
@@ -72,7 +75,8 @@ public class StorageAndPreferencesUtils {
 	public static boolean setLastLoadedTaskIdWhitchIsDelegatedToMe(Long taskId, Context context) {
 		FileOutputStream outputStream = null;
 		try {
-			outputStream = context.openFileOutput("LastLoadedTaskId", Context.MODE_PRIVATE);
+			String fileName = LAST_LOADED_TASK_ID_FILE_NAME_PREFIX + "_" + LoginUtils.get().getLoggedUserName();
+			outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
 			DataOutputStream dos = new DataOutputStream(outputStream);
 			dos.writeLong(taskId);
 			return true;
