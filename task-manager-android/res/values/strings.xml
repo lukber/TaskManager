@@ -44,7 +44,7 @@
     <string name="task_executorId">Provádí:</string>
     <string name="task_inserterId">Založil:</string>
     <string name="task_insDate">Založeno dne:</string>
-    <string name="task_newDelegatedToMe">Nové úkoly</string>
+    <string name="task_newDelegatedToMe">Nově delegované úkoly</string>
 
     <string name="task_isNotUpdatable">Úkol není možné upravit</string>
     <string name="task_isNotCloseable">Úkol není možné uzavřít</string>

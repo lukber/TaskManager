@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -141,15 +142,15 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		Log.i(LOG_TAG, "Pokus o prihlaseni uzivatele " + userName);
 
 		if (userName == null || userName.isEmpty() || password == null || password.isEmpty()) {
-			SignInDialogFragment newFragment = new SignInDialogFragment();
-			newFragment.show(getSupportFragmentManager(), "signInDialog");
+		SignInDialogFragment newFragment = new SignInDialogFragment();
+		newFragment.show(getSupportFragmentManager(), "signInDialog");
 			return;
-		}
+	}
 
 		LoginManager loginManager = LoginManagerFactory.get(this);
 		loginManager.signIn(userName, password, new AsyncTaskCallBack<LoginModel>() {
 
-			@Override
+	@Override
 			public void onSuccess(LoginModel resumeObject) {
 				String signedUserName = getResources().getString(R.string.signedUser) + resumeObject.getName();
 				Log.i(LOG_TAG, "Podarilo se prihlasit. ID uzivatele:" + resumeObject.getId() + ", uzivatelske jmeno:" + resumeObject.getName());
@@ -331,6 +332,7 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 		mBuilder.setAutoCancel(true);
+		mBuilder.setDefaults(Notification.DEFAULT_ALL);
 		mBuilder.setSmallIcon(R.drawable.ic_launcher);
 		mBuilder.setContentTitle(getString(R.string.task_newDelegatedToMe));
 		mBuilder.setContentText(contentText.toString());
@@ -339,4 +341,5 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		mNotifyMgr.notify(NOTIFY_ID, mBuilder.getNotification());
 	}
+
 }
