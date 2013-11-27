@@ -142,15 +142,15 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		Log.i(LOG_TAG, "Pokus o prihlaseni uzivatele " + userName);
 
 		if (userName == null || userName.isEmpty() || password == null || password.isEmpty()) {
-		SignInDialogFragment newFragment = new SignInDialogFragment();
-		newFragment.show(getSupportFragmentManager(), "signInDialog");
+			SignInDialogFragment newFragment = new SignInDialogFragment();
+			newFragment.show(getSupportFragmentManager(), "signInDialog");
 			return;
-	}
+		}
 
 		LoginManager loginManager = LoginManagerFactory.get(this);
 		loginManager.signIn(userName, password, new AsyncTaskCallBack<LoginModel>() {
 
-	@Override
+			@Override
 			public void onSuccess(LoginModel resumeObject) {
 				String signedUserName = getResources().getString(R.string.signedUser) + resumeObject.getName();
 				Log.i(LOG_TAG, "Podarilo se prihlasit. ID uzivatele:" + resumeObject.getId() + ", uzivatelske jmeno:" + resumeObject.getName());
