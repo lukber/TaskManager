@@ -35,6 +35,8 @@ public class TaskService {
 	 * 
 	 * @param loginId
 	 *            ID uzivatele
+	 * @param fromTaskId
+	 *            pocatecni ID tasku od ktereho se bude vyhledavat - lze pouzit pro dohledani nove zadanych hodnot
 	 * @param categId
 	 *            filtr pro omezeni zaznamu pouze na urcite kategorie
 	 * @param finishToDate
@@ -43,7 +45,7 @@ public class TaskService {
 	 * @throws IllegalStateException
 	 *             loginID = null
 	 */
-	public List<Task> getAll(Long loginId, Long categId, Boolean mainTasks, Boolean delegatedToMe, Boolean delegatedToOthers, Timestamp finishToDate) {
+	public List<Task> getAll(Long loginId, Long fromTaskId, Long categId, Boolean mainTasks, Boolean delegatedToMe, Boolean delegatedToOthers, Timestamp finishToDate) {
 		if (loginId == null) {
 			throw new IllegalArgumentException("Je potreba zadat alespon jeden parametr");
 		}
@@ -55,6 +57,9 @@ public class TaskService {
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
+		if (fromTaskId != null) {
+			predicates.add(builder.greaterThan(root.<Long> get("id"), fromTaskId));
+		}
 		if (categId != null) {
 			predicates.add(builder.equal(root.get("categId"), categId));
 		}

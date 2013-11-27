@@ -7,7 +7,7 @@
     <TextView
         style="@style/DialogHeader"
         android:layout_width="match_parent"
-        android:text="@string/taskCateg_edit" />
+        android:text="@string/taskCateg_name" />
 
     <EditText
         android:id="@+id/taskCateg"
@@ -17,7 +17,6 @@
         android:layout_marginLeft="4dip"
         android:layout_marginRight="4dip"
         android:layout_marginTop="4dip"
-        android:hint="@string/task_categ"
         android:inputType="textNoSuggestions" />
 
 </LinearLayout>

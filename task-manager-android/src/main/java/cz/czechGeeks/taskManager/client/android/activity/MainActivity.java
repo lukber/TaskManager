@@ -4,11 +4,14 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.adapter.TaskListAdapter;
 import cz.czechGeeks.taskManager.client.android.factory.LoginManagerFactory;
+import cz.czechGeeks.taskManager.client.android.factory.TaskManagerFactory;
 import cz.czechGeeks.taskManager.client.android.fragment.SignInDialogFragment;
 import cz.czechGeeks.taskManager.client.android.fragment.SignInDialogFragment.SignInDialogFragmentCallBack;
 import cz.czechGeeks.taskManager.client.android.fragment.TaskListFragment;
@@ -26,10 +30,11 @@ import cz.czechGeeks.taskManager.client.android.model.LoginModel;
 import cz.czechGeeks.taskManager.client.android.model.TaskModel;
 import cz.czechGeeks.taskManager.client.android.model.manager.AsyncTaskCallBack;
 import cz.czechGeeks.taskManager.client.android.model.manager.LoginManager;
+import cz.czechGeeks.taskManager.client.android.model.manager.TaskManager;
 import cz.czechGeeks.taskManager.client.android.util.LoginUtils;
 import cz.czechGeeks.taskManager.client.android.util.ModelActionType;
-import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils;
-import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.ConnectionItems;
+import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils;
+import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils.ConnectionItems;
 import cz.czechGeeks.taskManager.client.android.util.TaskType;
 
 /**
@@ -103,8 +108,9 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	private static final int RESULT_SETTINGS = 1;
 	private static final int RESULT_TASK_DETAIL = 2;
 	private static final int RESULT_TASKCATEG_LIST = 3;
-	
+
 	private static final String LOG_TAG = "MainActivity";
+	private static final int NOTIFY_ID = 0;
 
 	private MainActivityPagerAdapter pagerAdapter;
 	private ViewPager viewPager;
@@ -129,10 +135,16 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	 */
 	private void performSignIn() {
 		// Nacteni hodnot pro prihlaseni z preferences
-		ConnectionItems connectionItems = PreferencesUtils.getConnectionItems(this);
+		ConnectionItems connectionItems = StorageAndPreferencesUtils.getConnectionItems(this);
 		String userName = connectionItems.USER_NAME;
 		String password = connectionItems.PASSWORD;
 		Log.i(LOG_TAG, "Pokus o prihlaseni uzivatele " + userName);
+
+		if (userName == null || userName.isEmpty() || password == null || password.isEmpty()) {
+			SignInDialogFragment newFragment = new SignInDialogFragment();
+			newFragment.show(getSupportFragmentManager(), "signInDialog");
+			return;
+		}
 
 		LoginManager loginManager = LoginManagerFactory.get(this);
 		loginManager.signIn(userName, password, new AsyncTaskCallBack<LoginModel>() {
@@ -158,6 +170,8 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 				for (int i = 0; i < pagerAdapter.getCount(); i++) {
 					getActionBar().addTab(getActionBar().newTab().setText(pagerAdapter.getPageTitle(i)).setTabListener(MainActivity.this));
 				}
+
+				checkNewDelegatedTasksToMe();
 			}
 
 			@Override
@@ -278,4 +292,51 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 		finish();
 	}
 
+	private void checkNewDelegatedTasksToMe() {
+		Long loadedTaskIdWhitchIsDelegatedToMe = StorageAndPreferencesUtils.getLastLoadedTaskIdWhitchIsDelegatedToMe(getApplication());
+		TaskManager taskManager = TaskManagerFactory.get(this);
+		taskManager.getAllDelegatedToMe(loadedTaskIdWhitchIsDelegatedToMe, new AsyncTaskCallBack<TaskModel[]>() {
+
+			@Override
+			public void onSuccess(TaskModel[] resumeObject) {
+				long lastId = 0;
+				for (TaskModel item : resumeObject) {
+					if (lastId < item.getId().longValue()) {
+						lastId = item.getId().longValue();
+					}
+				}
+				StorageAndPreferencesUtils.setLastLoadedTaskIdWhitchIsDelegatedToMe(lastId, getApplicationContext());
+
+				if (resumeObject.length > 0) {
+					createNotification(resumeObject);
+				}
+			}
+
+			@Override
+			public void onError(ErrorMessage message) {
+				Log.e(LOG_TAG, "Nacitani novych delegovanych ukolu se nezdarilo:" + message.getMessage());
+				Toast.makeText(getApplicationContext(), R.string.error_taskLastLoadedWhitchIsDelegatedToMe, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+
+	private void createNotification(TaskModel[] resumeObject) {
+		StringBuilder contentText = new StringBuilder();
+		for (TaskModel taskModel : resumeObject) {
+			if (contentText.length() > 0) {
+				contentText.append(", ");
+			}
+			contentText.append(taskModel.getName());
+		}
+
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+		mBuilder.setAutoCancel(true);
+		mBuilder.setSmallIcon(R.drawable.ic_launcher);
+		mBuilder.setContentTitle(getString(R.string.task_newDelegatedToMe));
+		mBuilder.setContentText(contentText.toString());
+		mBuilder.setContentIntent(PendingIntent.getActivity(this, 0, new Intent(), 0));
+
+		NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		mNotifyMgr.notify(NOTIFY_ID, mBuilder.getNotification());
+	}
 }

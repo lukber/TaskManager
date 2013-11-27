@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_newTaskCateg"
-        android:icon="@drawable/ic_5_content_new"
+        android:icon="@drawable/ic_4_collections_new_label"
         android:showAsAction="ifRoom"
         android:title="@string/taskCateg_new">
     </item>

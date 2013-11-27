@@ -21,6 +21,15 @@ public interface TaskManager {
 	void getAllDelegatedToMe(AsyncTaskCallBack<TaskModel[]> callBack);
 
 	/**
+	 * Vrati vsechny tasky delegovane na me ktere maji ID tasku vetsi nez lastLoadedTaskId
+	 * 
+	 * @param fromTaskId
+	 *            ID tasku od ktereho se maji data nacitat
+	 * @param callBack
+	 */
+	void getAllDelegatedToMe(Long fromTaskId, AsyncTaskCallBack<TaskModel[]> callBack);
+
+	/**
 	 * Vrati vsechny ukoly ktere jsem nekomu delegoval
 	 */
 	void getAllDelegatedToOthers(AsyncTaskCallBack<TaskModel[]> callBack);

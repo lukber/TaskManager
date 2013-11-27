@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dip"
         android:layout_marginLeft="15dip"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         style="@style/FormItemName"

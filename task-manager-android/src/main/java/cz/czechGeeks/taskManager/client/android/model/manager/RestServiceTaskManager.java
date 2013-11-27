@@ -21,6 +21,14 @@ public class RestServiceTaskManager extends AbstractAsyncTaskManager implements 
 	}
 
 	@Override
+	public void getAllDelegatedToMe(Long fromTaskId, AsyncTaskCallBack<TaskModel[]> callBack) {
+		if (fromTaskId == null) {
+			fromTaskId = Long.valueOf(0);
+		}
+		run("/Task/all?delegatedToMe=true&fromTaskId=" + fromTaskId, RequestMethod.GET, TaskModel[].class, callBack);
+	}
+
+	@Override
 	public void getAllDelegatedToOthers(AsyncTaskCallBack<TaskModel[]> callBack) {
 		run("/Task/all?delegatedToOthers=true", RequestMethod.GET, TaskModel[].class, callBack);
 	}

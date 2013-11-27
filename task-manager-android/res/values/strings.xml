@@ -14,6 +14,7 @@
     
     <string name="valueDeleted">Záznam byl odstraněn</string>
     <string name="taskMarkedAsReaded">Úkol byl označen jako přečtený</string>
+    <string name="taskMarkedAsClosed">Úkol byl uzavřen</string>
     <string name="signedUser">Přihlášený uživatel: </string>
     
     <string name="loadingData">Načítání dat</string>
@@ -43,12 +44,14 @@
     <string name="task_executorId">Provádí:</string>
     <string name="task_inserterId">Založil:</string>
     <string name="task_insDate">Založeno dne:</string>
+    <string name="task_newDelegatedToMe">Nové úkoly</string>
 
-    <string name="task_isNotUpdatable">Záznam není možné upravovat</string>
-    <string name="task_isNotCloseable">Záznam není možné uzavřít</string>
-    <string name="task_isNotDeletable">Záznam není možné odstranit</string>
+    <string name="task_isNotUpdatable">Úkol není možné upravit</string>
+    <string name="task_isNotCloseable">Úkol není možné uzavřít</string>
+    <string name="task_isNotDeletable">Úkol není možné odstranit</string>
     
     <string name="taskCateg_list">Seznam kategorií</string>
+    <string name="taskCateg_name">Název kategorie</string>
     <string name="taskCateg_edit">Editace kategorie</string>
     <string name="taskCateg_new">Nová kategorie</string>
 </resources>

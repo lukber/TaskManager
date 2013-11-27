@@ -82,7 +82,11 @@ public class TaskDetailPreviewFragment extends Fragment {
 			if (taskModel.isUpdatable()) {
 				callBack.onTaskEditButtonClick();
 			} else {
-				Toast.makeText(getActivity(), R.string.task_isNotUpdatable, Toast.LENGTH_SHORT).show();
+				if (taskModel.isClosed()) {
+					Toast.makeText(getActivity(), R.string.error_taskCantEditIsClosed, Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getActivity(), R.string.task_isNotUpdatable, Toast.LENGTH_SHORT).show();
+				}
 			}
 			return true;
 
@@ -101,7 +105,11 @@ public class TaskDetailPreviewFragment extends Fragment {
 					}
 				});
 			} else {
-				Toast.makeText(getActivity(), R.string.task_isNotDeletable, Toast.LENGTH_SHORT).show();
+				if (!LoginUtils.get().getLoggedUserId().equals(taskModel.getInserterId())) {
+					Toast.makeText(getActivity(), R.string.error_taskCantDeleteYouAreNotInserter, Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getActivity(), R.string.task_isNotDeletable, Toast.LENGTH_SHORT).show();
+				}
 			}
 			return true;
 
@@ -111,6 +119,7 @@ public class TaskDetailPreviewFragment extends Fragment {
 
 					@Override
 					public void onSuccess(TaskModel resumeObject) {
+						Toast.makeText(getActivity(), R.string.taskMarkedAsClosed, Toast.LENGTH_SHORT).show();
 						setTaskModel(resumeObject);
 						callBack.onTaskClosed(resumeObject.createCopy());
 					}
@@ -121,7 +130,11 @@ public class TaskDetailPreviewFragment extends Fragment {
 					}
 				});
 			} else {
-				Toast.makeText(getActivity(), R.string.task_isNotCloseable, Toast.LENGTH_SHORT).show();
+				if (taskModel.isClosed()) {
+					Toast.makeText(getActivity(), R.string.error_taskCantCloseIsClosed, Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getActivity(), R.string.task_isNotCloseable, Toast.LENGTH_SHORT).show();
+				}
 			}
 			return true;
 		default:

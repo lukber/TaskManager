@@ -6,9 +6,9 @@
         android:showAsAction="ifRoom"
         android:title="@string/task_new">
     </item>
-    
     <item
         android:id="@+id/menu_taskCategList"
+        android:icon="@drawable/ic_4_collections_labels"
         android:showAsAction="ifRoom"
         android:title="@string/taskCateg_list">
     </item>

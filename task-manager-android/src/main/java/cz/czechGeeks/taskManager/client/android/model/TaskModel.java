@@ -38,7 +38,7 @@ public class TaskModel implements Serializable {
 
 	public TaskModel createCopy() {
 		TaskModel copy = new TaskModel();
-		
+
 		copy.id = id;
 		copy.categId = categId;
 		copy.categName = categName;
@@ -222,6 +222,10 @@ public class TaskModel implements Serializable {
 
 	public void setUnread(boolean unread) {
 		this.unread = unread;
+	}
+
+	public boolean isClosed() {
+		return getFinishedDate() != null;
 	}
 
 	@Override

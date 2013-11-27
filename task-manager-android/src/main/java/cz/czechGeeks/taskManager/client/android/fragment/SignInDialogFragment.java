@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import cz.czechGeeks.taskManager.client.android.R;
-import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils;
-import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.ConnectionItems;
+import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils;
+import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils.ConnectionItems;
 
 /**
  * Prihlasovaci dialog. Data pro zobrazeni bere z preferences. Po kliku na Prihlasit hodnoty ulozi zpet do preferences
@@ -57,7 +57,7 @@ public class SignInDialogFragment extends DialogFragment {
 		this.password = (EditText) rootView.findViewById(R.id.signIn_password);
 
 		// Nacteni hodnot z preferences
-		ConnectionItems connectionItems = PreferencesUtils.getConnectionItems(activity);
+		ConnectionItems connectionItems = StorageAndPreferencesUtils.getConnectionItems(activity);
 		String BASE_URL = connectionItems.BASE_URL;
 		String LOGIN_NAME = connectionItems.USER_NAME;
 		String PASSWORD = connectionItems.PASSWORD;
@@ -76,7 +76,7 @@ public class SignInDialogFragment extends DialogFragment {
 				connectionItems.BASE_URL = baseUrl.getEditableText().toString();
 				connectionItems.USER_NAME = userName.getEditableText().toString();
 				connectionItems.PASSWORD = password.getEditableText().toString();
-				PreferencesUtils.saveConnectionItems(connectionItems, getActivity());
+				StorageAndPreferencesUtils.saveConnectionItems(connectionItems, getActivity());
 
 				// volani callback
 				callBack.onSignInDialogResultOk();

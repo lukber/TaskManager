@@ -5,15 +5,19 @@
     <string name="error_taskNameIsNotSet">Není zadán název úkolu</string>
     <string name="error_taskExecutorNotSelected">Není zadán uživatel, který má úkol splnit</string>
     <string name="error_taskCategLoading">Načítání kategorií se nezdařilo</string>
+    <string name="error_taskCantEditIsClosed">Úkol nelze upravovat - je již uzavřen</string>
+    <string name="error_taskCantDeleteYouAreNotInserter">Úkol může smazat pouze zakladatel</string>
+    <string name="error_taskCantCloseIsClosed">Úkol je již uzavřen</string>
     <string name="error_taskCategDelete">Odstranění kategorie se nezdařilo:</string>
     <string name="error_taskCategNameNotValid">Zadejte platný název kategorie</string>
     <string name="error_taskCategNameExists">Zadaný název kategorie již existuje</string>
     <string name="error_taskSaving">Ukládání změn úkolu se nezdařilo</string>
-    <string name="error_taskCantCreateTaskDelegatedToMe">Není možné zakládat úkoly od někoho jiného</string>
+    <string name="error_taskCantCreateTaskDelegatedToMe">Tato volba není pro tento panel dostupná</string>
     <string name="error_taskNotDeleted">Úkol se nepodařilo smazat:</string>
     <string name="error_taskMarkingAsReaded">Při označování úkolu jako přečtený došlo k chybě:</string>
     <string name="error_loginsLoading">Načítání uživatelů se nezdařilo</string>
     <string name="error_noValidUserNameOrPass">Neplatné uživatelské jméno nebo heslo.</string>
     <string name="error_connection">Připojení k síti není dostupné.</string>
+    <string name="error_taskLastLoadedWhitchIsDelegatedToMe">Načítání nových úkolů delegovaných na mě se nezdařilo</string>
 
 </resources>

@@ -2,8 +2,8 @@ package cz.czechGeeks.taskManager.client.android.model.manager;
 
 import android.content.Context;
 import cz.czechGeeks.taskManager.client.android.model.LoginModel;
-import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils;
-import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.ConnectionItems;
+import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils;
+import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils.ConnectionItems;
 
 public class RestServiceLoginManager extends AbstractAsyncTaskManager implements LoginManager {
 
@@ -13,7 +13,7 @@ public class RestServiceLoginManager extends AbstractAsyncTaskManager implements
 
 	@Override
 	public void signIn(String userName, String password, AsyncTaskCallBack<LoginModel> callBack) {
-		ConnectionItems connectionItems = PreferencesUtils.getConnectionItems(getContext());
+		ConnectionItems connectionItems = StorageAndPreferencesUtils.getConnectionItems(getContext());
 		run(connectionItems.BASE_URL + "/Login", userName, password, RequestMethod.GET, LoginModel.class, callBack);
 	}
 

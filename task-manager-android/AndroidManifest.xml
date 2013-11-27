@@ -23,6 +23,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow" />
         </activity>
         <activity
             android:name="cz.czechGeeks.taskManager.client.android.activity.TaskDetailActivity"
@@ -37,11 +41,12 @@
         </activity>
         <activity
             android:name=".activity.SettingsActivity"
-            android:label="@string/app_settings" />
+            android:label="@string/app_settings" android:logo="@drawable/ic_2_action_settings" android:icon="@drawable/ic_2_action_settings"/>
         <activity
             android:name="cz.czechGeeks.taskManager.client.android.activity.TaskCategListActivity"
+            android:icon="@drawable/ic_4_collections_labels"
             android:label="@string/taskCateg_list"
-            android:parentActivityName="cz.czechGeeks.taskManager.client.android.activity.MainActivity" >
+            android:parentActivityName="cz.czechGeeks.taskManager.client.android.activity.MainActivity" android:logo="@drawable/ic_4_collections_labels">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cz.czechGeeks.taskManager.client.android.activity.MainActivity" />

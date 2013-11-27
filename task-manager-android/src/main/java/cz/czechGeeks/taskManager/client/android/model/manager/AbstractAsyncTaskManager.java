@@ -14,9 +14,9 @@ import android.util.Base64;
 import android.util.Log;
 import cz.czechGeeks.taskManager.client.android.R;
 import cz.czechGeeks.taskManager.client.android.model.ErrorMessage;
-import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils;
-import cz.czechGeeks.taskManager.client.android.util.PreferencesUtils.ConnectionItems;
 import cz.czechGeeks.taskManager.client.android.util.ProgressDialogUtils;
+import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils;
+import cz.czechGeeks.taskManager.client.android.util.StorageAndPreferencesUtils.ConnectionItems;
 
 public abstract class AbstractAsyncTaskManager {
 
@@ -48,7 +48,7 @@ public abstract class AbstractAsyncTaskManager {
 	}
 
 	protected <T> void run(String baseUrlPostFix, RequestMethod requestMethod, final Object REQUEST_VALUE, final Class<T> returnValueClass, final AsyncTaskCallBack<T> callBack) {
-		ConnectionItems connectionItems = PreferencesUtils.getConnectionItems(context);
+		ConnectionItems connectionItems = StorageAndPreferencesUtils.getConnectionItems(context);
 
 		final String URL = connectionItems.BASE_URL + baseUrlPostFix;
 		final String USER_NAME = connectionItems.USER_NAME;
@@ -85,6 +85,7 @@ public abstract class AbstractAsyncTaskManager {
 						URL url = new URL(URL);
 
 						connection = (HttpURLConnection) url.openConnection();
+						connection.setConnectTimeout(30000);
 						connection.setRequestMethod(REQUEST_METHOD.name());
 						connection.setRequestProperty("Accept", "application/json");
 						connection.setRequestProperty("Content-Type", "application/json");
