@@ -37,6 +37,15 @@ Aplikační omezení
 
 Použité technologie
 -------------------
+* Na straně databáze jsem použil SQL Server 2005 Express
+* Aplikační server je JBoss 7.1.1
+* Klient v Android API 19
 
 Instalace
----------
+=========
+
+Databáze
+--------
+1. Stáhnout a nainstalovat [SQL Server 2005 Express](http://www.microsoft.com/en-us/download/details.aspx?id=21844)
+2. Pro správu databáze používám Microsoft SQL Server Management Studio Express dostupný [zde](http://www.microsoft.com/en-us/download/details.aspx?id=8961)
+3. 
