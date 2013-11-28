@@ -3,6 +3,8 @@ package cz.czechGeeks.taskManager.client.android.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Reprezentace tasku
  * 
@@ -224,6 +226,7 @@ public class TaskModel implements Serializable {
 		this.unread = unread;
 	}
 
+	@JsonIgnore
 	public boolean isClosed() {
 		return getFinishedDate() != null;
 	}
