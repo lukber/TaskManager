@@ -176,22 +176,25 @@ public class TaskDetailEditFragment extends Fragment {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				int year = finishToDateCalendar.get(Calendar.YEAR);
-				int monthOfYear = finishToDateCalendar.get(Calendar.MONTH);
-				int dayOfMonth = finishToDateCalendar.get(Calendar.DAY_OF_MONTH);
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {// je potreba kontrolovat jaky typ akce je volan protoze metoda je volana dvakrat
+					int year = finishToDateCalendar.get(Calendar.YEAR);
+					int monthOfYear = finishToDateCalendar.get(Calendar.MONTH);
+					int dayOfMonth = finishToDateCalendar.get(Calendar.DAY_OF_MONTH);
 
-				OnDateSetListener dateCallBack = new OnDateSetListener() {
+					OnDateSetListener dateCallBack = new OnDateSetListener() {
 
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						finishToDateCalendar.set(year, monthOfYear, dayOfMonth);
-						finishToDate_date.setText(java.text.DateFormat.getDateInstance().format(finishToDateCalendar.getTime()));
-					}
-				};
+						@Override
+						public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+							finishToDateCalendar.set(year, monthOfYear, dayOfMonth);
+							finishToDate_date.setText(java.text.DateFormat.getDateInstance().format(finishToDateCalendar.getTime()));
+						}
+					};
 
-				DatePickerDialog dialog = new DatePickerDialog(getActivity(), dateCallBack, year, monthOfYear, dayOfMonth);
-				dialog.show();
-				return true;
+					DatePickerDialog dialog = new DatePickerDialog(getActivity(), dateCallBack, year, monthOfYear, dayOfMonth);
+					dialog.show();
+					return true;
+				}
+				return false;
 			}
 		});
 
@@ -199,22 +202,25 @@ public class TaskDetailEditFragment extends Fragment {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				int hourOfDay = finishToDateCalendar.get(Calendar.HOUR_OF_DAY);
-				int minute = finishToDateCalendar.get(Calendar.MINUTE);
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {// je potreba kontrolovat jaky typ akce je volan protoze metoda je volana dvakrat
+					int hourOfDay = finishToDateCalendar.get(Calendar.HOUR_OF_DAY);
+					int minute = finishToDateCalendar.get(Calendar.MINUTE);
 
-				OnTimeSetListener timeCallBack = new OnTimeSetListener() {
+					OnTimeSetListener timeCallBack = new OnTimeSetListener() {
 
-					@Override
-					public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-						finishToDateCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-						finishToDateCalendar.set(Calendar.MINUTE, minute);
-						finishToDate_time.setText(hourOfDay + ":" + minute);
-					}
-				};
+						@Override
+						public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+							finishToDateCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+							finishToDateCalendar.set(Calendar.MINUTE, minute);
+							finishToDate_time.setText(hourOfDay + ":" + minute);
+						}
+					};
 
-				TimePickerDialog dialog = new TimePickerDialog(getActivity(), timeCallBack, hourOfDay, minute, true);
-				dialog.show();
-				return true;
+					TimePickerDialog dialog = new TimePickerDialog(getActivity(), timeCallBack, hourOfDay, minute, true);
+					dialog.show();
+					return true;
+				}
+				return false;
 			}
 		});
 
