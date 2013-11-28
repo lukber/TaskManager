@@ -192,7 +192,6 @@ public class MainActivity extends FragmentActivity implements TabListener, TaskL
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
-		getMenuInflater().inflate(R.menu.settings, menu);
 		return true;
 	}
 

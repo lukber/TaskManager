@@ -3,14 +3,19 @@
     <item
         android:id="@+id/menu_newTask"
         android:icon="@drawable/ic_5_content_new"
-        android:showAsAction="ifRoom"
+        android:showAsAction="always"
         android:title="@string/task_new">
     </item>
     <item
         android:id="@+id/menu_taskCategList"
         android:icon="@drawable/ic_4_collections_labels"
-        android:showAsAction="ifRoom"
+        android:showAsAction="always"
         android:title="@string/taskCateg_list">
+    </item>
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_2_action_settings"
+        android:title="@string/app_settings">
     </item>
 
 </menu>
