@@ -82,13 +82,8 @@ Implementace RESTových služeb je [zde](task-manager-war/src/main/java/cz/czech
 Popis projektů
 ==============
 
-* *task-manager-android:*
-    Obsahuje implementaci klientské části pro Android
-* *task-manager-ejb:*
-    Osahuje business logiku na straně serveru. Obsahuje DAO, Entity a servisní EJB pro tyto entity.
-* *task-manager-war:*
-    Zajišťuje komunikaci klienta a serveru pomocí RESTových služeb. Komunikace je implementována pomocí JSON formátu.
-* *task-manager-parent-pom:*
-    Obsahuje pouze definice zavislosti pro Maven.
-* *task-manager-ear:*
-    Zabaluje předešlé projekty (krom androidu) do jednoho balíku, který se nasazuje do JBossu.
+* *task-manager-android:* Obsahuje implementaci klientské části pro Android
+  * *task-manager-ejb:* Osahuje business logiku na straně serveru. Obsahuje DAO, Entity a servisní EJB pro tyto entity.
+* *task-manager-war:* Zajišťuje komunikaci klienta a serveru pomocí RESTových služeb. Komunikace je implementována pomocí JSON formátu.
+* *task-manager-parent-pom:*  Obsahuje pouze definice zavislosti pro Maven.
+* *task-manager-ear:* Zabaluje předešlé projekty (krom androidu) do jednoho balíku, který se nasazuje do JBossu.
