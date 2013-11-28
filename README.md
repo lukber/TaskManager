@@ -71,4 +71,8 @@ JBoss 7.1.1
 1. Stáhnout a rozbalit [JBoss 7.1.1](http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip)
 2. Do adresáře *%JBOSS_HOME%\jboss-as-7.1.1.Final\* nakopírovat veškerý obsah z [task-manager-jboss](task-manager-jboss/). Adresář obsahuje potřebnou knihovnu pro připojení do databáze a popisné XML (standalone-taskManager.xml) pro nasazení aplikace do JBossu.
 3. Přidat server do Eclipse. Návod je [zde](https://docs.jboss.org/author/display/AS7/Starting+JBoss+AS+from+Eclipse+with+JBoss+Tools). Důležité je aby server měl nastavený *Configuration file* na *standalone-taskManager.xml* získaný z bodu 2.
-4. Přidat projekt [task-manager-ear](task-manager-ear) do Jbossu
+4. Přidat výsledný ear do Jbossu
+5. Spustit JBoss. Pokud je vše v pořádku, výsledkem by měla být zpráva v logu *Deployed "task-manager-ear.ear"*
+
+Nyní již lze testovat RESTové služby pomocí nichž klient komunikuje se serverem. K testování používám [RESTClient](https://addons.mozilla.org/cs/firefox/addon/restclient/) doplněk ve Firefoxu.
+URL na služby by mělo být http://localhost:8080/task-manager-war/rest/
