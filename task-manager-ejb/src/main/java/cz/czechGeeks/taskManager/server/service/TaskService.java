@@ -41,11 +41,13 @@ public class TaskService {
 	 *            filtr pro omezeni zaznamu pouze na urcite kategorie
 	 * @param finishToDate
 	 *            filtr pro omezeni zaznamu pouze na ukoly, ktere maji zadan datum dokonceni a tento datum je vetsi nez datum z parametru
+	 * @param onlyUnreaded
+	 *            TRUE - pouze neprectene zaznamy
 	 * @return
 	 * @throws IllegalStateException
 	 *             loginID = null
 	 */
-	public List<Task> getAll(Long loginId, Long fromTaskId, Long categId, Boolean mainTasks, Boolean delegatedToMe, Boolean delegatedToOthers, Timestamp finishToDate) {
+	public List<Task> getAll(Long loginId, Long fromTaskId, Long categId, Boolean mainTasks, Boolean delegatedToMe, Boolean delegatedToOthers, Timestamp finishToDate, Boolean onlyUnreaded) {
 		if (loginId == null) {
 			throw new IllegalArgumentException("Je potreba zadat alespon jeden parametr");
 		}
@@ -60,12 +62,19 @@ public class TaskService {
 		if (fromTaskId != null) {
 			predicates.add(builder.greaterThan(root.<Long> get("id"), fromTaskId));
 		}
+
 		if (categId != null) {
 			predicates.add(builder.equal(root.get("categId"), categId));
 		}
+
 		if (finishToDate != null) {
 			predicates.add(builder.greaterThanOrEqualTo(root.<Timestamp> get("finishToDate"), finishToDate));
 		}
+
+		if (onlyUnreaded != null && onlyUnreaded.booleanValue()) {
+			predicates.add(builder.equal(root.<Boolean> get("unread"), true));
+		}
+
 		if (mainTasks != null && mainTasks.booleanValue()) {
 			predicates.add(builder.and(builder.equal(root.get("executorId"), loginId), builder.equal(root.get("inserterId"), loginId)));
 		} else if (delegatedToMe != null && delegatedToMe.booleanValue()) {

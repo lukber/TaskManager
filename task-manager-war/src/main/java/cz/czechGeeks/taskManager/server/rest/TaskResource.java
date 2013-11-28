@@ -65,12 +65,13 @@ public class TaskResource {
 			@QueryParam("mainTasks") Boolean mainTasks, 
 			@QueryParam("delegatedToMe") Boolean delegatedToMe, 
 			@QueryParam("delegatedToOthers") Boolean delegatedToOthers, 
+			@QueryParam("onlyUnreaded") Boolean onlyUnreaded, 
 			@QueryParam("finishToDate") Timestamp finishToDate, 
 			@Context SecurityContext securityContext) {
 		String userName = securityContext.getUserPrincipal().getName();
 		try {
 			Long loginId = loginService.getId(userName);
-			List<Task> entityList = taskService.getAll(loginId, fromTaskId, categId, mainTasks, delegatedToMe, delegatedToOthers, finishToDate);
+			List<Task> entityList = taskService.getAll(loginId, fromTaskId, categId, mainTasks, delegatedToMe, delegatedToOthers, finishToDate, onlyUnreaded);
 			List<TaskTO> toList = TaskTOBuilder.build(entityList, loginId);
 			return Response.ok(toList).build();
 		} catch (Exception e) {

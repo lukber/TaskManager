@@ -31,7 +31,7 @@ public class RestServiceTaskManager extends AbstractAsyncTaskManager implements 
 		if (fromTaskId == null) {
 			fromTaskId = Long.valueOf(0);
 		}
-		run("/Task/all?delegatedToMe=true&fromTaskId=" + fromTaskId, RequestMethod.GET, TaskModel[].class, callBack);
+		run("/Task/all?delegatedToMe=true&fromTaskId=" + fromTaskId + "&onlyUnreaded=true", RequestMethod.GET, TaskModel[].class, callBack);
 	}
 
 	@Override
