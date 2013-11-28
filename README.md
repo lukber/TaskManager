@@ -53,4 +53,13 @@ Databáze
     * Zda jse zapnutá služba *SQL Server Browser*
     * Zda je povoleno TCP/IP spojení na portu 1433
 4. Na disku C:\ si založte adresář *TaskManager* a v něm edresář *db*. Do tohoto adresáře bude založena databáze (soubor TaskManager.mdf).
-5. Script pro založení potřebné databáze je [zde](task-manager-db/CreateDatabaseScript.sql)
+5. Script pro založení databáze je [zde](task-manager-db/CreateDatabaseScript.sql)
+
+   Script založí databázi s názvem *TaskManager* do připraveného adresáře z bodu 4. 
+   Založí aplikačního uživatele *taskManager_app* pomocí kterého se bude JBoss připojovat
+   Do databáze založí tabulky LOGIN (tabulka uživatelů), TSK (tabulka úkolů) a TSK_CATEG (tabulka kategorií)
+   Založí dvě kategorie: *Pracovni* a *Domaci*
+   Založí tři uživatele:
+      Petr (uživatelské jméno: petr, heslo: taskmanager)
+      Martin (uživatelské jméno: martin, heslo: taskmanager)
+      Tomas (uživatelské jméno: tomas, heslo: taskmanager)
