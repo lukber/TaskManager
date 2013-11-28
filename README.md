@@ -40,6 +40,7 @@ Použité technologie
 * Na straně databáze jsem použil SQL Server 2005 Express
 * Aplikační server je JBoss 7.1.1
 * Klient psán v Android API 19
+* Vývojové IDE: Eclipse Kepler Service Release 1
 
 Instalace
 =========
@@ -68,4 +69,6 @@ Databáze
 JBoss 7.1.1
 -----------
 1. Stáhnout a rozbalit [JBoss 7.1.1](http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip)
-2. Do adresáře %JBOSS_HOME%\jboss-as-7.1.1.Final\ nakopírovat veškerý obsah z [task-manager-jboss](task-manager-jboss/)
+2. Do adresáře *%JBOSS_HOME%\jboss-as-7.1.1.Final\* nakopírovat veškerý obsah z [task-manager-jboss](task-manager-jboss/). Adresář obsahuje potřebnou knihovnu pro připojení do databáze a popisné XML (standalone-taskManager.xml) pro nasazení aplikace do JBossu.
+3. Přidat server do Eclipse. Návod je [zde](https://docs.jboss.org/author/display/AS7/Starting+JBoss+AS+from+Eclipse+with+JBoss+Tools). Důležité je aby server měl nastavený *Configuration file* na *standalone-taskManager.xml* získaný z bodu 2.
+4. Přidat projekt [task-manager-ear](task-manager-ear) do Jbossu
