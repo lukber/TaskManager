@@ -77,4 +77,4 @@ JBoss 7.1.1
 Nyní již lze testovat RESTové služby pomocí nichž klient komunikuje se serverem. K testování používám [RESTClient](https://addons.mozilla.org/cs/firefox/addon/restclient/) doplněk ve Firefoxu.
 URL na služby by mělo být [http://localhost:8080/task-manager-war/rest/](http://localhost:8080/task-manager-war/rest/).
 
-Implementace RESTových služeb je [zde](TaskManager/tree/master/task-manager-war/src/main/java/cz/czechGeeks/taskManager/server/rest)
+Implementace RESTových služeb je [zde](task-manager-war/src/main/java/cz/czechGeeks/taskManager/server/rest)
