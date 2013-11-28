@@ -78,3 +78,26 @@ Nyní již lze testovat RESTové služby pomocí nichž klient komunikuje se ser
 URL na služby by mělo být [http://localhost:8080/task-manager-war/rest/](http://localhost:8080/task-manager-war/rest/).
 
 Implementace RESTových služeb je [zde](task-manager-war/src/main/java/cz/czechGeeks/taskManager/server/rest)
+
+Popis projektů
+==============
+
+task-manager-android
+--------------------
+Obsahuje implementaci klientské části pro Android
+
+task-manager-ejb
+----------------
+Obsahuje business logiku na straně serveru. Obsahuje DAO, Entity a servisní EJB pro tyto entity.
+
+task-manager-war
+----------------
+Zajišťuje komunikaci klienta a serveru pomocí RESTových služeb. Komunikace je implementována pomocí JSON formátu.
+
+task-manager-parent-pom
+-----------------------
+Obsahuje pouze definice zavislosti pro Maven.
+
+task-manager-ear
+----------------
+Zabaluje předešlé projekty (krom androidu) do jednoho balíku, který se nasazuje do JBossu.
