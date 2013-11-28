@@ -50,16 +50,18 @@ Databáze
 2. Pro správu databáze používám Microsoft SQL Server Management Studio Express dostupný [zde](http://www.microsoft.com/en-us/download/details.aspx?id=8961)
 3. Po instalaci překontrolovat:
     * Zda je SQL server spuštěný
-    * Zda jse zapnutá služba *SQL Server Browser*
+    * Zda je zapnutá služba *SQL Server Browser*
     * Zda je povoleno TCP/IP spojení na portu 1433
-4. Na disku C:\ si založte adresář *TaskManager* a v něm edresář *db*. Do tohoto adresáře bude založena databáze (soubor TaskManager.mdf).
-5. Script pro založení databáze je [zde](task-manager-db/CreateDatabaseScript.sql)
+4. Na disku C:\ si založte adresář *TaskManager* a v něm adresář *db*. Do tohoto adresáře bude založena databáze (soubor TaskManager.mdf).
+5. Skript pro založení databáze je [zde](task-manager-db/CreateDatabaseScript.sql)
 
-   - Script založí databázi s názvem *TaskManager* do připraveného adresáře z bodu 4. 
-   - Založí aplikačního uživatele *taskManager_app* pomocí kterého se bude JBoss připojovat
+   - Skript založí databázi s názvem *TaskManager* do připraveného adresáře z bodu 4.
+   - Založí aplikačního uživatele *taskManager_app* (heslo: taskManager_app) pomocí kterého se bude JBoss připojovat
    - Do databáze založí tabulky LOGIN (tabulka uživatelů), TSK (tabulka úkolů) a TSK_CATEG (tabulka kategorií)
    - Založí dvě kategorie: *Pracovni* a *Domaci*
    - Založí tři uživatele:
       - Petr (uživatelské jméno: petr, heslo: taskmanager)
       - Martin (uživatelské jméno: martin, heslo: taskmanager)
       - Tomas (uživatelské jméno: tomas, heslo: taskmanager)
+
+6. Databáze je připravena
