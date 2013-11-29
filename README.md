@@ -74,7 +74,7 @@ JBoss 7.1.1
 1. Stáhnout a rozbalit [JBoss 7.1.1](http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip)
 2. Do adresáře *%JBOSS_HOME%\jboss-as-7.1.1.Final\* nakopírovat veškerý obsah z [task-manager-jboss](task-manager-jboss/). Adresář obsahuje potřebnou knihovnu pro připojení do databáze a popisné XML (standalone-taskManager.xml) pro nasazení aplikace do JBossu.
 3. Přidat server do Eclipse. Návod je [zde](https://docs.jboss.org/author/display/AS7/Starting+JBoss+AS+from+Eclipse+with+JBoss+Tools). Důležité je aby server měl nastavený *Configuration file* na *standalone-taskManager.xml* získaný z bodu 2.
-4. Přidat výsledný ear do Jbossu
+4. Přidat výsledný ear do JBossu
 5. Spustit JBoss. Pokud je vše v pořádku, výsledkem by měla být zpráva v logu *Deployed "task-manager-ear.ear"*
 
 Nyní již lze testovat RESTové služby pomocí nichž klient komunikuje se serverem. K testování používám [RESTClient](https://addons.mozilla.org/cs/firefox/addon/restclient/) doplněk ve Firefoxu.
@@ -87,10 +87,10 @@ Popis projektů
 * <B>task-manager-android:</B> Obsahuje implementaci klientské části pro Android
 * <B>task-manager-ejb:</B> Osahuje business logiku na straně serveru. Obsahuje DAO, Entity a servisní EJB pro tyto entity.
 * <B>task-manager-war:</B> Zajišťuje komunikaci klienta a serveru pomocí RESTových služeb. Komunikace je implementována pomocí JSON formátu.
-* <B>task-manager-parent-pom:</B>  Obsahuje pouze definice zavislosti pro Maven.
+* <B>task-manager-parent-pom:</B>  Obsahuje pouze definice závislostí pro Maven.
 * <B>task-manager-ear:</B> Zabaluje předešlé projekty (krom androidu) do jednoho balíku, který se nasazuje do JBossu.
-* <B>task-manager-db:</B> Obsahuje pouze script pro zalozeni databáze.
-* <B>task-manager-jboss:</B> Obsahuje pouze knihovnu pro spojeni do databáze a descriptor pro Jboss.
+* <B>task-manager-db:</B> Obsahuje pouze script pro založení databáze.
+* <B>task-manager-jboss:</B> Obsahuje pouze knihovnu pro spojeni do databáze a descriptor pro JBoss.
 
 Náhledy
 =======
@@ -140,7 +140,7 @@ Náhledy
 1. Uložení změn.
 2. Storno.
 
-### Seznam kategorí
+### Seznam kategorií
 ![Seznam kategorí](task-manager-printscreen/taskCateg_list.png)
 
 1. Editace kategorie.
@@ -152,6 +152,6 @@ Náhledy
 
 Bug
 ====
-* Pokud si chcete hrát s delegováním úkolů na jednom zařízení, tak pro přihlášení se do aplikace jako jiný uživatel, je nejprve potřeba změnit uživatelské jmého/heslo v *Nastavení* aplikace. Pak je potřeba aplikaci zavřít a opět spustit.
+* Pokud si chcete hrát s delegováním úkolů na jednom zařízení, tak pro přihlášení se do aplikace jako jiný uživatel, je nejprve potřeba změnit uživatelské jméno/heslo v *Nastavení* aplikace. Pak je potřeba aplikaci zavřít a opět spustit.
 * Aplikace nijak neinformuje uživatele, že byl překročen datum, do kdy měl být úkol splněn.
 * Neobsahuje optimalizace pro "Landscape" (zobrazení na šířku).
