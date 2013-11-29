@@ -95,11 +95,18 @@ Popis projektů
 Náhledy
 =======
 ### Seznam úkolů - záložky
+<table>
+<tr>
+<td>
 ![Seznam úkolů - záložky](task-manager-printscreen/task_list_tabs.png)
-
+</td>
+<td>
 1. Osobní: úkoly jsem založil sám pro sebe.
 2. Pro mě: úkoly, které někdo delegoval na mě.
 2. Pro ostatní: úkoly, které jsem delegoval na někoho jiného.
+</td>
+</tr>
+</table>
 
 Bug
 ====
