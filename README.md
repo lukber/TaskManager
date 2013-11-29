@@ -16,7 +16,7 @@ Požadavky
 
 Struktura
 ---------
-*Úkol:*
+<B>Úkol:</B>
   1. Každý úkol patří právě do jedné kategorie
   2. Obsahuje: název, popis, datum do kdy má být splněn, datum kdy byl splněn, uživatele který ho založil a uživatele který ho splnil
   3. Název úkolu je povinný parametr
