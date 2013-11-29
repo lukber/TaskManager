@@ -35,12 +35,16 @@ Aplikační omezení
 * Seznam všech uživatelů a kategorií je dostupný všem
 * Přihlášený uživatel vidí jen úkoly: své vlastní (založil je pro sebe), delegované na něj (někdo založil pro mne), delegované někomu jinému (založil jsem někomu jinému)
 
-Použité technologie
--------------------
-* Na straně databáze jsem použil SQL Server 2005 Express
-* Aplikační server je JBoss 7.1.1
-* Klient psán v Android API 19
-* Vývojové IDE: Eclipse Kepler Service Release 1
+Externí knihovny a Framework
+----------------------------
+* Na straně databáze jsem použil [SQL Server 2005 Express](http://www.microsoft.com/en-us/download/details.aspx?id=21844)
+* Pro administraci databáze [Microsoft SQL Server Management Studio Express](http://www.microsoft.com/en-us/download/details.aspx?id=8961)
+* Aplikační server je [JBoss 7.1.1](http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip)
+* Vývojové IDE: [Eclipse](http://www.eclipse.org/downloads/) Kepler Service Release 1
+* Objektově relační mapování: Hibernate
+* Rozhraní pro komunikaci s klientem: RestEasy
+* Autentifikace/Autorizace: JBoss JAAS, metoda BASIC
+* Parsování JSON objektů na klientu: [Jackson](http://jackson.codehaus.org/)
 
 Instalace
 =========

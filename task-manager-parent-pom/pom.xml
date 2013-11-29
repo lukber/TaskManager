@@ -150,31 +150,7 @@
 				<scope>provided</scope>
 			</dependency>
 			<!-- RESTEASY in jboss as 7.1.1.Final - end -->
-
-			<dependency>
-				<groupId>org.springframework.android</groupId>
-				<artifactId>spring-android-rest-template</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework.android</groupId>
-				<artifactId>spring-android-auth</artifactId>
-				<version>${spring.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-core</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework.android</groupId>
-				<artifactId>spring-android-core</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-
+			
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
