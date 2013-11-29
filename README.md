@@ -109,17 +109,46 @@ Náhledy
 3. Kategorie úkolu.
 4. Datum, do kdy má být úkol splněn.
 
-### Seznam úkolů - delegované úkoly
-![Seznam úkolů - delegované úkoly](task-manager-printscreen/task_list_delegated.png)
+### Seznam úkolů - tlačítka
+![Seznam úkolů - tlačítka](task-manager-printscreen/task_list_buttons.png)
 
-1. Příznak, že jsem delegovaný úkol ještě nepřečetl (nezobrazil jsem si detail úkolu).
-2. Notifikace, že mě byl založen nový úkol.
+1. Založení nového úkolu do právě otevřené záložky.
+2. Zobrazení seznamu kategorií úkolů.
+
+### Delegované úkoly
+![Delegované úkoly](task-manager-printscreen/task_list_delegated.png)
+
+1. Příznak, že jsem úkol ještě nečetl (nezobrazil jsem si detail).
+2. Notifikace, že byl pro mě založen nový úkol.
 
 ### Notifikace
 ![Notifikace](task-manager-printscreen/task_notification.png)
 
 1. Notifikace o nově založeném úkolu, který mám splnit.
 2. Název nově založeného úkolu. Pokud je úkolů více, pak jsou názvy oddělené čárkou.
+
+### Náhled úkolu
+![Náhled úkolu](task-manager-printscreen/task_preview.png)
+
+1. Editace úkolu.
+2. Ukončení úkolu.
+3. Odstranění úkolu (POZOR! Nezobrazuje potvrzovací dialog).
+
+### Editace úkolu
+![Editace úkolu](task-manager-printscreen/task_edit.png)
+
+1. Uložení změn.
+2. Storno.
+
+### Seznam kategorí
+![Seznam kategorí](task-manager-printscreen/taskCateg_list.png)
+
+1. Editace kategorie.
+2. Odstranění kategorie (POZOR! Nezobrazuje potvrzovací dialog).
+3. Založení nového úkolu.
+
+### Nastavení
+![Nastavení](task-manager-printscreen/settings.png)
 
 Bug
 ====
