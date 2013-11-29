@@ -1,6 +1,5 @@
 Úkolníček pro Android
 =====================
-
 Popis aplikace
 --------------
 Aplikace pro evidenci úkolů pro mobilní telefony s operačním systémem Android.
@@ -49,7 +48,6 @@ Externí knihovny a Framework
 
 Instalace
 =========
-
 Databáze
 --------
 1. Stáhnout a nainstalovat [SQL Server 2005 Express](http://www.microsoft.com/en-us/download/details.aspx?id=21844)
@@ -86,9 +84,19 @@ Implementace RESTových služeb je [zde](task-manager-war/src/main/java/cz/czech
 
 Popis projektů
 ==============
-
 * <B>task-manager-android:</B> Obsahuje implementaci klientské části pro Android
 * <B>task-manager-ejb:</B> Osahuje business logiku na straně serveru. Obsahuje DAO, Entity a servisní EJB pro tyto entity.
 * <B>task-manager-war:</B> Zajišťuje komunikaci klienta a serveru pomocí RESTových služeb. Komunikace je implementována pomocí JSON formátu.
 * <B>task-manager-parent-pom:</B>  Obsahuje pouze definice zavislosti pro Maven.
 * <B>task-manager-ear:</B> Zabaluje předešlé projekty (krom androidu) do jednoho balíku, který se nasazuje do JBossu.
+* <B>task-manager-db:</B> Obsahuje pouze script pro zalozeni databáze.
+* <B>task-manager-jboss:</B> Obsahuje pouze knihovnu pro spojeni do databáze a descriptor pro Jboss.
+
+Náhledy
+=======
+
+Bug
+====
+* Pokud si chcete hrát s delegováním úkolů na jednom zařízení, tak pro přihlášení se do aplikace jako jiný uživatel, je nejprve potřeba změnit uživatelské jmého/heslo v *Nastavení* aplikace. Pak je potřeba aplikaci zavřít a opět spustit.
+* Aplikace nijak neinformuje uživatele, že byl překročen datum, do kdy měl být úkol splněn.
+* Neobsahuje optimalizace pro "Landscape" (zobrazení na šířku).

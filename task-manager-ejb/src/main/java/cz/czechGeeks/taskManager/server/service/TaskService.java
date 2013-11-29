@@ -87,7 +87,7 @@ public class TaskService {
 
 		query.select(root);
 		query.where(predicates.toArray(new Predicate[0]));
-		query.orderBy(builder.desc(root.get("finishToDate")));
+		query.orderBy(builder.asc(root.get("finishToDate")));
 
 		return entityManager.createQuery(query).getResultList();
 	}
