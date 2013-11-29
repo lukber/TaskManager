@@ -164,4 +164,4 @@ Bug
 
 Kontakt
 =======
-V případě nejasností, otázek či jakýchkoli připomínek mě můžete kontaktovat na [lukber@seznam.cz](lukber@seznam.cz).
+V případě nejasností, otázek či jakýchkoli připomínek mě můžete kontaktovat na [lukber@seznam.cz](mailto:lukber@seznam.cz).
