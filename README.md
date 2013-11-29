@@ -98,12 +98,12 @@ Náhledy
 <table>
 <tr>
 <td>
-![Seznam úkolů - záložky](task-manager-printscreen/task_list_tabs.png)
+<img src="task-manager-printscreen/task_list_tabs.png"/>
 </td>
 <td>
-1. Osobní: úkoly jsem založil sám pro sebe.
-2. Pro mě: úkoly, které někdo delegoval na mě.
-2. Pro ostatní: úkoly, které jsem delegoval na někoho jiného.
+1. Osobní: úkoly jsem založil sám pro sebe.<BR>
+2. Pro mě: úkoly, které někdo delegoval na mě.<BR>
+2. Pro ostatní: úkoly, které jsem delegoval na někoho jiného.<BR>
 </td>
 </tr>
 </table>
