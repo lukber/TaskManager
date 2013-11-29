@@ -95,10 +95,20 @@ Popis projektů
 Náhledy
 =======
 ### Seznam úkolů - záložky
-![Seznam úkolů - záložky](task-manager-printscreen/task_list_tabs.png)<img src="task-manager-printscreen/task_list_tabs.png" align="right"/>
-1. Osobní: úkoly jsem založil sám pro sebe.<BR>
-2. Pro mě: úkoly, které někdo delegoval na mě.<BR>
-2. Pro ostatní: úkoly, které jsem delegoval na někoho jiného.<BR>
+![Seznam úkolů - záložky](task-manager-printscreen/task_list_tabs.png)
+
+1. Osobní: úkoly jsem založil sám pro sebe.
+2. Pro mě: úkoly, které někdo delegoval na mě.
+3. Pro ostatní: úkoly, které jsem delegoval na někoho jiného.
+
+### Seznam úkolů - položky
+![Seznam úkolů - položky](task-manager-printscreen/task_list_item.png)
+
+1. Název úkolu.
+2. Příznak, že úkol je uzavřen.
+3. Kategorie úkolu.
+4. Datum, do kdy má být úkol splněn.
+
 
 
 Bug
