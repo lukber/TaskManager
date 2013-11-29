@@ -97,10 +97,10 @@ Náhledy
 ### Seznam úkolů - záložky
 <table>
 <tr>
-<td>
+<td valign="top">
 <img src="task-manager-printscreen/task_list_tabs.png"/>
 </td>
-<td>
+<td valign="top">
 1. Osobní: úkoly jsem založil sám pro sebe.<BR>
 2. Pro mě: úkoly, které někdo delegoval na mě.<BR>
 2. Pro ostatní: úkoly, které jsem delegoval na někoho jiného.<BR>
