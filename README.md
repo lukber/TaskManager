@@ -157,6 +157,11 @@ Náhledy
 
 Bug
 ====
-* Pokud si chcete hrát s delegováním úkolů na jednom zařízení, tak pro přihlášení se do aplikace jako jiný uživatel, je nejprve potřeba změnit uživatelské jméno/heslo v *Nastavení* aplikace. Pak je potřeba aplikaci zavřít a opět spustit.
+* Pokud si chcete hrát s delegováním úkolů na jednom zařízení, tak pro přihlášení se do aplikace jako jiný uživatel, je nejprve potřeba změnit uživatelské jméno/heslo v nastavení aplikace. Pak je potřeba aplikaci zavřít a opět spustit.
 * Aplikace nijak neinformuje uživatele, že byl překročen datum, do kdy měl být úkol splněn.
 * Neobsahuje optimalizace pro "Landscape" (zobrazení na šířku).
+* Delegovaný úkol může zakladatel lehce přehodit na někoho jiného. Původní uživatel, který měl úkol splnit, o tom není nijak informován.
+
+Kontakt
+=======
+V případě nejasností, otázek či jakýchkoli připomínek mě můžete kontaktovat na [lukber@seznam.cz](lukber@seznam.cz).
