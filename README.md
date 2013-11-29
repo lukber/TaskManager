@@ -15,13 +15,13 @@ Požadavky
 
 Struktura
 ---------
-<B>Úkol:</B>
+###Úkol
   1. Každý úkol patří právě do jedné kategorie
   2. Obsahuje: název, popis, datum do kdy má být splněn, datum kdy byl splněn, uživatele který ho založil a uživatele který ho splnil
   3. Název úkolu je povinný parametr
   4. Datum do kdy má být úkol splněn je nepovinný parametr
 
-<B>Kategorie:</B>
+###Kategorie
   1. Je definována pouze názvem
   2. Může obsahovat 0-N úkolů
 
@@ -94,10 +94,12 @@ Popis projektů
 
 Náhledy
 =======
-### Mutt
+### Seznam úkolů - záložky
+![Seznam úkolů - záložky](task-manager-printscreen/task_list_tabs.png)
 
-![Úkoly Záložky](task-manager-printscreen/task_list_tabs.png)
-1. 
+1. Osobní: úkoly jsem založil sám pro sebe.
+2. Pro mě: úkoly, které někdo delegoval na mě.
+2. Pro ostatní: úkoly, které jsem delegoval na někoho jiného.
 
 Bug
 ====
