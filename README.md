@@ -1,4 +1,4 @@
-Úkolníček pro Android
+Úkolníček pro Androidxxxxxxxxxx
 =====================
 Popis aplikace
 --------------
