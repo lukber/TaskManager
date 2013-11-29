@@ -22,7 +22,7 @@ Struktura
   3. Název úkolu je povinný parametr
   4. Datum do kdy má být úkol splněn je nepovinný parametr
 
-*Kategorie:*
+<B>Kategorie:</B>
   1. Je definována pouze názvem
   2. Může obsahovat 0-N úkolů
 
@@ -45,6 +45,7 @@ Externí knihovny a Framework
 * Rozhraní pro komunikaci s klientem: RestEasy
 * Autentifikace/Autorizace: JBoss JAAS, metoda BASIC
 * Parsování JSON objektů na klientu: [Jackson](http://jackson.codehaus.org/)
+* Klient: Android 
 
 Instalace
 =========
@@ -86,8 +87,8 @@ Implementace RESTových služeb je [zde](task-manager-war/src/main/java/cz/czech
 Popis projektů
 ==============
 
-* *task-manager-android:* Obsahuje implementaci klientské části pro Android
-* *task-manager-ejb:* Osahuje business logiku na straně serveru. Obsahuje DAO, Entity a servisní EJB pro tyto entity.
-* *task-manager-war:* Zajišťuje komunikaci klienta a serveru pomocí RESTových služeb. Komunikace je implementována pomocí JSON formátu.
-* *task-manager-parent-pom:*  Obsahuje pouze definice zavislosti pro Maven.
-* *task-manager-ear:* Zabaluje předešlé projekty (krom androidu) do jednoho balíku, který se nasazuje do JBossu.
+* <B>task-manager-android:</B> Obsahuje implementaci klientské části pro Android
+* <B>task-manager-ejb:</B> Osahuje business logiku na straně serveru. Obsahuje DAO, Entity a servisní EJB pro tyto entity.
+* <B>task-manager-war:</B> Zajišťuje komunikaci klienta a serveru pomocí RESTových služeb. Komunikace je implementována pomocí JSON formátu.
+* <B>task-manager-parent-pom:</B>  Obsahuje pouze definice zavislosti pro Maven.
+* <B>task-manager-ear:</B> Zabaluje předešlé projekty (krom androidu) do jednoho balíku, který se nasazuje do JBossu.
