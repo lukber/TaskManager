@@ -94,7 +94,7 @@ Popis projektů
 
 Náhledy
 =======
-![Seznam úkolů - záložky](task-manager-printscreen/task_list_tabs.png)
+![Úkoly Záložky](task-manager-printscreen/task_list_tabs.png)
 1. 
 
 Bug
