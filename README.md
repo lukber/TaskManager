@@ -105,11 +105,21 @@ Náhledy
 ![Seznam úkolů - položky](task-manager-printscreen/task_list_item.png)
 
 1. Název úkolu.
-2. Příznak, že úkol je uzavřen.
+2. Příznak, že je úkol uzavřen.
 3. Kategorie úkolu.
 4. Datum, do kdy má být úkol splněn.
 
+### Seznam úkolů - delegované úkoly
+![Seznam úkolů - delegované úkoly](task-manager-printscreen/task_list_delegated.png)
 
+1. Příznak, že jsem delegovaný úkol ještě nepřečetl (nezobrazil jsem si detail úkolu).
+2. Notifikace, že mě byl založen nový úkol.
+
+### Notifikace
+![Notifikace](task-manager-printscreen/task_notification.png)
+
+1. Notifikace o nově založeném úkolu, který mám splnit.
+2. Název nově založeného úkolu. Pokud je úkolů více, pak jsou názvy oddělené čárkou.
 
 Bug
 ====
