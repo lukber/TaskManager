@@ -95,7 +95,7 @@ Popis projektů
 Náhledy
 =======
 ### Seznam úkolů - záložky
-<table border=0>
+<table border="0">
 <tr>
 <td valign="top">
 <img src="task-manager-printscreen/task_list_tabs.png"/>
