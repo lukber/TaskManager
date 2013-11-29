@@ -95,6 +95,7 @@ Popis projektů
 * <B>task-manager-ear:</B> Zabaluje předešlé projekty (krom androidu) do jednoho balíku, který se nasazuje do JBossu.
 * <B>task-manager-db:</B> Obsahuje pouze script pro založení databáze.
 * <B>task-manager-jboss:</B> Obsahuje pouze knihovnu pro spojeni do databáze a descriptor pro JBoss.
+* <B>task-manager-printScreen:</B> Obsahuje pouze náhledy aplikace.
 
 Náhledy
 =======
