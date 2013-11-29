@@ -32,7 +32,7 @@ Aplikační omezení
 * Odstranit úkol lze pouze tehdy, jedná-li se o úkol mnou založený.
 * Úkoly delegované na mne nemohu odstranit a ani jim nemohu změnit datum, do kdy mají být dokončeny.
 * Seznam všech uživatelů a kategorií je dostupný všem.
-* Přihlášený uživatel vidí jen úkoly: své vlastní (založil je pro sebe), delegované na něj (někdo založil pro mne), delegované někomu jinému (založil jsem někomu jinému).
+* Přihlášený uživatel vidí jen úkoly: své vlastní (založil je pro sebe), delegované na něj (někdo úkol založil pro mě), delegované někomu jinému (založil jsem úkol někomu jinému).
 
 Externí knihovny a Framework
 ----------------------------
@@ -54,8 +54,8 @@ Databáze
 2. Pro správu databáze používám Microsoft SQL Server Management Studio Express dostupný [zde](http://www.microsoft.com/en-us/download/details.aspx?id=8961).
 3. Na disku C:\ si založte adresář *TaskManager* a v něm adresář *db*. Do tohoto adresáře bude založena databáze (soubor TaskManager.mdf).
 4. Skript pro založení databáze je [zde](task-manager-db/CreateDatabaseScript.sql).
-   - Skript založí databázi s názvem *TaskManager* do připraveného adresáře z bodu 4.
-   - Založí aplikačního uživatele *taskManager_app* (heslo: taskManager_app) pomocí kterého se bude JBoss připojovat.
+   - Skript založí databázi s názvem *TaskManager* do připraveného adresáře z bodu 3.
+   - Založí aplikačního uživatele *taskManager_app* (heslo: taskManager_app) pomocí kterého se bude JBoss připojovat k databázi.
    - Do databáze založí tabulky LOGIN (tabulka uživatelů), TSK (tabulka úkolů) a TSK_CATEG (tabulka kategorií).
    - Založí dvě kategorie: *Pracovni* a *Domaci*.
    - Založí tři uživatele:
@@ -71,16 +71,20 @@ Databáze
 
 JBoss 7.1.1
 -----------
-1. Stáhnout a rozbalit [JBoss 7.1.1](http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip).
-2. Do adresáře *%JBOSS_HOME%\jboss-as-7.1.1.Final\* nakopírovat veškerý obsah z [task-manager-jboss](task-manager-jboss/). Adresář obsahuje potřebnou knihovnu pro připojení do databáze a popisné XML (standalone-taskManager.xml) pro nasazení aplikace do JBossu.
-3. Přidat server do Eclipse. Návod je [zde](https://docs.jboss.org/author/display/AS7/Starting+JBoss+AS+from+Eclipse+with+JBoss+Tools). Důležité je aby server měl nastavený *Configuration file* na *standalone-taskManager.xml* získaný z bodu 2.
+1. Stáhnout a rozbalit JBoss 7.1.1 dostupný [zde](http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip).
+2. Do adresáře *%JBOSS_HOME%\jboss-as-7.1.1.Final\* nakopírovat veškerý obsah z [task-manager-jboss](task-manager-jboss/). Adresář obsahuje potřebnou knihovnu pro připojení do databáze a konfigurační XML (standalone-taskManager.xml).
+3. Přidat server do Eclipse. Návod je [zde](https://docs.jboss.org/author/display/AS7/Starting+JBoss+AS+from+Eclipse+with+JBoss+Tools). Důležité je, aby server měl nastavený *Configuration file* na *standalone-taskManager.xml* získaný z bodu 2.
 4. Přidat výsledný ear do JBossu.
 5. Spustit JBoss. Pokud je vše v pořádku, výsledkem by měla být zpráva v logu *Deployed "task-manager-ear.ear"*.
 
 Nyní již lze testovat RESTové služby pomocí nichž klient komunikuje se serverem. K testování používám [RESTClient](https://addons.mozilla.org/cs/firefox/addon/restclient/) doplněk ve Firefoxu.
-URL na služby by mělo být [http://localhost:8080/task-manager-war/rest/](http://localhost:8080/task-manager-war/rest/).
+URL na služby je [http://localhost:8080/task-manager-war/rest/](http://localhost:8080/task-manager-war/rest/).
 
 Implementace RESTových služeb je [zde](task-manager-war/src/main/java/cz/czechGeeks/taskManager/server/rest).
+
+Android
+-------
+Do Eclipse jsem instaloval pomocí [tohoto](http://mobil.idnes.cz/naucime-vas-programovat-aplikace-pro-android-zaciname-prave-dnes-phe-/aplikace.aspx?c=A120410_125436_aplikace_ham) návodu.
 
 Popis projektů
 ==============
