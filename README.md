@@ -94,7 +94,8 @@ Popis projektů
 
 Náhledy
 =======
-[[pandoc dark](task-manager-printscreen/task_list_tabs.png)](task-manager-printscreen/task_list_tabs.png)
+[![Seznam úkolů - záložky](task-manager-printscreen/task_list_tabs.png)](task-manager-printscreen/task_list_tabs.png)
+1. 
 
 Bug
 ====
