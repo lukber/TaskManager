@@ -150,7 +150,7 @@ Náhledy
 
 1. Editace kategorie.
 2. Odstranění kategorie (POZOR! Nezobrazuje potvrzovací dialog).
-3. Založení nového úkolu.
+3. Založení nové kategorie.
 
 ### Nastavení
 ![Nastavení](task-manager-printscreen/settings.png)
