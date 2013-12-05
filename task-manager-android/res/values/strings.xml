@@ -11,6 +11,8 @@
     <string name="app_settings_userName_key">usrName</string>
     <string name="app_settings_password">Heslo</string>
     <string name="app_settings_password_key">password</string>
+    <string name="app_settings_localDatabase">Ukládat do lokální DB</string>
+    <string name="app_settings_localDatabase_key">saveToLocalDatabase</string>
     
     <string name="valueDeleted">Záznam byl odstraněn</string>
     <string name="taskMarkedAsReaded">Úkol byl označen jako přečtený</string>

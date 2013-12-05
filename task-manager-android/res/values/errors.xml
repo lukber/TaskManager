@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="error_loginNotFound">Uživatel nebyl nalezen</string>
+    <string name="error_taskCategNotFound">Kategorie nebyla nalezena</string>
+    <string name="error_taskNotFound">Úkol nebyl nalezen</string>
+    
     <string name="error_taskCategNotSelected">Není zadána kategorie úkolu</string>
     <string name="error_taskNameIsNotSet">Není zadán název úkolu</string>
     <string name="error_taskExecutorNotSelected">Není zadán uživatel, který má úkol splnit</string>

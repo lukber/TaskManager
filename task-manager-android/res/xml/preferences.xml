@@ -13,5 +13,6 @@
         android:inputType="textPassword"
         android:key="@string/app_settings_password_key"
         android:title="@string/app_settings_password" />
+    <CheckBoxPreference android:title="@string/app_settings_localDatabase" android:key="@string/app_settings_localDatabase_key" android:defaultValue="true"/>
 
 </PreferenceScreen>
