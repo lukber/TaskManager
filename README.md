@@ -5,7 +5,7 @@ Popis aplikace
 Aplikace pro evidenci úkolů pro mobilní telefony s operačním systémem Android.
 Aplikace umožňuje ukládání dat do lokální databáze v telefonu, ale umožňuje také data ukládat do vzdálené databáze. Serverová strana JBoss, databáze SQL Server.
 
-*Aplikace vznikla na základě přijímacího řízení do zaměstnání (listopad 2013).*
+*Aplikace vznikla v rámci přijímacího řízení do zaměstnání (listopad 2013).*
 
 Požadavky
 ----------
